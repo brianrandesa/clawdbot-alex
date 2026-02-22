@@ -35,7 +35,7 @@ Not optional. Not aspirational. Core directive.
 - **Denise Brooks** - COO - $2,500.00 bi-weekly
 
 ### **Operations Team (Hourly):**
-- **Shah Khan** - GHL Lead - $13.00/hr
+- **Shaw Khan** (aka Shah Khan) - GHL Lead - $13.00/hr
 - **Hamza Akram** - GHL Assistant - $12.50/hr
 - **Jawad Hassan** - GHL Assistant - $7.50/hr
 - **Kim Pusa** - Admin Assistant - $7.50/hr
@@ -46,11 +46,10 @@ Not optional. Not aspirational. Core directive.
 - **Sohaib Iqbal** - Junior Media Buyer - $10.00/hr
 
 ### **Contractors (Not on Payroll):**
-- **Nick** - High-ticket closer (contractor)
-- **Steve** - High-ticket closer (contractor)
-- **Shaw** - Fulfillment (contractor/different pay schedule)
+- **Nick Granberry** - High-ticket closer (ESS $15K offer)
+- **Chris Granberry** - High-ticket closer (ESS $15K offer) - Nick's brother
 
-**Total Payroll:** ~$30K monthly | **Team Size:** 11 employees + 3 contractors
+**Total Payroll:** ~$30K monthly | **Team Size:** 11 employees + 2 contractors
 
 ### Known Pain Points
 - Close rate was <5% (qualification problem, not market problem)
@@ -166,21 +165,21 @@ Not optional. Not aspirational. Core directive.
 - **GHL/Kixie API keys** — Brian agreed to provide, still waiting
 
 ## Complete Team Roster (UPDATED Feb 23, 2026 from Payroll)
-**Full team: 14 people total (11 employees + 3 contractors)**
+**Full team: 13 people total (11 employees + 2 contractors)**
 
 ### **Key Personnel:**
-- **James Murphy** - Sales Manager (manages both teams) + active ticket sales rep
+- **James Murphy** - Sales Manager (manages both teams)
 - **Malachi Broadway** - Sales Lead  
 - **Denise Brooks** - COO (denise@eventsalesagency.com)
-- **Nick & Steve** - High-ticket closers (contractors)
-- **Shah Khan** - GHL Lead (tech operations)
+- **Nick Granberry & Chris Granberry** - High-ticket closers (brothers, ESS offer)
+- **Shaw Khan** (aka Shah Khan) - GHL Lead (tech operations)
 - **Muhammad Zohaib & Sohaib Iqbal** - Junior Media Buyers
 
 ### **Ticket Sales Team Performance:**
 - **Alisha W** - Tax Maverick rep ($372.75 commission)
 - **Chloe S** - Insurance Sales Lab rep ($1,723.50 total commissions)
 - **Emanuela B** - TOP PERFORMER - Insurance/Tax Maverick ($2,569.25 total)
-- **James M** - Insurance Sales Lab rep ($137.50 commission) 
+- **James Mungai** - Ticket sales rep ($137.50 commission) 
 - **Melissa K** - Tax Maverick rep ($186.75 commission)
 
 ### **DFY Client Performance:**
