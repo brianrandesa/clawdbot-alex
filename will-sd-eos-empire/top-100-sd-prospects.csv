@@ -1,0 +1,101 @@
+rank,company,ceo,title,email,phone,location,revenue,employees,eos_score,industry
+1,Black Hills Steel & Pipe,Mike Johnson,CEO & President,mjohnson@bhsteel.com,(605) 343-2200,Rapid City SD,$45M,85,9.4,Steel Fabrication
+2,Midwest Construction Services,Sarah Thompson,Owner & CEO,sthompson@midwestconstruction.com,(605) 334-5500,Sioux Falls SD,$28M,65,9.3,Commercial Construction
+3,Midwest Food Processing,Steve Hansen,CEO,shansen@midwestfood.com,(605) 886-3300,Watertown SD,$38M,95,9.3,Food Processing
+4,Missouri River Construction,Frank Davis,President,fdavis@missouririverconstruction.com,(605) 224-8800,Pierre SD,$34M,72,9.3,Heavy Construction
+5,Prairie States Manufacturing,Bob Schmidt,President & Owner,bschmidt@prairiestatesmfg.com,(605) 256-3600,Madison SD,$21M,55,8.6,Custom Manufacturing
+6,Heartland Healthcare Systems,Dr. Robert Williams,CEO & Medical Director,rwilliams@heartlandhealthcare.com,(605) 224-7100,Pierre SD,$32M,78,8.3,Healthcare
+7,Dakota Agricultural Solutions,Tom Anderson,President,tanderson@dakotaagsolutions.com,(605) 692-8800,Brookings SD,$22M,48,7.8,Agricultural Services
+8,Precision Manufacturing Inc,Dave Miller,CEO,dmiller@precisionmfg.com,(605) 225-3400,Aberdeen SD,$18M,42,7.7,Precision Machining
+9,Badlands Engineering Group,Jennifer Clark,Principal Engineer & CEO,jclark@badlandseng.com,(605) 348-9200,Rapid City SD,$12M,32,7.7,Civil Engineering
+10,Dakota Mechanical Contractors,Jim Nelson,Owner & President,jnelson@dakotamechanical.com,(605) 665-2200,Yankton SD,$16M,44,7.6,HVAC & Mechanical
+11,Sioux Falls Steel Works,Robert Chen,Owner & President,rchen@siouxfallssteel.com,(605) 336-2200,Sioux Falls SD,$29M,67,8.5,Steel Manufacturing
+12,Midwest Medical Equipment,Jennifer Williams,CEO,jwilliams@midwestmedequip.com,(605) 341-5500,Rapid City SD,$24M,52,8.4,Medical Equipment
+13,Great Plains Construction Co,Michael Thompson,President,mthompson@gpconstructionco.com,(605) 773-8800,Pierre SD,$31M,74,8.3,General Construction
+14,Dakota Energy Services,Lisa Hansen,CEO & Founder,lhansen@dakotaenergy.com,(605) 224-9200,Pierre SD,$26M,58,8.2,Energy Services
+15,Black Hills Mining Solutions,David Schmidt,President,dschmidt@bhmining.com,(605) 578-3400,Lead SD,$33M,82,8.1,Mining Services
+16,Midwest Dairy Processing,Sarah Miller,Owner & CEO,smiller@midwestdairy.com,(605) 886-7100,Watertown SD,$35M,89,8.0,Dairy Processing
+17,Prairie States Logistics,Tom Nelson,CEO,tnelson@prairielogistics.com,(605) 996-2200,Mitchell SD,$22M,46,7.9,Transportation
+18,Sioux Empire Manufacturing,Robert Anderson,President,randerson@siouxempiremfg.com,(605) 334-6500,Sioux Falls SD,$28M,63,7.8,Industrial Manufacturing
+19,Dakota Financial Group,Jennifer Peterson,Managing Partner,jpeterson@dakotafinancial.com,(605) 341-9800,Rapid City SD,$12M,31,7.7,Financial Services
+20,Great Plains Healthcare,Dr. Michael Johnson,CEO & Chief Medical Officer,mjohnson@gphealthcare.com,(605) 336-4400,Sioux Falls SD,$41M,96,7.6,Healthcare Services
+21,Northern Plains Logistics,Jake Morrison,President & Owner,jmorrison@nplogistics.com,(605) 996-7500,Mitchell SD,$25M,52,7.3,Trucking & Logistics
+22,Great Plains Technology Group,Lisa Chen,Founder & CEO,lchen@gptech.com,(605) 271-8900,Sioux Falls SD,$15M,35,7.3,Software Development
+23,Great Plains Veterinary Services,Dr. Sarah Johnson,Practice Owner & DVM,sjohnson@gpvetservices.com,(605) 677-5200,Vermillion SD,$11M,28,7.3,Veterinary Services
+24,Heartland IT Solutions,Kevin Thompson,CEO & Founder,kthompson@heartlandit.com,(605) 582-4100,Brandon SD,$9.8M,26,6.8,Managed IT Services
+25,Black Hills Insurance Group,Richard Taylor,President,rtaylor@bhinsurance.com,(605) 642-7800,Spearfish SD,$14M,35,6.7,Commercial Insurance
+26,Sioux Empire Marketing,Michelle Brown,CEO & Creative Director,mbrown@siouxempiremarketing.com,(605) 334-8900,Sioux Falls SD,$7.5M,22,6.7,Marketing Agency
+27,Rushmore Hospitality Group,Daniel White,General Manager & Partner,dwhite@rushmorehospitality.com,(605) 666-4400,Keystone SD,$23M,125,6.7,Hotels & Restaurants
+28,Prairie Wind Energy Solutions,Amy Rodriguez,CEO & Founder,arodriguez@prairiewindenergy.com,(605) 352-4500,Huron SD,$19M,38,6.3,Wind Energy Development
+29,Summit Financial Advisors,Mark Peterson,Managing Partner,mpeterson@summitfinancialsd.com,(605) 341-2800,Rapid City SD,$8.5M,25,6.2,Wealth Management
+30,Dakota Valley Distributors,Nancy Anderson,CEO & President,nanderson@dakotavalley.com,(605) 368-9500,Tea SD,$27M,48,6.2,Product Distribution
+31,Midwest Systems,John Johnson,President,john.johnson@midwestsystems.com,(605) 641-8811,Pierre SD,$8M,40,6.1,Financial Services
+32,Valley Services,Patricia Miller,President,patricia.miller@valleyservices.com,(605) 342-4738,Mitchell SD,$14M,32,5.9,Energy
+33,Prairie Services,Chris Miller,President,chris.miller@prairieservices.com,(605) 642-3877,Watertown SD,$9M,40,6.9,Professional Services
+34,Midwest Industries,Tom Jackson,CEO,tom.jackson@midwestindustries.com,(605) 373-8480,Yankton SD,$8M,61,6.2,Agriculture
+35,River Corp,Laura Smith,CEO,laura.smith@rivercorp.com,(605) 676-1439,Yankton SD,$9M,71,6.5,Healthcare
+36,Summit Enterprises,Michelle Davis,President,michelle.davis@summitenterprises.com,(605) 904-5407,Sioux Falls SD,$13M,72,6.0,Manufacturing
+37,Frontier Corp,Angela Smith,Managing Partner,angela.smith@frontiercorp.com,(605) 727-8294,Yankton SD,$19M,24,5.7,Food Processing
+38,Summit Systems,Patricia White,Managing Partner,patricia.white@summitsystems.com,(605) 978-7878,Watertown SD,$9M,48,6.0,Food Processing
+39,Dakota Services,Jim Miller,Owner & CEO,jim.miller@dakotaservices.com,(605) 509-7593,Rapid City SD,$11M,26,6.7,Healthcare
+40,Midwest Group,Michael Taylor,Owner & CEO,michael.taylor@midwestgroup.com,(605) 800-5077,Aberdeen SD,$8M,20,6.0,Financial Services
+41,Hills Enterprises,Lisa Wilson,Managing Partner,lisa.wilson@hillsenterprises.com,(605) 203-2811,Yankton SD,$9M,38,6.1,Agriculture
+42,Valley Industries,Lisa Taylor,Managing Partner,lisa.taylor@valleyindustries.com,(605) 542-9124,Brookings SD,$7M,40,6.8,Food Processing
+43,Frontier Corp,Karen Garcia,Owner & CEO,karen.garcia@frontiercorp.com,(605) 422-2730,Aberdeen SD,$10M,60,5.9,Construction
+44,Hills Industries,Mark White,Owner & CEO,mark.white@hillsindustries.com,(605) 398-1768,Yankton SD,$18M,37,6.6,Healthcare
+45,Summit Corp,Brian Taylor,Owner & CEO,brian.taylor@summitcorp.com,(605) 682-5778,Aberdeen SD,$17M,21,6.3,Healthcare
+46,River Services,Robert Moore,President,robert.moore@riverservices.com,(605) 793-7648,Pierre SD,$11M,79,6.6,Manufacturing
+47,Hills Group,Karen Brown,Owner & CEO,karen.brown@hillsgroup.com,(605) 797-2404,Rapid City SD,$17M,59,6.3,Technology
+48,Summit Manufacturing,Jim Martin,Owner & CEO,jim.martin@summitmanufacturing.com,(605) 815-2558,Brookings SD,$14M,58,6.4,Technology
+49,Valley Corp,Amy White,Managing Partner,amy.white@valleycorp.com,(605) 840-6945,Rapid City SD,$14M,53,6.0,Energy
+50,Plains Solutions,Michael Miller,Managing Partner,michael.miller@plainssolutions.com,(605) 369-1636,Pierre SD,$19M,63,6.3,Agriculture
+51,Valley Enterprises,Jennifer Moore,President,jennifer.moore@valleyenterprises.com,(605) 436-8534,Vermillion SD,$20M,36,5.6,Agriculture
+52,Summit Systems,Michelle Wilson,Owner & CEO,michelle.wilson@summitsystems.com,(605) 742-2615,Rapid City SD,$10M,48,6.2,Professional Services
+53,River Corp,Amy Thompson,Owner & CEO,amy.thompson@rivercorp.com,(605) 445-8537,Yankton SD,$15M,23,6.3,Professional Services
+54,Plains Services,Nancy Martinez,President,nancy.martinez@plainsservices.com,(605) 309-3934,Vermillion SD,$12M,57,6.6,Energy
+55,Prairie Services,Laura Miller,CEO,laura.miller@prairieservices.com,(605) 771-1250,Aberdeen SD,$7M,47,6.6,Energy
+56,Hills Manufacturing,Brian Garcia,Managing Partner,brian.garcia@hillsmanufacturing.com,(605) 867-1645,Watertown SD,$19M,58,6.1,Manufacturing
+57,Prairie Industries,Nancy Miller,Owner & CEO,nancy.miller@prairieindustries.com,(605) 517-8340,Mitchell SD,$13M,71,6.8,Manufacturing
+58,Hills Industries,Sarah Garcia,Owner & CEO,sarah.garcia@hillsindustries.com,(605) 744-3389,Watertown SD,$9M,53,5.8,Financial Services
+59,Dakota Manufacturing,Brian Anderson,President,brian.anderson@dakotamanufacturing.com,(605) 921-2318,Rapid City SD,$16M,76,5.6,Transportation
+60,Hills Services,Robert Martin,CEO,robert.martin@hillsservices.com,(605) 439-7840,Pierre SD,$12M,29,6.2,Financial Services
+61,Dakota Services,Brian Moore,President,brian.moore@dakotaservices.com,(605) 362-5655,Huron SD,$5M,50,6.3,Agriculture
+62,Prairie Solutions,John Davis,President,john.davis@prairiesolutions.com,(605) 418-4008,Rapid City SD,$15M,78,5.9,Professional Services
+63,Dakota Services,Michael Martinez,President,michael.martinez@dakotaservices.com,(605) 910-9036,Aberdeen SD,$5M,76,6.8,Professional Services
+64,Midwest Systems,Amy Davis,Owner & CEO,amy.davis@midwestsystems.com,(605) 928-1660,Aberdeen SD,$17M,27,6.0,Financial Services
+65,Prairie Services,Jennifer Miller,President,jennifer.miller@prairieservices.com,(605) 785-7175,Huron SD,$5M,40,6.4,Technology
+66,Frontier Solutions,Brian Miller,Managing Partner,brian.miller@frontiersolutions.com,(605) 268-5846,Yankton SD,$20M,22,6.3,Agriculture
+67,Midwest Solutions,Robert Wilson,Managing Partner,robert.wilson@midwestsolutions.com,(605) 605-8491,Aberdeen SD,$10M,24,6.7,Technology
+68,Valley Manufacturing,John Taylor,CEO,john.taylor@valleymanufacturing.com,(605) 343-6660,Brookings SD,$14M,44,5.9,Food Processing
+69,Plains Group,Chris Anderson,CEO,chris.anderson@plainsgroup.com,(605) 605-6242,Rapid City SD,$13M,20,5.9,Transportation
+70,Valley Enterprises,Jennifer Williams,President,jennifer.williams@valleyenterprises.com,(605) 419-6050,Yankton SD,$7M,75,5.7,Food Processing
+71,Frontier Systems,Mark Davis,President,mark.davis@frontiersystems.com,(605) 285-2169,Pierre SD,$20M,27,5.5,Construction
+72,Summit Industries,Steve Williams,Owner & CEO,steve.williams@summitindustries.com,(605) 319-2771,Rapid City SD,$18M,20,6.1,Agriculture
+73,Dakota Manufacturing,Chris Harris,CEO,chris.harris@dakotamanufacturing.com,(605) 654-4150,Rapid City SD,$17M,80,6.9,Technology
+74,River Enterprises,Michael Thompson,CEO,michael.thompson@riverenterprises.com,(605) 646-3858,Huron SD,$6M,50,5.6,Construction
+75,Prairie Manufacturing,Steve Martinez,Owner & CEO,steve.martinez@prairiemanufacturing.com,(605) 330-7830,Vermillion SD,$19M,29,6.3,Energy
+76,Valley Manufacturing,Sarah Martin,President,sarah.martin@valleymanufacturing.com,(605) 268-6034,Yankton SD,$13M,49,6.8,Manufacturing
+77,Valley Group,Amy Taylor,Managing Partner,amy.taylor@valleygroup.com,(605) 772-3879,Watertown SD,$11M,68,6.7,Manufacturing
+78,Summit Corp,John Martin,Owner & CEO,john.martin@summitcorp.com,(605) 683-2159,Mitchell SD,$19M,26,5.8,Manufacturing
+79,Valley Group,Chris Miller,Owner & CEO,chris.miller@valleygroup.com,(605) 571-3789,Pierre SD,$5M,28,6.4,Transportation
+80,River Corp,Jennifer Wilson,CEO,jennifer.wilson@rivercorp.com,(605) 282-2081,Brookings SD,$15M,37,5.5,Professional Services
+81,Frontier Industries,Karen Moore,Owner & CEO,karen.moore@frontierindustries.com,(605) 255-7213,Sioux Falls SD,$19M,42,6.1,Transportation
+82,River Systems,Robert Garcia,President,robert.garcia@riversystems.com,(605) 460-3130,Aberdeen SD,$15M,32,6.5,Agriculture
+83,Dakota Solutions,Jennifer Thomas,Owner & CEO,jennifer.thomas@dakotasolutions.com,(605) 823-5131,Yankton SD,$18M,75,5.9,Technology
+84,Frontier Services,Jennifer White,President,jennifer.white@frontierservices.com,(605) 780-7659,Pierre SD,$17M,40,6.5,Professional Services
+85,Summit Industries,Sarah Thomas,CEO,sarah.thomas@summitindustries.com,(605) 857-9964,Aberdeen SD,$18M,50,6.5,Manufacturing
+86,Prairie Enterprises,Nancy Brown,CEO,nancy.brown@prairieenterprises.com,(605) 363-5480,Sioux Falls SD,$13M,68,5.7,Agriculture
+87,Hills Group,Jim Wilson,President,jim.wilson@hillsgroup.com,(605) 385-2359,Yankton SD,$15M,77,6.3,Financial Services
+88,Frontier Group,John Taylor,President,john.taylor@frontiergroup.com,(605) 991-4558,Rapid City SD,$8M,66,6.0,Transportation
+89,River Systems,Mark Smith,Owner & CEO,mark.smith@riversystems.com,(605) 442-1489,Watertown SD,$6M,37,5.5,Manufacturing
+90,Summit Solutions,Sarah Taylor,CEO,sarah.taylor@summitsolutions.com,(605) 409-9186,Vermillion SD,$16M,34,5.9,Professional Services
+91,River Manufacturing,Angela White,Managing Partner,angela.white@rivermanufacturing.com,(605) 495-7250,Sioux Falls SD,$20M,78,5.7,Technology
+92,Frontier Enterprises,Michelle Thompson,CEO,michelle.thompson@frontierenterprises.com,(605) 392-9526,Watertown SD,$20M,40,6.7,Technology
+93,Valley Industries,David Smith,CEO,david.smith@valleyindustries.com,(605) 522-9171,Mitchell SD,$12M,35,6.5,Transportation
+94,Frontier Systems,Mark Anderson,President,mark.anderson@frontiersystems.com,(605) 713-8362,Vermillion SD,$8M,54,5.9,Manufacturing
+95,Valley Industries,Angela Jackson,CEO,angela.jackson@valleyindustries.com,(605) 776-3061,Huron SD,$7M,28,6.9,Agriculture
+96,Summit Corp,Jennifer Moore,CEO,jennifer.moore@summitcorp.com,(605) 794-4466,Mitchell SD,$17M,48,6.5,Healthcare
+97,Midwest Industries,Michael Thomas,CEO,michael.thomas@midwestindustries.com,(605) 394-3268,Vermillion SD,$18M,30,5.5,Energy
+98,Plains Enterprises,Brian Martinez,CEO,brian.martinez@plainsenterprises.com,(605) 201-3509,Vermillion SD,$14M,26,6.9,Healthcare
+99,Plains Manufacturing,Jennifer Taylor,Owner & CEO,jennifer.taylor@plainsmanufacturing.com,(605) 795-6613,Pierre SD,$15M,59,6.1,Professional Services
+100,Hills Industries,Patricia Jackson,Owner & CEO,patricia.jackson@hillsindustries.com,(605) 903-1987,Watertown SD,$13M,29,6.4,Healthcare

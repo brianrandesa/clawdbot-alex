@@ -1,0 +1,416 @@
+"Reporting starts","Reporting ends","Ad name","Ad delivery","Attribution setting",Results,"Result indicator",Reach,Frequency,"Cost per results","Ad set budget","Ad set budget type","Amount spent (USD)",Ends,"Quality ranking","Engagement rate ranking","Conversion rate ranking",Impressions,"CPM (cost per 1,000 impressions) (USD)","Link clicks",shop_clicks,"CPC (cost per link click) (USD)","CTR (link click-through rate)","Clicks (all)","CTR (all)","CPC (all) (USD)","Landing page views","Cost per landing page view (USD)"
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",3,actions:offsite_conversion.custom.1272107968054324,3250,1.268308,87.21333333,35,Daily,261.64,Ongoing,Average,-,-,4122,63.474042,59,,4.434576,1.431344,104,2.523047,2.515769,43,6.084651
+2026-01-01,2026-02-18,"Pace Morby",active,"7-day click, 1-day view, or 1-day engaged-view",5,actions:offsite_conversion.custom.1272107968054324,6737,1.616743,100.99,25,Daily,504.95,Ongoing,Average,-,-,10892,46.359714,129,,3.914341,1.184355,260,2.387073,1.942115,88,5.738068
+2026-01-01,2026-02-18,"Image - We fill rooms...",active,"7-day click or 1-day view",15,actions:leadgen.other,3757,1.60527,23.75,10,Daily,356.25,Ongoing,Average,Average,Average,6031,59.069806,68,,5.238971,1.127508,144,2.387664,2.473958,7,50.892857
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",4,actions:offsite_conversion.custom.1272107968054324,5231,1.497993,109.7475,40,Daily,438.99,Ongoing,Average,-,-,7836,56.022205,118,,3.720254,1.50587,188,2.399183,2.335053,95,4.620947
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",10,actions:offsite_conversion.custom.1272107968054324,1842,4.989142,73.966,10,Daily,739.66,Ongoing,Average,-,-,9190,80.48531,173,,4.275491,1.882481,234,2.546246,3.16094,106,6.977925
+2026-01-01,2026-02-18,"Alanna Testimonial",active,"7-day click or 1-day view",58731,reach,58731,2.426044,4.55296181,3,Daily,267.4,Ongoing,"Below average - Bottom 20% of ads",-,-,142484,1.876702,102,,2.621569,0.071587,134,0.094046,1.995522,73,3.663014
+2026-01-01,2026-02-18,"David Testimonial",active,"7-day click or 1-day view",6880,reach,6880,1.262936,2.78488372,5,Daily,19.16,Ongoing,"Below average - Bottom 20% of ads",-,-,8689,2.205087,6,,3.193333,0.069053,11,0.126597,1.741818,6,3.193333
+2026-01-01,2026-02-18,"David Testimonial",active,"7-day click or 1-day view",9505,reach,9505,3.893845,20.37769595,10,Daily,193.69,Ongoing,"Below average - Bottom 35% of ads",-,-,37011,5.233309,33,,5.869394,0.089163,289,0.780849,0.670208,31,6.248065
+2026-01-01,2026-02-18,"Video #1",active,"7-day click or 1-day view",151635,reach,151635,2.517572,3.16457282,10,Daily,479.86,Ongoing,"Below average - Bottom 35% of ads",-,-,381752,1.256994,100,,4.7986,0.026195,302,0.079109,1.58894,77,6.231948
+2026-01-01,2026-02-18,"Ajay Testimonial",active,"7-day click or 1-day view",68946,reach,68946,3.005628,3.05674006,3,Daily,210.75,Ongoing,"Below average - Bottom 35% of ads",-,-,207226,1.017006,83,,2.539157,0.040053,114,0.055012,1.848684,47,4.484043
+2026-01-01,2026-02-18,"Video #1",not_delivering,"7-day click or 1-day view",55641,reach,55641,1.716899,3.55133804,5,Daily,197.6,Ongoing,"Below average - Bottom 35% of ads",-,-,95530,2.06846,32,,6.175,0.033497,97,0.101539,2.037113,22,8.981818
+2026-01-01,2026-02-18,"AI Ad #6 - Old Copy",not_delivering,"7-day click",18,actions:offsite_conversion.custom.1272107968054324,12324,2.942957,61.56777778,20,Daily,1108.22,Ongoing,Average,-,-,36269,30.555571,443,,2.501625,1.221429,680,1.874879,1.629735,387,2.863618
+2026-01-01,2026-02-18,"Image - We fill rooms...",active,"7-day click or 1-day view",15,actions:leadgen.other,3386,1.59303,23.95266667,10,Daily,359.29,Ongoing,Average,Average,"Above average",5394,66.609195,64,,5.613906,1.186504,149,2.762329,2.411342,5,71.858
+2026-01-01,2026-02-18,"Video #1",active,"7-day click or 1-day view",51892,reach,51892,1.425152,2.61562476,3,Daily,135.73,Ongoing,"Below average - Bottom 35% of ads",-,-,73954,1.83533,5,,27.146,0.006761,54,0.073018,2.513519,5,27.146
+2026-01-01,2026-02-18,"Video #2",inactive,"7-day click or 1-day view",509,reach,509,1,1.31630648,3,Daily,0.67,Ongoing,-,-,-,509,1.316306,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Video #3",inactive,"7-day click or 1-day view",5596,reach,5596,1.102931,1.40993567,3,Daily,7.89,Ongoing,-,-,-,6172,1.278354,,,,,4,0.064809,1.9725,,
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",active,"7-day click or 1-day view",24519,reach,24519,1.799013,3.43407154,5,Daily,84.2,Ongoing,"Below average - Bottom 20% of ads",-,-,44110,1.908864,24,,3.508333,0.054409,30,0.068012,2.806667,13,6.476923
+2026-01-01,2026-02-18,"Ajay Testimonial",active,"7-day click or 1-day view",21140,reach,21140,1.616604,3.66934721,5,Daily,77.57,Ongoing,"Below average - Bottom 35% of ads",-,-,34175,2.269788,13,,5.966923,0.03804,29,0.084857,2.674828,8,9.69625
+2026-01-01,2026-02-18,"Alanna Testimonial - Copy",active,"7-day click or 1-day view",1088,reach,1088,1.205882,1.91176471,5,Daily,2.08,Ongoing,"Below average - Bottom 35% of ads",-,-,1312,1.585366,1,,2.08,0.07622,1,0.07622,2.08,,
+2026-01-01,2026-02-18,"Ajay Testimonial",active,"7-day click or 1-day view",89,reach,89,1.359551,26.74157303,5,Daily,2.38,Ongoing,-,-,-,121,19.669421,,,,,2,1.652893,1.19,,
+2026-01-01,2026-02-18,"David Testimonial",active,"7-day click or 1-day view",15,reach,15,1.066667,20,5,Daily,0.3,Ongoing,-,-,-,16,18.75,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",active,"7-day click or 1-day view",417,reach,417,3.081535,61.65467626,5,Daily,25.71,Ongoing,-,-,-,1285,20.007782,1,,25.71,0.077821,14,1.089494,1.836429,1,25.71
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",2,actions:offsite_conversion.custom.1272107968054324,2082,1.353987,124.665,40,Daily,249.33,Ongoing,-,-,-,2819,88.446258,56,,4.452321,1.98652,103,3.653778,2.42068,48,5.194375
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,2518,1.224782,,15,Daily,95.88,Ongoing,-,-,-,3084,31.089494,20,,4.794,0.648508,59,1.9131,1.625085,13,7.375385
+2026-01-01,2026-02-18,"Video #2",not_delivering,"7-day click or 1-day view",328,reach,328,6.875,115.21341463,3,Daily,37.79,Ongoing,-,-,-,2255,16.758315,5,,7.558,0.221729,9,0.399113,4.198889,5,7.558
+2026-01-01,2026-02-18,"Alanna Testimonial - Copy",active,"7-day click or 1-day view",16,reach,16,1.125,11.875,5,Daily,0.19,Ongoing,-,-,-,18,10.555556,,,,,1,5.555556,0.19,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",7,actions:offsite_conversion.custom.1272107968054324,2450,2.920408,80.75857143,25,Daily,565.31,Ongoing,Average,-,-,7155,79.009085,178,,3.175899,2.487771,236,3.298393,2.395381,126,4.486587
+2026-01-01,2026-02-18,"Video #1",not_delivering,"7-day click or 1-day view",30288,reach,30288,1.399069,2.45047544,3,Daily,74.22,Ongoing,"Below average - Bottom 35% of ads",-,-,42375,1.751504,1,,74.22,0.00236,24,0.056637,3.0925,1,74.22
+2026-01-01,2026-02-18,"Video #1",not_delivering,"7-day click or 1-day view",27689,reach,27689,1.528549,2.68445953,3,Daily,74.33,Ongoing,"Below average - Bottom 35% of ads",-,-,42324,1.756214,2,,37.165,0.004725,22,0.05198,3.378636,2,37.165
+2026-01-01,2026-02-18,"Video #1",active,"7-day click or 1-day view",39818,reach,39818,1.515922,3.35551761,3,Daily,133.61,Ongoing,"Below average - Bottom 35% of ads",-,-,60361,2.213515,17,,7.859412,0.028164,52,0.086148,2.569423,11,12.146364
+2026-01-01,2026-02-18,"Video #1",active,"7-day click or 1-day view",16807,reach,16807,3.460998,7.91217945,3,Daily,132.98,Ongoing,"Below average - Bottom 35% of ads",-,-,58169,2.286097,18,,7.387778,0.030944,56,0.096271,2.374643,8,16.6225
+2026-01-01,2026-02-18,"Image - We fill rooms...",active,"7-day click or 1-day view",1,actions:leadgen.other,560,1.742857,56.74,10,Daily,56.74,Ongoing,Average,Average,Average,976,58.135246,5,,11.348,0.512295,20,2.04918,2.837,,
+2026-01-01,2026-02-18,"Image - We fill rooms... #2",active,"7-day click or 1-day view",,,187,1.491979,,10,Daily,10.47,Ongoing,-,-,-,279,37.526882,3,,3.49,1.075269,5,1.792115,2.094,,
+2026-01-01,2026-02-18,"Image - We fill rooms... #3",active,"7-day click or 1-day view",,,107,1.205607,,10,Daily,5.46,Ongoing,-,-,-,129,42.325581,3,,1.82,2.325581,3,2.325581,1.82,,
+2026-01-01,2026-02-18,"Image - We fill rooms... #4",active,"7-day click or 1-day view",,,110,1.418182,,10,Daily,12.04,Ongoing,-,-,-,156,77.179487,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - We fill rooms... #",active,"7-day click or 1-day view",1,actions:leadgen.other,619,1.714055,61.35,10,Daily,61.35,Ongoing,"Below average - Bottom 35% of ads",Average,Average,1061,57.822809,13,,4.719231,1.225259,19,1.790763,3.228947,,
+2026-01-01,2026-02-18,"Image - How We SELL OUT Events",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,1112,1.381295,,18,Daily,88.2,Ongoing,Average,-,-,1536,57.421875,23,,3.834783,1.497396,32,2.083333,2.75625,16,5.5125
+2026-01-01,2026-02-18,"Image - We fill rooms... #4",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,7,1.428571,,18,Daily,0.37,Ongoing,-,-,-,10,37,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - We fill rooms... #3",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,24,1.125,,18,Daily,1.57,Ongoing,-,-,-,27,58.148148,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - Funnel Built. Ads Running..",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,4,1.25,,18,Daily,0.16,Ongoing,-,-,-,5,32,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - Event Rescue Team",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",3,actions:offsite_conversion.custom.1272107968054324,3644,1.798299,59.11,18,Daily,177.33,Ongoing,Average,-,-,6553,27.060888,75,,2.3644,1.144514,117,1.785442,1.515641,59,3.005593
+2026-01-01,2026-02-18,"Image - From Ad Spend Stress...",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,9,1.222222,,18,Daily,0.52,Ongoing,-,-,-,11,47.272727,,,,,0,0,0,,
+2026-01-01,2026-02-18,"David Testimonial",active,"7-day click or 1-day view",7466,reach,7466,2.445084,5.33886954,5,Daily,39.86,Ongoing,"Below average - Bottom 35% of ads",-,-,18255,2.183511,15,,2.657333,0.082169,16,0.087647,2.49125,14,2.847143
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",active,"7-day click or 1-day view",18810,reach,18810,4.768155,9.31525784,5,Daily,175.22,Ongoing,"Below average - Bottom 35% of ads",-,-,89689,1.95364,49,,3.575918,0.054633,64,0.071358,2.737813,39,4.492821
+2026-01-01,2026-02-18,"Ajay Testimonial",active,"7-day click or 1-day view",893,reach,893,1.409854,2.49720045,5,Daily,2.23,Ongoing,"Below average - Bottom 35% of ads",-,-,1259,1.771247,,,,,0,0,0,,
+2026-01-01,2026-02-18,"$15K Testimonial Sizzle",inactive,"7-day click or 1-day view",605,reach,605,1.439669,2.62809917,5,Daily,1.59,Ongoing,"Below average - Bottom 35% of ads",-,-,871,1.825488,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Alanna Testimonial",active,"7-day click or 1-day view",4093,reach,4093,2.144393,4.02638651,5,Daily,16.48,Ongoing,"Below average - Bottom 35% of ads",-,-,8777,1.877635,3,,5.493333,0.03418,5,0.056967,3.296,2,8.24
+2026-01-01,2026-02-18,"Alanna Testimonial",active,"7-day click or 1-day view",2660,reach,2660,2.431955,5.06390977,10,Daily,13.47,Ongoing,"Below average - Bottom 35% of ads",-,-,6469,2.082238,1,,13.47,0.015458,4,0.061833,3.3675,,
+2026-01-01,2026-02-18,"David Testimonial",active,"7-day click or 1-day view",1582,reach,1582,2.132743,3.64728192,10,Daily,5.77,Ongoing,"Below average - Bottom 35% of ads",-,-,3374,1.710136,,,,,0,0,0,,
+2026-01-01,2026-02-18,"$15K Testimonial Sizzle",active,"7-day click or 1-day view",230,reach,230,1.452174,2.30434783,10,Daily,0.53,Ongoing,-,-,-,334,1.586826,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ajay Testimonial",active,"7-day click or 1-day view",7181,reach,7181,4.01866,9.92619412,10,Daily,71.28,Ongoing,Average,-,-,28858,2.470026,9,,7.92,0.031187,11,0.038118,6.48,4,17.82
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",inactive,"7-day click or 1-day view",4508,reach,4508,5.737134,9.57187223,10,Daily,43.15,Ongoing,"Below average - Bottom 35% of ads",-,-,25863,1.668407,10,,4.315,0.038665,12,0.046398,3.595833,8,5.39375
+2026-01-01,2026-02-18,"Ajay Testimonial",active,"7-day click or 1-day view",5641,reach,5641,2.368374,5.98298174,10,Daily,33.75,Ongoing,"Below average - Bottom 35% of ads",-,-,13360,2.526198,5,,6.75,0.037425,8,0.05988,4.21875,5,6.75
+2026-01-01,2026-02-18,"David Testimonial",active,"7-day click or 1-day view",3526,reach,3526,2.547079,5.76574022,10,Daily,20.33,Ongoing,"Below average - Bottom 35% of ads",-,-,8981,2.263668,3,,6.776667,0.033404,5,0.055673,4.066,3,6.776667
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",active,"7-day click or 1-day view",4890,reach,4890,4.585276,8.34969325,10,Daily,40.83,Ongoing,"Below average - Bottom 35% of ads",-,-,22422,1.820979,10,,4.083,0.044599,11,0.049059,3.711818,5,8.166
+2026-01-01,2026-02-18,"Alanna Testimonial",active,"7-day click or 1-day view",2818,reach,2818,3.268985,5.5535841,10,Daily,15.65,Ongoing,Average,-,-,9212,1.698871,3,,5.216667,0.032566,4,0.043422,3.9125,3,5.216667
+2026-01-01,2026-02-18,"$15K Testimonial Sizzle",active,"7-day click or 1-day view",3977,reach,3977,2.638924,6.0598441,10,Daily,24.1,Ongoing,"Below average - Bottom 35% of ads",-,-,10495,2.296332,3,,8.033333,0.028585,4,0.038113,6.025,1,24.1
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,56,1.053571,,10,Daily,2.56,Ongoing,-,-,-,59,43.389831,,,,,1,1.694915,2.56,,
+2026-01-01,2026-02-18,Shanda,not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,10,1.2,,10,Daily,0.64,Ongoing,-,-,-,12,53.333333,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,12,1,,10,Daily,0.71,Ongoing,-,-,-,12,59.166667,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sizzle Testimonials - Short",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,26,1,,10,Daily,1.12,Ongoing,-,-,-,26,43.076923,1,,1.12,3.846154,1,3.846154,1.12,,
+2026-01-01,2026-02-18,"The Muscle",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,125,1.128,,10,Daily,5.81,Ongoing,-,-,-,141,41.205674,1,,5.81,0.70922,3,2.12766,1.936667,3,1.936667
+2026-01-01,2026-02-18,"Sizzle Testimonials - Longer",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,39,1.025641,,10,Daily,2.08,Ongoing,-,-,-,40,52,,,,,0,0,0,,
+2026-01-01,2026-02-18,"David Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,6,1.166667,,10,Daily,0.13,Ongoing,-,-,-,7,18.571429,1,,0.13,14.285714,1,14.285714,0.13,,
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,224,1.263393,,10,Daily,15.86,Ongoing,-,-,-,283,56.042403,7,,2.265714,2.473498,20,7.067138,0.793,6,2.643333
+2026-01-01,2026-02-18,"Ajay Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,34,1.058824,,10,Daily,2.13,Ongoing,-,-,-,36,59.166667,1,,2.13,2.777778,2,5.555556,1.065,,
+2026-01-01,2026-02-18,"Alanna Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,555,1.362162,,10,Daily,35.58,Ongoing,-,-,-,756,47.063492,14,,2.541429,1.851852,28,3.703704,1.270714,11,3.234545
+2026-01-01,2026-02-18,Shanda,not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,20,1.3,,10,Daily,1.52,Ongoing,-,-,-,26,58.461538,,,,,1,3.846154,1.52,,
+2026-01-01,2026-02-18,"Sizzle Testimonials - Longer",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,86,1.255814,,10,Daily,3.67,Ongoing,-,-,-,108,33.981481,,,,,1,0.925926,3.67,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",1,actions:offsite_conversion.custom.1272107968054324,1432,1.734637,60.69,10,Daily,60.69,Ongoing,-,-,-,2484,24.432367,30,,2.023,1.207729,61,2.455717,0.994918,29,2.092759
+2026-01-01,2026-02-18,"Sizzle Testimonials - Short",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,95,1.252632,,10,Daily,5.06,Ongoing,-,-,-,119,42.521008,1,,5.06,0.840336,3,2.521008,1.686667,1,5.06
+2026-01-01,2026-02-18,"The Muscle",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,497,1.454728,,10,Daily,23.95,Ongoing,-,-,-,723,33.125864,8,,2.99375,1.106501,13,1.798064,1.842308,7,3.421429
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,153,1.20915,,10,Daily,8.42,Ongoing,-,-,-,185,45.513514,3,,2.806667,1.621622,8,4.324324,1.0525,3,2.806667
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,75,1.106667,,10,Daily,3.69,Ongoing,-,-,-,83,44.457831,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sam Taggart",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,9,1,,10,Daily,0.24,Ongoing,-,-,-,9,26.666667,,,,,0,0,0,,
+2026-01-01,2026-02-18,"David Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,4,1,,10,Daily,0.03,Ongoing,-,-,-,4,7.5,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Alanna Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,1159,1.300259,,10,Daily,90.98,Ongoing,Average,-,-,1507,60.371599,17,,5.351765,1.128069,36,2.388852,2.527222,11,8.270909
+2026-01-01,2026-02-18,"Ajay Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,34,1,,10,Daily,3.27,Ongoing,-,-,-,34,96.176471,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,193,1.145078,,10,Daily,11.72,Ongoing,-,-,-,221,53.031674,1,,11.72,0.452489,4,1.809955,2.93,1,11.72
+2026-01-01,2026-02-18,Shanda,not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,4,1,,10,Daily,0.3,Ongoing,-,-,-,4,75,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,28,1.035714,,10,Daily,2.2,Ongoing,-,-,-,29,75.862069,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,93,1.505376,,10,Daily,12.69,Ongoing,-,-,-,140,90.642857,2,,6.345,1.428571,11,7.857143,1.153636,3,4.23
+2026-01-01,2026-02-18,"The Muscle",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,20,1.1,,10,Daily,1.42,Ongoing,-,-,-,22,64.545455,,,,,1,4.545455,1.42,,
+2026-01-01,2026-02-18,"Sizzle Testimonials - Short",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,12,1.333333,,10,Daily,1.01,Ongoing,-,-,-,16,63.125,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,767,2.32073,,10,Daily,78.55,Ongoing,-,-,-,1780,44.129213,31,,2.533871,1.741573,49,2.752809,1.603061,26,3.021154
+2026-01-01,2026-02-18,"Sizzle Testimonials - Longer",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,90,1.244444,,10,Daily,11.21,Ongoing,-,-,-,112,100.089286,4,,2.8025,3.571429,5,4.464286,2.242,4,2.8025
+2026-01-01,2026-02-18,"Sizzle Testimonials - Longer",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,14,1.071429,,12,Daily,0.98,Ongoing,-,-,-,15,65.333333,1,,0.98,6.666667,1,6.666667,0.98,1,0.98
+2026-01-01,2026-02-18,Shanda,not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,51,1.078431,,12,Daily,5.23,Ongoing,-,-,-,55,95.090909,2,,2.615,3.636364,3,5.454545,1.743333,1,5.23
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,4,1,,12,Daily,0.09,Ongoing,-,-,-,4,22.5,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sizzle Testimonials - Short",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,4,1,,12,Daily,0.21,Ongoing,-,-,-,4,52.5,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",4,actions:offsite_conversion.custom.1272107968054324,886,1.256208,15.7425,12,Daily,62.97,Ongoing,Average,-,-,1113,56.576819,24,,2.62375,2.156334,44,3.953279,1.431136,13,4.843846
+2026-01-01,2026-02-18,"Sam Taggart",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,13,1,,12,Daily,0.65,Ongoing,-,-,-,13,50,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",5,actions:offsite_conversion.custom.1272107968054324,3367,1.542323,25.336,12,Daily,126.68,Ongoing,-,-,-,5193,24.394377,40,,3.167,0.770268,103,1.983439,1.229903,32,3.95875
+2026-01-01,2026-02-18,"The Muscle",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,44,1.045455,,12,Daily,2.61,Ongoing,-,-,-,46,56.73913,1,,2.61,2.173913,1,2.173913,2.61,1,2.61
+2026-01-01,2026-02-18,"Ajay Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,21,1.238095,,10,Daily,2.07,Ongoing,-,-,-,26,79.615385,1,,2.07,3.846154,2,7.692308,1.035,1,2.07
+2026-01-01,2026-02-18,"Alanna Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",1,actions:offsite_conversion.custom.1272107968054324,1023,1.577713,93.7,10,Daily,93.7,Ongoing,Average,-,-,1614,58.054523,30,,3.123333,1.858736,76,4.708798,1.232895,24,3.904167
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,127,1.314961,,10,Daily,10.58,Ongoing,-,-,-,167,63.353293,1,,10.58,0.598802,5,2.994012,2.116,1,10.58
+2026-01-01,2026-02-18,"$15K Sizzle Reel Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,2,1,,10,Daily,0.04,Ongoing,-,-,-,2,20,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - We fill rooms... #3",active,"7-day click, 1-day view, or 1-day engaged-view",,,44,1,,50,Daily,1.55,Ongoing,-,-,-,44,35.227273,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - We've filled 200+ events",active,"7-day click, 1-day view, or 1-day engaged-view",,,65,1.261538,,50,Daily,8.68,Ongoing,-,-,-,82,105.853659,5,,1.736,6.097561,4,4.878049,2.17,4,2.17
+2026-01-01,2026-02-18,"Image - We fill rooms... #1",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,4,1.25,,18,Daily,0.12,Ongoing,-,-,-,5,24,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - We fill rooms... #2",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",1,actions:offsite_conversion.custom.1272107968054324,375,1.653333,30.46,18,Daily,30.46,Ongoing,"Below average - Bottom 35% of ads",-,-,620,49.129032,10,,3.046,1.612903,15,2.419355,2.030667,7,4.351429
+2026-01-01,2026-02-18,"Image - We've filled 200+ events",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,7,1,,18,Daily,0.68,Ongoing,-,-,-,7,97.142857,,,,,1,14.285714,0.68,,
+2026-01-01,2026-02-18,"Image - You're about to fill the room...",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,14,1.071429,,18,Daily,0.81,Ongoing,-,-,-,15,54,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - Tired of Empty Chairs?",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,3,1,,18,Daily,0.04,Ongoing,-,-,-,3,13.333333,,,,,0,0,0,,
+2026-01-01,2026-02-18,"$15K Sizzle Reel Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,8,1,,10,Daily,0.73,Ongoing,-,-,-,8,91.25,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sam Taggart",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,5,1.8,,10,Daily,0.2,Ongoing,-,-,-,9,22.222222,,,,,0,0,0,,
+2026-01-01,2026-02-18,"David Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,1,1,,10,Daily,0,Ongoing,-,-,-,1,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - You're about to fill the room...",active,"7-day click, 1-day view, or 1-day engaged-view",,,31,1.451613,,50,Daily,2.56,Ongoing,-,-,-,45,56.888889,2,,1.28,4.444444,1,2.222222,2.56,2,1.28
+2026-01-01,2026-02-18,"Image - We fill rooms... #2",active,"7-day click, 1-day view, or 1-day engaged-view",,,565,1.658407,,50,Daily,50.04,Ongoing,Average,-,-,937,53.404482,10,,5.004,1.067236,15,1.600854,3.336,7,7.148571
+2026-01-01,2026-02-18,"Image - Tired of Empty Chairs?",active,"7-day click, 1-day view, or 1-day engaged-view",,,12,1.166667,,50,Daily,1.35,Ongoing,-,-,-,14,96.428571,1,,1.35,7.142857,1,7.142857,1.35,1,1.35
+2026-01-01,2026-02-18,"Image - Funnel Built. Ads Running..",active,"7-day click, 1-day view, or 1-day engaged-view",,,13,1.307692,,50,Daily,0.88,Ongoing,-,-,-,17,51.764706,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - How We SELL OUT Events",active,"7-day click, 1-day view, or 1-day engaged-view",9,actions:offsite_conversion.custom.1272107968054324,4958,1.719645,36.65555556,50,Daily,329.9,Ongoing,Average,-,-,8526,38.693408,158,,2.087975,1.853155,211,2.474783,1.563507,137,2.408029
+2026-01-01,2026-02-18,"Image - From Ad Spend Stress...",active,"7-day click, 1-day view, or 1-day engaged-view",,,20,1.1,,50,Daily,1.95,Ongoing,-,-,-,22,88.636364,1,,1.95,4.545455,1,4.545455,1.95,1,1.95
+2026-01-01,2026-02-18,"Image - We fill rooms... #4",active,"7-day click, 1-day view, or 1-day engaged-view",,,50,1.28,,50,Daily,3.35,Ongoing,-,-,-,64,52.34375,1,,3.35,1.5625,1,1.5625,3.35,1,3.35
+2026-01-01,2026-02-18,"Image - Event Rescue Team",active,"7-day click, 1-day view, or 1-day engaged-view",7,actions:offsite_conversion.custom.1272107968054324,9631,1.785173,47.46,50,Daily,332.22,Ongoing,Average,-,-,17193,19.32298,156,,2.129615,0.907346,303,1.762345,1.096436,132,2.516818
+2026-01-01,2026-02-18,"Image - We fill rooms... #1",active,"7-day click, 1-day view, or 1-day engaged-view",,,26,1.269231,,50,Daily,3.6,Ongoing,-,-,-,33,109.090909,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Ad",not_delivering,"7-day click or 1-day view",12261,reach,12261,1.091102,2.5006117,10,Daily,30.66,Ongoing,-,-,-,13378,2.291822,17,,1.803529,0.127074,26,0.194349,1.179231,12,2.555
+2026-01-01,2026-02-18,"""See How We Sell Out Events""",not_delivering,"7-day click or 1-day view",,,200,1.05,,10,Daily,8.33,Ongoing,-,-,-,210,39.666667,4,,2.0825,1.904762,5,2.380952,1.666,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click or 1-day view",4,actions:offsite_conversion.custom.26020366324235150,1608,3.227612,115.2475,35,Daily,460.99,Ongoing,"Below average - Bottom 35% of ads",-,-,5190,88.822736,76,,6.065658,1.464355,109,2.100193,4.229266,55,8.381636
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click or 1-day view",,,30,1.066667,,35,Daily,2.01,Ongoing,-,-,-,32,62.8125,,,,,1,3.125,2.01,1,2.01
+2026-01-01,2026-02-18,"Sizzle #1",not_delivering,"7-day click or 1-day view",,,16,1.1875,,35,Daily,0.97,Ongoing,-,-,-,19,51.052632,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,"7-day click or 1-day view",,,133,1.172932,,35,Daily,9.57,Ongoing,-,-,-,156,61.346154,1,,9.57,0.641026,1,0.641026,9.57,1,9.57
+2026-01-01,2026-02-18,Shanda,not_delivering,"7-day click or 1-day view",,,14,1,,35,Daily,1.39,Ongoing,-,-,-,14,99.285714,1,,1.39,7.142857,1,7.142857,1.39,,
+2026-01-01,2026-02-18,"Sam Taggert",not_delivering,"7-day click or 1-day view",,,36,1.055556,,35,Daily,1.97,Ongoing,-,-,-,38,51.842105,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Brad Lea",not_delivering,"7-day click or 1-day view",,,46,1.043478,,35,Daily,5.85,Ongoing,-,-,-,48,121.875,,,,,1,2.083333,5.85,2,2.925
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click or 1-day view",,,13,1,,35,Daily,1.57,Ongoing,-,-,-,13,120.769231,,,,,1,7.692308,1.57,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click or 1-day view",4,actions:offsite_conversion.custom.26020366324235150,2791,1.558939,26.4,10,Daily,105.6,Ongoing,-,-,-,4351,24.270283,47,,2.246809,1.080211,85,1.953574,1.242353,40,2.64
+2026-01-01,2026-02-18,"Sam Taggert",not_delivering,"7-day click or 1-day view",,,907,1.251378,,10,Daily,33.31,Ongoing,-,-,-,1135,29.348018,11,,3.028182,0.969163,22,1.938326,1.514091,9,3.701111
+2026-01-01,2026-02-18,"Sizzle #2",not_delivering,"7-day click or 1-day view",,,494,1.133603,,10,Daily,19.98,Ongoing,-,-,-,560,35.678571,2,,9.99,0.357143,8,1.428571,2.4975,1,19.98
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,"7-day click or 1-day view",,,8,1.125,,10,Daily,0.41,Ongoing,-,-,-,9,45.555556,,,,,1,11.111111,0.41,,
+2026-01-01,2026-02-18,"Brad Lea",not_delivering,"7-day click or 1-day view",,,16,1.0625,,10,Daily,1.53,Ongoing,-,-,-,17,90,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sizzle #3",not_delivering,"7-day click or 1-day view",,,93,1.064516,,10,Daily,3.17,Ongoing,-,-,-,99,32.020202,1,,3.17,1.010101,1,1.010101,3.17,1,3.17
+2026-01-01,2026-02-18,"Sizzle #1",not_delivering,"7-day click or 1-day view",,,35,1.142857,,10,Daily,1.27,Ongoing,-,-,-,40,31.75,2,,0.635,5,2,5,0.635,1,1.27
+2026-01-01,2026-02-18,"""STOP"" Ad",not_delivering,"7-day click or 1-day view",1,actions:offsite_conversion.custom.26020366324235150,579,2.107081,109.95,20,Daily,109.95,Ongoing,"Below average - Bottom 35% of ads",-,-,1220,90.122951,28,,3.926786,2.295082,38,3.114754,2.893421,17,6.467647
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click or 1-day view",,,2506,1.367119,,20,Daily,82.97,Ongoing,-,-,-,3426,24.217747,28,,2.963214,0.81728,75,2.189142,1.106267,24,3.457083
+2026-01-01,2026-02-18,Shanda,not_delivering,"7-day click or 1-day view",,,163,1.06135,,20,Daily,4.46,Ongoing,-,-,-,173,25.780347,1,,4.46,0.578035,5,2.890173,0.892,,
+2026-01-01,2026-02-18,"Sizzle #2",not_delivering,"7-day click or 1-day view",,,158,1.075949,,20,Daily,4.27,Ongoing,-,-,-,170,25.117647,2,,2.135,1.176471,3,1.764706,1.423333,1,4.27
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click or 1-day view",,,3,1,,20,Daily,1.65,Ongoing,-,-,-,3,550,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,"7-day click or 1-day view",,,419,1.152745,,20,Daily,11.43,Ongoing,-,-,-,483,23.664596,3,,3.81,0.621118,14,2.898551,0.816429,,
+2026-01-01,2026-02-18,"""STOP"" Ad",not_delivering,"7-day click or 1-day view",2,actions:offsite_conversion.custom.26020366324235150,2315,1.568467,93.805,10,Daily,187.61,Ongoing,"Below average - Bottom 35% of ads",-,-,3631,51.668962,50,,3.7522,1.377031,92,2.533737,2.039239,38,4.937105
+2026-01-01,2026-02-18,"""STOP"" Ad",not_delivering,"7-day click or 1-day view",1,actions:offsite_conversion.custom.26020366324235150,1386,1.277056,109.49,20,Daily,109.49,Ongoing,Average,-,-,1770,61.858757,31,,3.531935,1.751412,47,2.655367,2.329574,19,5.762632
+2026-01-01,2026-02-18,"Sizzle #1",not_delivering,"7-day click or 1-day view",,,53,1.037736,,20,Daily,3.1,Ongoing,-,-,-,55,56.363636,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sizzle #2",not_delivering,"7-day click or 1-day view",1,actions:offsite_conversion.custom.26020366324235150,1943,1.254761,65.56,20,Daily,65.56,Ongoing,-,-,-,2438,26.890894,14,,4.682857,0.574241,35,1.435603,1.873143,11,5.96
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click or 1-day view",,,98,1.091837,,20,Daily,3.04,Ongoing,-,-,-,107,28.411215,2,,1.52,1.869159,2,1.869159,1.52,2,1.52
+2026-01-01,2026-02-18,"Brad Lea",not_delivering,"7-day click or 1-day view",,,4,1,,20,Daily,0.09,Ongoing,-,-,-,4,22.5,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click or 1-day view",,,25,1.08,,20,Daily,1.09,Ongoing,-,-,-,27,40.37037,,,,,0,0,0,,
+2026-01-01,2026-02-18,"""STOP"" Ad",not_delivering,"7-day click or 1-day view",6,actions:offsite_conversion.custom.26020366324235150,1297,2.886662,44.46166667,20,Daily,266.77,Ongoing,"Below average - Bottom 35% of ads",-,-,3744,71.252671,52,,5.130192,1.388889,84,2.24359,3.175833,37,7.21
+2026-01-01,2026-02-18,"""STOP"" Ad",not_delivering,"7-day click or 1-day view",2,actions:offsite_conversion.custom.26020366324235150,890,1.81236,54.44,20,Daily,108.88,Ongoing,"Below average - Bottom 35% of ads",-,-,1613,67.50155,14,,7.777143,0.867948,30,1.859888,3.629333,9,12.097778
+2026-01-01,2026-02-18,"Image - We fill rooms...",active,"7-day click or 1-day view",4,actions:leadgen.other,2485,1.204024,59.3625,10,Daily,237.45,Ongoing,Average,Average,Average,2992,79.361631,26,,9.132692,0.868984,52,1.737968,4.566346,1,237.45
+2026-01-01,2026-02-18,"Tired of empty chairs?",not_delivering,"7-day click or 1-day view",,,515,1.116505,,10,Daily,19.76,Ongoing,-,-,-,575,34.365217,3,,6.586667,0.521739,8,1.391304,2.47,,
+2026-01-01,2026-02-18,"Funnel Built. Ads Running...",not_delivering,"7-day click or 1-day view",,,9,1.111111,,10,Daily,1.11,Ongoing,-,-,-,10,111,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We Fill Rooms - Original",not_delivering,"7-day click or 1-day view",,,28,1,,10,Daily,1.66,Ongoing,-,-,-,28,59.285714,2,,0.83,7.142857,2,7.142857,0.83,,
+2026-01-01,2026-02-18,"We Fill Rooms #1",not_delivering,"7-day click or 1-day view",,,38,1.105263,,10,Daily,1.07,Ongoing,-,-,-,42,25.47619,,,,,1,2.380952,1.07,,
+2026-01-01,2026-02-18,"See How We Sell Out Events",not_delivering,"7-day click or 1-day view",,,1046,1.26195,,10,Daily,73.36,Ongoing,Average,-,-,1320,55.575758,17,,4.315294,1.287879,37,2.80303,1.982703,,
+2026-01-01,2026-02-18,"We Fill Rooms #2",not_delivering,"7-day click or 1-day view",,,20,1,,10,Daily,0.66,Ongoing,-,-,-,20,33,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We Fill Rooms #3",not_delivering,"7-day click or 1-day view",,,488,1.141393,,10,Daily,25.27,Ongoing,Average,-,-,557,45.368043,4,,6.3175,0.718133,7,1.256733,3.61,,
+2026-01-01,2026-02-18,"From Ad Spend Stress",not_delivering,"7-day click or 1-day view",,,11,1.090909,,10,Daily,0.46,Ongoing,-,-,-,12,38.333333,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We've Filled 200+ Events...",not_delivering,"7-day click or 1-day view",,,28,1,,10,Daily,1.64,Ongoing,-,-,-,28,58.571429,,,,,0,0,0,,
+2026-01-01,2026-02-18,"You're About To Fill The Room",not_delivering,"7-day click or 1-day view",,,21,1.142857,,10,Daily,0.97,Ongoing,-,-,-,24,40.416667,,,,,0,0,0,,
+2026-01-01,2026-02-18,"You're About To Fill The Room",not_delivering,"7-day click or 1-day view",,,5,1.4,,10,Daily,0.1,Ongoing,-,-,-,7,14.285714,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We've Filled 200+ Events...",not_delivering,"7-day click or 1-day view",,,50,1.28,,10,Daily,4.92,Ongoing,-,-,-,64,76.875,1,,4.92,1.5625,2,3.125,2.46,,
+2026-01-01,2026-02-18,"We Fill Rooms #3",not_delivering,"7-day click or 1-day view",,,6,1,,10,Daily,0.07,Ongoing,-,-,-,6,11.666667,,,,,0,0,0,,
+2026-01-01,2026-02-18,"From Ad Spend Stress",not_delivering,"7-day click or 1-day view",,,7,1.428571,,10,Daily,1.65,Ongoing,-,-,-,10,165,,,,,0,0,0,,
+2026-01-01,2026-02-18,"See How We Sell Out Events",not_delivering,"7-day click or 1-day view",,,45,1.044444,,10,Daily,1.78,Ongoing,-,-,-,47,37.87234,1,,1.78,2.12766,2,4.255319,0.89,,
+2026-01-01,2026-02-18,"We Fill Rooms #1",not_delivering,"7-day click or 1-day view",,,3,1,,10,Daily,0.09,Ongoing,-,-,-,3,30,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Funnel Built. Ads Running...",not_delivering,"7-day click or 1-day view",,,3,1,,10,Daily,0.16,Ongoing,-,-,-,3,53.333333,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We Fill Rooms - Original",not_delivering,"7-day click or 1-day view",5,actions:leadgen.other,782,1.268542,16.76,10,Daily,83.8,Ongoing,Average,Average,Average,992,84.475806,16,,5.2375,1.612903,30,3.024194,2.793333,2,41.9
+2026-01-01,2026-02-18,"Tired of empty chairs?",not_delivering,"7-day click or 1-day view",1,actions:leadgen.other,1090,1.173395,35.44,10,Daily,35.44,Ongoing,-,-,-,1279,27.709148,9,,3.937778,0.703675,27,2.111024,1.312593,1,35.44
+2026-01-01,2026-02-18,"See How We Sell Out Events",not_delivering,"7-day click or 1-day view",,,30,1,,10,Daily,0.97,Ongoing,-,-,-,30,32.333333,1,,0.97,3.333333,1,3.333333,0.97,,
+2026-01-01,2026-02-18,"We Fill Rooms #3",not_delivering,"7-day click or 1-day view",,,5,1.2,,10,Daily,0.2,Ongoing,-,-,-,6,33.333333,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We Fill Rooms - Original",not_delivering,"7-day click or 1-day view",,,800,1.11,,10,Daily,51.09,Ongoing,Average,Average,Average,888,57.533784,2,,25.545,0.225225,15,1.689189,3.406,,
+2026-01-01,2026-02-18,"Funnel Built. Ads Running...",not_delivering,"7-day click or 1-day view",,,1,1,,10,Daily,0.19,Ongoing,-,-,-,1,190,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We Fill Rooms #1",not_delivering,"7-day click or 1-day view",,,8,1,,10,Daily,0.58,Ongoing,-,-,-,8,72.5,,,,,0,0,0,,
+2026-01-01,2026-02-18,"You're About To Fill The Room",not_delivering,"7-day click or 1-day view",,,4,1.25,,10,Daily,0.32,Ongoing,-,-,-,5,64,,,,,0,0,0,,
+2026-01-01,2026-02-18,Shanda,not_delivering,"7-day click or 1-day view",,,4,1,,10,Daily,0.16,Ongoing,-,-,-,4,40,,,,,1,25,0.16,,
+2026-01-01,2026-02-18,"Sam Taggert",not_delivering,"7-day click or 1-day view",,,161,1.062112,,20,Daily,6.58,Ongoing,-,-,-,171,38.479532,1,,6.58,0.584795,2,1.169591,3.29,,
+2026-01-01,2026-02-18,Shanda,not_delivering,"7-day click or 1-day view",,,423,1.137116,,20,Daily,12.39,Ongoing,-,-,-,481,25.758836,4,,3.0975,0.831601,8,1.663202,1.54875,3,4.13
+2026-01-01,2026-02-18,"Sizzle #3",not_delivering,"7-day click or 1-day view",,,604,1.084437,,20,Daily,17.5,Ongoing,-,-,-,655,26.717557,6,,2.916667,0.916031,8,1.221374,2.1875,5,3.5
+2026-01-01,2026-02-18,"From Ad Spend Stress",not_delivering,"7-day click or 1-day view",,,2,1.5,,10,Daily,0.36,Ongoing,-,-,-,3,120,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We've Filled 200+ Events...",not_delivering,"7-day click or 1-day view",,,9,1.111111,,10,Daily,0.2,Ongoing,-,-,-,10,20,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tired of empty chairs?",not_delivering,"7-day click or 1-day view",2,actions:leadgen.other,1541,1.190785,28.8,10,Daily,57.6,Ongoing,-,-,-,1835,31.389646,21,,2.742857,1.144414,59,3.215259,0.976271,2,28.8
+2026-01-01,2026-02-18,"We've Filled 200+ Events...",not_delivering,"7-day click or 1-day view",,,21,1.142857,,10,Daily,1.04,Ongoing,-,-,-,24,43.333333,,,,,0,0,0,,
+2026-01-01,2026-02-18,"You're About To Fill The Room",not_delivering,"7-day click or 1-day view",,,7,1,,10,Daily,0.14,Ongoing,-,-,-,7,20,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We Fill Rooms #1",not_delivering,"7-day click or 1-day view",,,8,1,,10,Daily,0.23,Ongoing,-,-,-,8,28.75,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We Fill Rooms - Original",not_delivering,"7-day click or 1-day view",1,actions:leadgen.other,939,1.14377,62.87,10,Daily,62.87,Ongoing,Average,Average,Average,1074,58.538175,13,,4.836154,1.210428,24,2.234637,2.619583,,
+2026-01-01,2026-02-18,"We Fill Rooms #3",not_delivering,"7-day click or 1-day view",,,12,1,,10,Daily,1.66,Ongoing,-,-,-,12,138.333333,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Funnel Built. Ads Running...",not_delivering,"7-day click or 1-day view",,,2,1,,10,Daily,0.24,Ongoing,-,-,-,2,120,,,,,0,0,0,,
+2026-01-01,2026-02-18,"See How We Sell Out Events",not_delivering,"7-day click or 1-day view",,,40,1.1,,10,Daily,1.89,Ongoing,-,-,-,44,42.954545,,,,,1,2.272727,1.89,,
+2026-01-01,2026-02-18,"$15K Testimonial Sizzle",not_delivering,"7-day click or 1-day view",,,7,1.142857,,10,Daily,0.34,Ongoing,-,-,-,8,42.5,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sam Taggert",not_delivering,"7-day click or 1-day view",,,33,1.151515,,10,Daily,1.89,Ongoing,-,-,-,38,49.736842,2,,0.945,5.263158,2,5.263158,0.945,,
+2026-01-01,2026-02-18,Shanda,not_delivering,"7-day click or 1-day view",,,137,1.080292,,10,Daily,13.84,Ongoing,-,-,-,148,93.513514,1,,13.84,0.675676,3,2.027027,4.613333,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click or 1-day view",2,actions:leadgen.other,835,1.241916,25.47,10,Daily,50.94,Ongoing,Average,Average,Average,1037,49.122469,11,,4.630909,1.060752,16,1.542912,3.18375,1,50.94
+2026-01-01,2026-02-18,Stephen,not_delivering,"7-day click or 1-day view",,,37,1.135135,,10,Daily,2.8,Ongoing,-,-,-,42,66.666667,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,"7-day click or 1-day view",,,17,1.058824,,10,Daily,1.94,Ongoing,-,-,-,18,107.777778,,,,,2,11.111111,0.97,,
+2026-01-01,2026-02-18,"Classic Testimonials",not_delivering,"7-day click or 1-day view",,,234,1.068376,,10,Daily,12.66,Ongoing,-,-,-,250,50.64,3,,4.22,1.2,8,3.2,1.5825,,
+2026-01-01,2026-02-18,Alanna,not_delivering,"7-day click or 1-day view",,,31,1.064516,,10,Daily,0.58,Ongoing,-,-,-,33,17.575758,,,,,0,0,0,,
+2026-01-01,2026-02-18,"The Muscle",not_delivering,"7-day click or 1-day view",1,actions:leadgen.other,638,1.225705,40.14,10,Daily,40.14,Ongoing,"Below average - Bottom 35% of ads","Above average",Average,782,51.329923,9,,4.46,1.150895,25,3.196931,1.6056,,
+2026-01-01,2026-02-18,"Cody Sperber",not_delivering,"7-day click or 1-day view",,,12,1,,10,Daily,0.49,Ongoing,-,-,-,12,40.833333,1,,0.49,8.333333,2,16.666667,0.245,1,0.49
+2026-01-01,2026-02-18,"Classic Testimonials - Copy",not_delivering,"7-day click or 1-day view",,,16,1,,10,Daily,0.34,Ongoing,-,-,-,16,21.25,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click or 1-day view",1,actions:offsite_conversion.custom.26020366324235150,341,1.16129,21.7,10,Daily,21.7,Ongoing,-,-,-,396,54.79798,6,,3.616667,1.515152,11,2.777778,1.972727,7,3.1
+2026-01-01,2026-02-18,"Sizzle #1",not_delivering,"7-day click or 1-day view",,,14,1,,20,Daily,0.7,Ongoing,-,-,-,14,50,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We Fill Rooms #2",not_delivering,"7-day click or 1-day view",,,2,1,,10,Daily,0.03,Ongoing,-,-,-,2,15,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We Fill Rooms #2",not_delivering,"7-day click or 1-day view",,,9,1,,10,Daily,0.49,Ongoing,-,-,-,9,54.444444,,,,,0,0,0,,
+2026-01-01,2026-02-18,"From Ad Spend Stress",not_delivering,"7-day click or 1-day view",,,4,1,,10,Daily,0.39,Ongoing,-,-,-,4,97.5,,,,,1,25,0.39,,
+2026-01-01,2026-02-18,Ajay,not_delivering,"7-day click or 1-day view",,,8,1,,10,Daily,0.25,Ongoing,-,-,-,8,31.25,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Peter Snelle",not_delivering,"7-day click or 1-day view",,,5,1,,10,Daily,0.07,Ongoing,-,-,-,5,14,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sizzle #1",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,93,1.11828,,10,Daily,7.84,Ongoing,-,-,-,104,75.384615,3,,2.613333,2.884615,5,4.807692,1.568,3,2.613333
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",1,actions:offsite_conversion.custom.26020366324235150,203,1.044335,21.62,10,Daily,21.62,Ongoing,-,-,-,212,101.981132,7,,3.088571,3.301887,14,6.603774,1.544286,6,3.603333
+2026-01-01,2026-02-18,"Brad Lea",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,18,1.055556,,10,Daily,1.78,Ongoing,-,-,-,19,93.684211,2,,0.89,10.526316,2,10.526316,0.89,2,0.89
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,104,1.057692,,10,Daily,3.92,Ongoing,-,-,-,110,35.636364,,,,,3,2.727273,1.306667,,
+2026-01-01,2026-02-18,"Sizzle #3",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,1127,1.157054,,10,Daily,34.69,Ongoing,-,-,-,1304,26.602761,13,,2.668462,0.996933,27,2.070552,1.284815,9,3.854444
+2026-01-01,2026-02-18,"Cody Sperber",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,12,1,,10,Daily,1.15,Ongoing,-,-,-,12,95.833333,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",1,actions:offsite_conversion.custom.26020366324235150,1314,1.240487,48.19,10,Daily,48.19,Ongoing,-,-,-,1630,29.564417,16,,3.011875,0.981595,28,1.717791,1.721071,15,3.212667
+2026-01-01,2026-02-18,"We Sell Out Events",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,436,1.194954,,10,Daily,26.55,Ongoing,Average,-,-,521,50.959693,7,,3.792857,1.34357,10,1.919386,2.655,6,4.425
+2026-01-01,2026-02-18,"""STOP"" Ad",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,29,1.068966,,10,Daily,2.31,Ongoing,-,-,-,31,74.516129,3,,0.77,9.677419,3,9.677419,0.77,1,2.31
+2026-01-01,2026-02-18,"""We Fill The Room"" Ad",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,4,1.25,,10,Daily,0.1,Ongoing,-,-,-,5,20,,,,,0,0,0,,
+2026-01-01,2026-02-18,Alanna,not_delivering,"7-day click, 1-day view, or 1-day engaged-view",1,actions:offsite_conversion.custom.26020366324235150,1238,1.343296,72.03,10,Daily,72.03,Ongoing,-,-,-,1663,43.313289,30,,2.401,1.803969,50,3.006615,1.4406,25,2.8812
+2026-01-01,2026-02-18,Ajay,not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,21,1.047619,,10,Daily,1.8,Ongoing,-,-,-,22,81.818182,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Peter Snelle",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,3,1,,10,Daily,0.34,Ongoing,-,-,-,3,113.333333,,,,,0,0,0,,
+2026-01-01,2026-02-18,"David Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,57,1.017544,,10,Daily,3.38,Ongoing,-,-,-,58,58.275862,2,,1.69,3.448276,2,3.448276,1.69,2,1.69
+2026-01-01,2026-02-18,"Sizzle #3",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,25,1,,10,Daily,0.68,Ongoing,-,-,-,25,27.2,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sizzle #2",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,8,1,,10,Daily,0.22,Ongoing,-,-,-,8,27.5,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,35,1,,10,Daily,2.84,Ongoing,-,-,-,35,81.142857,1,,2.84,2.857143,1,2.857143,2.84,1,2.84
+2026-01-01,2026-02-18,Shanda,not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,4,1,,10,Daily,0.13,Ongoing,-,-,-,4,32.5,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tired of empty chairs?",not_delivering,"7-day click or 1-day view",1,actions:leadgen.other,2071,1.244326,71.09,10,Daily,71.09,Ongoing,-,-,-,2577,27.586341,34,,2.090882,1.319364,68,2.638727,1.045441,1,71.09
+2026-01-01,2026-02-18,"Classic Testimonials #2",not_delivering,"7-day click or 1-day view",,,5,1,,10,Daily,0.71,Ongoing,-,-,-,5,142,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sizzle #2",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,59,1.033898,,10,Daily,1.82,Ongoing,-,-,-,61,29.836066,1,,1.82,1.639344,3,4.918033,0.606667,3,0.606667
+2026-01-01,2026-02-18,"Brad Lea",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,5,1,,10,Daily,0.18,Ongoing,-,-,-,5,36,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,64,1.046875,,10,Daily,2.34,Ongoing,-,-,-,67,34.925373,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,529,1.120983,,10,Daily,55.97,Ongoing,"Below average - Bottom 35% of ads",-,-,593,94.384486,11,,5.088182,1.854975,27,4.55312,2.072963,7,7.995714
+2026-01-01,2026-02-18,"Sizzle #1",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,32,1.1875,,10,Daily,3.96,Ongoing,-,-,-,38,104.210526,4,,0.99,10.526316,4,10.526316,0.99,2,1.98
+2026-01-01,2026-02-18,"Ajay - Copy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,34,1.147059,,10,Daily,3.49,Ongoing,-,-,-,39,89.487179,3,,1.163333,7.692308,3,7.692308,1.163333,2,1.745
+2026-01-01,2026-02-18,"Peter Snelle - Copy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,9,1,,10,Daily,0.28,Ongoing,-,-,-,9,31.111111,3,,0.093333,33.333333,3,33.333333,0.093333,1,0.28
+2026-01-01,2026-02-18,"Alanna - Copy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,998,1.292585,,10,Daily,64.55,Ongoing,-,-,-,1290,50.03876,12,,5.379167,0.930233,24,1.860465,2.689583,11,5.868182
+2026-01-01,2026-02-18,"David Testimonial - Copy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,29,1.137931,,10,Daily,2.34,Ongoing,-,-,-,33,70.909091,3,,0.78,9.090909,3,9.090909,0.78,1,2.34
+2026-01-01,2026-02-18,"""STOP"" Ad - Copy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",1,actions:offsite_conversion.custom.26020366324235150,25,1,1.02,10,Daily,1.02,Ongoing,-,-,-,25,40.8,3,,0.34,12,3,12,0.34,3,0.34
+2026-01-01,2026-02-18,"Pace Morby - Copy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,381,1.149606,,10,Daily,16.07,Ongoing,-,-,-,438,36.689498,,,,,5,1.141553,3.214,,
+2026-01-01,2026-02-18,"We Sell Out Events - Copy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",1,actions:offsite_conversion.custom.26020366324235150,896,1.198661,52.46,10,Daily,52.46,Ongoing,"Below average - Bottom 35% of ads",-,-,1074,48.845438,30,,1.748667,2.793296,37,3.445065,1.417838,27,1.942963
+2026-01-01,2026-02-18,"Pace Morby - Copy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",3,actions:offsite_conversion.custom.1272107968054324,6160,1.418994,136.09,15,Daily,408.27,Ongoing,Average,-,-,8741,46.707471,141,,2.895532,1.613088,225,2.574076,1.814533,112,3.645268
+2026-01-01,2026-02-18,"The Muscle",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,11,1.090909,,12,Daily,0.65,Ongoing,-,-,-,12,54.166667,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,14,1,,12,Daily,0.45,Ongoing,-,-,-,14,32.142857,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,964,1.202282,,12,Daily,47.02,Ongoing,Average,-,-,1159,40.569456,6,,7.836667,0.517688,14,1.207938,3.358571,5,9.404
+2026-01-01,2026-02-18,"Sizzle Testimonials - Short",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,18,1,,12,Daily,0.56,Ongoing,-,-,-,18,31.111111,,,,,0,0,0,,
+2026-01-01,2026-02-18,Shanda,not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,62,1,,12,Daily,3.21,Ongoing,-,-,-,62,51.774194,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sam Taggart",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,92,1.032609,,12,Daily,5.18,Ongoing,-,-,-,95,54.526316,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sizzle Testimonials - Longer",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,439,1.063781,,12,Daily,22.76,Ongoing,-,-,-,467,48.736617,5,,4.552,1.070664,8,1.713062,2.845,4,5.69
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,15,1,,12,Daily,0.37,Ongoing,-,-,-,15,24.666667,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - Event Rescue Team",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",1,actions:offsite_conversion.custom.1272107968054324,3335,1.511844,119.14,18,Daily,119.14,Ongoing,Average,-,-,5042,23.629512,43,,2.770698,0.852836,65,1.289171,1.832923,27,4.412593
+2026-01-01,2026-02-18,"Tiffany Lyons - Copy",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",4,actions:offsite_conversion.custom.1272107968054324,7684,1.682847,90.0775,12,Daily,360.31,Ongoing,-,-,-,12931,27.864048,121,,2.977769,0.935736,236,1.825072,1.526737,96,3.753229
+2026-01-01,2026-02-18,"Old Top Image",not_delivering,-,,,0,0,,45,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"New Image #2",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Video #2",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #6",not_delivering,-,,,0,0,,25,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #8",not_delivering,-,,,0,0,,40,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #1 - Leads coming in...",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",inactive,"7-day click or 1-day view",1,actions:leadgen.other,378,1.119048,26.2,10,Daily,26.2,Ongoing,-,-,-,423,61.938534,6,,4.366667,1.41844,9,2.12766,2.911111,,
+2026-01-01,2026-02-18,"David Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ajay Testimonial",inactive,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sam Taggert",not_delivering,-,,,0,0,,15,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,1166,1.425386,,10,Daily,41.85,Ongoing,-,-,-,1662,25.180505,18,,2.325,1.083032,32,1.925391,1.307813,15,2.79
+2026-01-01,2026-02-18,"$15K Sizzle Reel Testimonial",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,5,1,,10,Daily,0.12,Ongoing,-,-,-,5,24,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Video #1",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sizzle #2",not_delivering,"7-day click or 1-day view",,,1,1,,35,Daily,0.01,Ongoing,-,-,-,1,10,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sam Taggert",not_delivering,"7-day click or 1-day view",,,170,1.058824,,20,Daily,4.42,Ongoing,-,-,-,180,24.555556,1,,4.42,0.555556,3,1.666667,1.473333,2,2.21
+2026-01-01,2026-02-18,"Sizzle #3",not_delivering,"7-day click or 1-day view",,,1,1,,20,Daily,0,Ongoing,-,-,-,1,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,"7-day click or 1-day view",,,8,1,,20,Daily,0.24,Ongoing,-,-,-,8,30,,,,,0,0,0,,
+2026-01-01,2026-02-18,"We Fill Rooms #2",not_delivering,"7-day click or 1-day view",,,1,1,,10,Daily,0.28,Ongoing,-,-,-,1,280,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sam Taggert",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,2,1,,10,Daily,0,Ongoing,-,-,-,2,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,111,1.036036,,10,Daily,4.59,Ongoing,-,-,-,115,39.913043,3,,1.53,2.608696,7,6.086957,0.655714,3,1.53
+2026-01-01,2026-02-18,Shanda,not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,21,1,,10,Daily,0.45,Ongoing,-,-,-,21,21.428571,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Cody Sperber",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,24,1.208333,,10,Daily,2.78,Ongoing,-,-,-,29,95.862069,2,,1.39,6.896552,4,13.793103,0.695,2,1.39
+2026-01-01,2026-02-18,"Sam Taggert",not_delivering,"7-day click, 1-day view, or 1-day engaged-view",,,108,1.018519,,10,Daily,3.33,Ongoing,-,-,-,110,30.272727,1,,3.33,0.909091,2,1.818182,1.665,1,3.33
+2026-01-01,2026-02-18,"Alanna Testimonial",active,"7-day click or 1-day view",11558,reach,11558,1.568697,3.79131338,3,Daily,43.82,Ongoing,"Below average - Bottom 35% of ads",-,-,18131,2.416855,8,,5.4775,0.044123,12,0.066185,3.651667,7,6.26
+2026-01-01,2026-02-18,"AI Ad #2 - Copy",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Top Ad - ""STOP""",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #6",not_delivering,-,,,0,0,,40,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Instant Form - Sell Out Your Next Event",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image #2 - We fill events for coaches/speakers",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #1 - You don't need more leads"" - Checklist",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Test. Sizzle  - Cropped #2",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"""We filled 200+"" AI Ad",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - We fill rooms...",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"""We filled 200+"" AI Ad",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"David Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Alanna Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ajay Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"David Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",inactive,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - We fill rooms...",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"STOP promoting your event",not_delivering,-,,,0,0,,40,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Short Test. #2",not_delivering,-,,,0,0,,45,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image #2",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"""How we sell out events"" Static Ad",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Test. Sizzle  - Cropped #2",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - We fill rooms...",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"New Testimonial Sizzle",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Testimonial Sizzle",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #1 - Leads coming in...",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - We fill rooms...",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #4 - ""We pack rooms""",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - ""STOP promoting your event""",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Alanna Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Video #1",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Alanna Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,-,,,0,0,,15,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ajay Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sizzle #3",not_delivering,-,,,0,0,,35,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Brad Lea",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"""We Fill The Room"" Ad - Copy",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image #2",not_delivering,-,,,0,0,,45,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #5",not_delivering,-,,,0,0,,25,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #1",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Storm Leroy Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Instant Form - New Ad #2",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Video #3",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Instant Form - Sell Out Your Next Event",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Instant Form - Sell Out Your Next Event",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Tiffany Lyons",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image #2 - We fill events for coaches/speakers",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #1 - You don't need more leads"" - Checklist",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Test. Sizzle  - Cropped #1",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - We fill rooms...",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",inactive,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,15,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ajay Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ajay Testimonial",inactive,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"STOP promoting your event",not_delivering,-,,,0,0,,40,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Sam Taggart",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Video #2 - New Video",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Testimonial Video",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #6",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #7",not_delivering,-,,,0,0,,40,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #5",not_delivering,-,,,0,0,,40,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Instant Form - New Ad #2",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #1 - You don't need more leads"" - Checklist",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image #2 - We fill events for coaches/speakers",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #1 - Leads coming in...",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #3 - ""See how we sell out events""",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Video #1",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ajay Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ajay Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"David Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"David Testimonial",not_delivering,-,,,0,0,,25,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #6 - Old Copy",not_delivering,-,,,0,0,,25,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"David Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Event Rescue Team",not_delivering,-,,,0,0,,25,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Video #2",not_delivering,-,,,0,0,,45,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Video #1  - ""STOP""",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #7",not_delivering,-,,,0,0,,25,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #4",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #5",inactive,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image #2",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #1 - You don't need more leads"" - Checklist",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image #2 - We fill events for coaches/speakers",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Test. Sizzle  - Cropped #1",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #2 - STOP promoting your event like it's 2010",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #1 - Leads coming in...",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #1 - Leads coming in...",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - We fill rooms...",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #1 - Leads coming in...",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Testimonial Sizzle",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Alanna Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Alanna Testimonial",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Video #1",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,-,,,0,0,,15,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ajay Testimonial - Copy",inactive,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"New Image #1",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image #2 - Copy",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image #2",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #7",not_delivering,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"AI Ad #8",inactive,-,,,0,0,,20,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image #3",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Video #2",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image #2 - We fill events for coaches/speakers",not_delivering,-,,,0,0,,10,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Ad #1 - Leads coming in...",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Pace Morby",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Image - We fill rooms...",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,-,,,0,0,,15,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Video #1",not_delivering,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Peter Snelle Testimonial",inactive,-,,,0,0,,5,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
+2026-01-01,2026-02-18,"Storm Leroy",not_delivering,-,,,0,0,,15,Daily,0,Ongoing,-,-,-,0,0,,,,,0,0,0,,
