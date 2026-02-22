@@ -16,7 +16,7 @@ Not optional. Not aspirational. Core directive.
 - **Founded:** 5 years ago
 - **HQ:** Miami, FL (Brian's 3-bedroom penthouse = office/studio)
 - **Revenue Goal 2026:** $5M
-- **Track Record:** 250+ events, 65K+ tickets, $65M+ revenue generated for clients
+- **Track Record:** 250+ events, 65K tickets, $65M in sales generated for clients
 
 ### Core Offerings
 1. **ESS (Event Sales System)** - Main offer, $15K average deal
