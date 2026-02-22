@@ -4,7 +4,6 @@
 
 ### ADMINISTRATIVE/LEADERSHIP (Fixed Salary)
 - **Brian Rand** - CEO - $4,166.67 bi-weekly
-- **James Murphy** - Sales Manager - $1,500.00 bi-weekly  
 - **Malachi Broadway** - Sales Lead - $1,500.00 bi-weekly
 - **Denise Brooks** - COO - $2,500.00 bi-weekly
 
@@ -18,14 +17,16 @@
 - **Kimberly Ortega** - Sales Assistant - $7.50/hr (93.18 hrs = $698.85)
 
 ### TOTAL PAYROLL
-- **Administrative Subtotal:** $9,666.67
+- **Administrative Subtotal:** $8,166.67
 - **Hourly Subtotal:** $5,539.55
-- **Total Bi-weekly Payroll:** $15,206.22
-- **Monthly Payroll Est:** ~$30,412
+- **Total Bi-weekly Payroll:** $13,706.22
+- **Monthly Payroll Est:** ~$27,412
 
 ### NOTES
-- Nick and Steve (high-ticket closers) not on this payroll - likely contractors
-- Shaw not on payroll - may be contractor or different pay schedule
-- Team is much larger than previously documented (11 people vs 9-10 estimated)
-- Strong GHL/tech support team (Shah, Hamza, Jawad)
+- **CORRECTION:** James M in payroll was James Mungai (ticket sales rep), not a Sales Manager
+- Nick Granberry and Chris Granberry (high-ticket closers) not on payroll - contractors
+- Shaw Khan is on payroll as Shah Khan ($13/hr GHL Lead)
+- No dedicated Sales Manager role exists
+- Team: 10 employees + 2 contractors = 12 total
+- Strong GHL/tech support team (Shaw/Shah, Hamza, Jawad)
 - Media buying team in place (Muhammad, Sohaib)
