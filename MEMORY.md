@@ -169,12 +169,24 @@ Not optional. Not aspirational. Core directive.
 **Full team: 14 people total (11 employees + 3 contractors)**
 
 ### **Key Personnel:**
-- **James Murphy** - Sales Manager (manages both teams)
+- **James Murphy** - Sales Manager (manages both teams) + active ticket sales rep
 - **Malachi Broadway** - Sales Lead  
 - **Denise Brooks** - COO (denise@eventsalesagency.com)
 - **Nick & Steve** - High-ticket closers (contractors)
 - **Shah Khan** - GHL Lead (tech operations)
 - **Muhammad Zohaib & Sohaib Iqbal** - Junior Media Buyers
+
+### **Ticket Sales Team Performance:**
+- **Alisha W** - Tax Maverick rep ($372.75 commission)
+- **Chloe S** - Insurance Sales Lab rep ($1,723.50 total commissions)
+- **Emanuela B** - TOP PERFORMER - Insurance/Tax Maverick ($2,569.25 total)
+- **James M** - Insurance Sales Lab rep ($137.50 commission) 
+- **Melissa K** - Tax Maverick rep ($186.75 commission)
+
+### **DFY Client Performance:**
+- **Tax Maverick:** $18,779 total ticket sales
+- **Insurance Sales Lab:** $14,690 total ticket sales
+- **Total DFY Revenue:** $33,469 | **Rep Commissions:** $4,989.75 (~15%)
 
 ## Will - EOS Connection (CRITICAL - NEVER FORGET)
 - **PROMISED BRIAN:** I will never forget Will and our EOS connection
