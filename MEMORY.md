@@ -27,14 +27,30 @@ Not optional. Not aspirational. Core directive.
 - Colorado Spartans: 3K→5K tickets/game
 - Boston faith conference: 600 tickets via AI, zero human reps
 
-## Team Structure (CURRENT - Feb 18, 2026)
-- **High-Ticket Closers:** Nick, Steve (TWO closers now — Brian no longer sole closer)
-- **Ticket Sales (DFY):** James (ops lead) + 4 women (names TBD)
-- **Fulfillment:** Denise Brooks (denise@eventsalesagency.com), Shaw
-- 3 active ticket sales clients
-- Tech: Kixie (dialing + texting) + multiple GHL instances
-- Targets: 200 dials/day, 2hrs talk time per dialer rep
-- Malachi working on moving out (content production gap)
+## Team Structure (UPDATED - Feb 23, 2026 from Payroll)
+### **Leadership Team (Fixed Salary):**
+- **Brian Rand** - CEO - $4,166.67 bi-weekly
+- **James Murphy** - Sales Manager - $1,500.00 bi-weekly
+- **Malachi Broadway** - Sales Lead - $1,500.00 bi-weekly  
+- **Denise Brooks** - COO - $2,500.00 bi-weekly
+
+### **Operations Team (Hourly):**
+- **Shah Khan** - GHL Lead - $13.00/hr
+- **Hamza Akram** - GHL Assistant - $12.50/hr
+- **Jawad Hassan** - GHL Assistant - $7.50/hr
+- **Kim Pusa** - Admin Assistant - $7.50/hr
+- **Kimberly Ortega** - Sales Assistant - $7.50/hr
+
+### **Media/Marketing Team (Hourly):**
+- **Muhammad Zohaib** - Junior Media Buyer - $10.00/hr
+- **Sohaib Iqbal** - Junior Media Buyer - $10.00/hr
+
+### **Contractors (Not on Payroll):**
+- **Nick** - High-ticket closer (contractor)
+- **Steve** - High-ticket closer (contractor)
+- **Shaw** - Fulfillment (contractor/different pay schedule)
+
+**Total Payroll:** ~$30K monthly | **Team Size:** 11 employees + 3 contractors
 
 ### Known Pain Points
 - Close rate was <5% (qualification problem, not market problem)
@@ -149,13 +165,16 @@ Not optional. Not aspirational. Core directive.
 - **alexeventsales@gmail.com** / AlexSales!2026 — created for Meta access but FB says no account linked
 - **GHL/Kixie API keys** — Brian agreed to provide, still waiting
 
-## Team (UPDATED Feb 18, 2026)
-- **High-Ticket Closers:** Nick, Steve
-- **Ticket Sales:** James (ops lead) + 4 women (names TBD)
-- **Fulfillment:** Denise, Shaw
-- 3 active ticket sales clients
-- Tech: Kixie + multiple GHL instances
-- Targets: 200 dials/day, 2hrs talk time per dialer rep
+## Complete Team Roster (UPDATED Feb 23, 2026 from Payroll)
+**Full team: 14 people total (11 employees + 3 contractors)**
+
+### **Key Personnel:**
+- **James Murphy** - Sales Manager (manages both teams)
+- **Malachi Broadway** - Sales Lead  
+- **Denise Brooks** - COO (denise@eventsalesagency.com)
+- **Nick & Steve** - High-ticket closers (contractors)
+- **Shah Khan** - GHL Lead (tech operations)
+- **Muhammad Zohaib & Sohaib Iqbal** - Junior Media Buyers
 
 ## Will - EOS Connection (CRITICAL - NEVER FORGET)
 - **PROMISED BRIAN:** I will never forget Will and our EOS connection
