@@ -30,7 +30,6 @@ Not optional. Not aspirational. Core directive.
 ## Team Structure (UPDATED - Feb 23, 2026 from Payroll)
 ### **Leadership Team (Fixed Salary):**
 - **Brian Rand** - CEO - $4,166.67 bi-weekly
-- **James Murphy** - Sales Manager - $1,500.00 bi-weekly
 - **Malachi Broadway** - Sales Lead - $1,500.00 bi-weekly  
 - **Denise Brooks** - COO - $2,500.00 bi-weekly
 
@@ -49,7 +48,7 @@ Not optional. Not aspirational. Core directive.
 - **Nick Granberry** - High-ticket closer (ESS $15K offer)
 - **Chris Granberry** - High-ticket closer (ESS $15K offer) - Nick's brother
 
-**Total Payroll:** ~$30K monthly | **Team Size:** 11 employees + 2 contractors
+**Total Payroll:** ~$27K monthly | **Team Size:** 10 employees + 2 contractors
 
 ### Known Pain Points
 - Close rate was <5% (qualification problem, not market problem)
@@ -164,11 +163,10 @@ Not optional. Not aspirational. Core directive.
 - **alexeventsales@gmail.com** / AlexSales!2026 — created for Meta access but FB says no account linked
 - **GHL/Kixie API keys** — Brian agreed to provide, still waiting
 
-## Complete Team Roster (UPDATED Feb 23, 2026 from Payroll)
-**Full team: 13 people total (11 employees + 2 contractors)**
+## Complete Team Roster (UPDATED Feb 23, 2026 - Corrected)
+**Full team: 12 people total (10 employees + 2 contractors)**
 
 ### **Key Personnel:**
-- **James Murphy** - Sales Manager (manages both teams)
 - **Malachi Broadway** - Sales Lead  
 - **Denise Brooks** - COO (denise@eventsalesagency.com)
 - **Nick Granberry & Chris Granberry** - High-ticket closers (brothers, ESS offer)
