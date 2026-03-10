@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Event Hunter Management Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .dashboard-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-number {
+            font-size: 2.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        .stat-detail {
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        .progress-section {
+            margin: 30px 0;
+        }
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        .progress-fill {
+            height: 40px;
+            background: linear-gradient(90deg, #4CAF50, #2196F3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: width 1s ease;
+        }
+        .system-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .status-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        .status-green { border-left: 4px solid #4CAF50; }
+        .status-yellow { border-left: 4px solid #FFC107; }
+        .status-red { border-left: 4px solid #F44336; }
+        .recent-activity {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        .activity-item {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .activity-item:last-child { border-bottom: none; }
+        .timestamp {
+            font-size: 0.8em;
+            opacity: 0.7;
+            float: right;
+        }
+        .update-time {
+            text-align: center;
+            opacity: 0.7;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>🎯 Event Hunter Management Dashboard</h1>
+        <p>24/7 Automated Prospect Discovery System</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number" id="total-prospects">81</div>
+            <div class="stat-label">Total Qualified Prospects</div>
+            <div class="stat-detail">Target: 500+ prospects</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-number" id="pipeline-value">$1.31M</div>
+            <div class="stat-label">Total Pipeline Value</div>
+            <div class="stat-detail">Target: $5M pipeline</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-number" id="avg-value">$16.2K</div>
+            <div class="stat-label">Avg ESS Opportunity</div>
+            <div class="stat-detail">Per qualified prospect</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-number" id="high-priority">3</div>
+            <div class="stat-label">High Priority Prospects</div>
+            <div class="stat-detail">Score 90+ (Premium opportunities)</div>
+        </div>
+    </div>
+
+    <div class="progress-section">
+        <h3>📊 Progress to Goals</h3>
+        
+        <div style="margin: 20px 0;">
+            <div style="display: flex; justify-content: space-between;">
+                <span>Prospect Goal (500+)</span>
+                <span>16.2%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 16.2%;">81 / 500</div>
+            </div>
+        </div>
+        
+        <div style="margin: 20px 0;">
+            <div style="display: flex; justify-content: space-between;">
+                <span>Pipeline Goal ($5M)</span>
+                <span>26.2%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 26.2%;">$1.31M / $5M</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="system-status">
+        <div class="status-item status-green">
+            <strong>🟢 Main Hunter</strong><br>
+            <small>bulletproof_hunter.py</small><br>
+            <strong>RUNNING</strong>
+        </div>
+        
+        <div class="status-item status-green">
+            <strong>🟢 Watchdog</strong><br>
+            <small>Auto-restart system</small><br>
+            <strong>MONITORING</strong>
+        </div>
+        
+        <div class="status-item status-green">
+            <strong>🟢 Notifications</strong><br>
+            <small>Alert system</small><br>
+            <strong>ACTIVE</strong>
+        </div>
+        
+        <div class="status-item status-yellow">
+            <strong>⚠️ Eventbrite API</strong><br>
+            <small>Main event source</small><br>
+            <strong>NEEDS FIX</strong>
+        </div>
+    </div>
+
+    <div class="recent-activity">
+        <h3>🕐 Recent Activity</h3>
+        
+        <div class="activity-item">
+            <strong>🎯 6 new qualified prospects discovered</strong>
+            <span class="timestamp">4:32 PM</span>
+            <br><small>Cycle #2 completed successfully</small>
+        </div>
+        
+        <div class="activity-item">
+            <strong>🚀 High priority prospect found</strong>
+            <span class="timestamp">4:28 PM</span>
+            <br><small>Million Dollar Business Blueprint (Score: 98)</small>
+        </div>
+        
+        <div class="activity-item">
+            <strong>📊 CSV export updated</strong>
+            <span class="timestamp">4:32 PM</span>
+            <br><small>ESA_Event_Prospects_20260222.csv</small>
+        </div>
+        
+        <div class="activity-item">
+            <strong>🔔 Notification sent to Henry</strong>
+            <span class="timestamp">4:33 PM</span>
+            <br><small>New prospects alert delivered</small>
+        </div>
+    </div>
+
+    <div class="update-time">
+        Last updated: <span id="current-time"></span>
+    </div>
+
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = 
+                now.toLocaleString('en-US', {
+                    weekday: 'short',
+                    month: 'short', 
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    timeZoneName: 'short'
+                });
+        }
+        
+        updateTime();
+        setInterval(updateTime, 30000); // Update every 30 seconds
+        
+        // Auto-refresh page every 5 minutes
+        setTimeout(() => window.location.reload(), 300000);
+    </script>
+</body>
+</html>

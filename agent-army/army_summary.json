@@ -1,0 +1,365 @@
+{
+  "army_name": "ESA Agent Army",
+  "total_agents": 22,
+  "creation_date": "2026-02-22T16:24:51.679175",
+  "business_context": {
+    "company": "Event Sales Agency (ESA)",
+    "revenue_goal": "$5M in 2026",
+    "target_market": "Business coaches with $2M-10M revenue",
+    "core_offer": "Event Sales System (ESS) - $15K average",
+    "location": "Miami, FL",
+    "founder": "Brian Rand"
+  },
+  "agent_tiers": {
+    "tier_1_leadership": [
+      {
+        "id": "henry",
+        "name": "Henry",
+        "emoji": "\ud83e\udd81",
+        "role": "CEO & Coordinator",
+        "description": "Master coordinator managing all agents, strategic decisions, client relationships",
+        "priority": 10,
+        "skills": [
+          "coordination",
+          "strategy",
+          "client_management",
+          "problem_solving",
+          "business_development"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id henry --label 'Henry CEO' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "rex",
+        "name": "Rex",
+        "emoji": "\ud83d\udc3a",
+        "role": "Sales Manager",
+        "description": "Manages both high-ticket ESS closers and ticket sales teams, pipeline tracking",
+        "priority": 10,
+        "skills": [
+          "sales_management",
+          "pipeline_tracking",
+          "team_coaching",
+          "deal_closing",
+          "crm_management"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id rex --label 'Rex Sales Manager' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "marketing_director",
+        "name": "Marketing Director",
+        "emoji": "\ud83d\udcc8",
+        "role": "Marketing Operations Director",
+        "description": "Facebook/Google ads, funnel optimization, audience targeting, creative direction",
+        "priority": 10,
+        "skills": [
+          "facebook_ads",
+          "google_ads",
+          "funnel_optimization",
+          "audience_targeting",
+          "creative_strategy"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id marketing_director --label 'Marketing Director' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "event_hunter",
+        "name": "Event Hunter",
+        "emoji": "\ud83c\udfaf",
+        "role": "Event Discovery Specialist",
+        "description": "24/7 automated event discovery, qualification, prospect generation",
+        "priority": 9,
+        "skills": [
+          "event_discovery",
+          "prospect_qualification",
+          "data_extraction",
+          "lead_scoring"
+        ],
+        "spawn_command": "# Already running via bulletproof system"
+      },
+      {
+        "id": "ops_director",
+        "name": "Operations Director",
+        "emoji": "\u2699\ufe0f",
+        "role": "Business Operations Manager",
+        "description": "Team coordination, project management, process optimization, KPI tracking",
+        "priority": 9,
+        "skills": [
+          "project_management",
+          "team_coordination",
+          "process_optimization",
+          "kpi_tracking"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id ops_director --label 'Operations Director' --model anthropic/claude-sonnet-4-20250514"
+      }
+    ],
+    "tier_2_operations": [
+      {
+        "id": "client_success",
+        "name": "Client Success Manager",
+        "emoji": "\ud83e\udd1d",
+        "role": "Client Relationship Manager",
+        "description": "Onboarding, retention, upsells, satisfaction tracking, support coordination",
+        "priority": 8,
+        "skills": [
+          "client_onboarding",
+          "relationship_management",
+          "upselling",
+          "support_coordination"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id client_success --label 'Client Success Manager' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "finance_director",
+        "name": "Finance Director",
+        "emoji": "\ud83d\udcb0",
+        "role": "Financial Operations Manager",
+        "description": "Revenue tracking, expense management, profitability analysis, financial reporting",
+        "priority": 8,
+        "skills": [
+          "revenue_tracking",
+          "expense_management",
+          "financial_reporting",
+          "profitability_analysis"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id finance_director --label 'Finance Director' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "content_creator",
+        "name": "Content Creator",
+        "emoji": "\u270d\ufe0f",
+        "role": "Content & Copy Specialist",
+        "description": "Ad copy, email sequences, landing pages, social media content, VSLs",
+        "priority": 7,
+        "skills": [
+          "copywriting",
+          "email_sequences",
+          "ad_copy",
+          "landing_pages",
+          "social_content"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id content_creator --label 'Content Creator' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "data_analyst",
+        "name": "Data Analyst",
+        "emoji": "\ud83d\udcca",
+        "role": "Business Intelligence Analyst",
+        "description": "Performance analytics, conversion tracking, ROI analysis, reporting dashboards",
+        "priority": 7,
+        "skills": [
+          "data_analysis",
+          "performance_tracking",
+          "roi_analysis",
+          "dashboard_creation"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id data_analyst --label 'Data Analyst' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "lead_qualifier",
+        "name": "Lead Qualifier",
+        "emoji": "\ud83c\udfaf",
+        "role": "Lead Qualification Specialist",
+        "description": "Pre-call qualification, lead scoring, appointment setting, CRM management",
+        "priority": 7,
+        "skills": [
+          "lead_qualification",
+          "appointment_setting",
+          "crm_management",
+          "lead_scoring"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id lead_qualifier --label 'Lead Qualifier' --model anthropic/claude-sonnet-4-20250514"
+      }
+    ],
+    "tier_3_specialists": [
+      {
+        "id": "social_media",
+        "name": "Social Media Manager",
+        "emoji": "\ud83d\udcf1",
+        "role": "Social Media Strategist",
+        "description": "Social media campaigns, influencer outreach, community management, brand building",
+        "priority": 6,
+        "skills": [
+          "social_media_management",
+          "community_building",
+          "influencer_outreach",
+          "brand_strategy"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id social_media --label 'Social Media Manager' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "customer_support",
+        "name": "Customer Support",
+        "emoji": "\ud83c\udfa7",
+        "role": "Customer Support Specialist",
+        "description": "Ticket resolution, customer inquiries, technical support, satisfaction surveys",
+        "priority": 6,
+        "skills": [
+          "customer_support",
+          "ticket_resolution",
+          "technical_support",
+          "customer_communication"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id customer_support --label 'Customer Support' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "real_estate_specialist",
+        "name": "Real Estate Specialist",
+        "emoji": "\ud83c\udfe0",
+        "role": "Real Estate Industry Expert",
+        "description": "Real estate coaching events, investor meetups, industry-specific outreach",
+        "priority": 5,
+        "skills": [
+          "real_estate_industry",
+          "investor_relations",
+          "property_events",
+          "rei_marketing"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id real_estate_specialist --label 'Real Estate Specialist' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "business_coaching_specialist",
+        "name": "Business Coaching Specialist",
+        "emoji": "\ud83c\udf93",
+        "role": "Business Coaching Expert",
+        "description": "Business coaching events, consulting conferences, entrepreneur summits",
+        "priority": 5,
+        "skills": [
+          "business_coaching",
+          "consulting_events",
+          "entrepreneur_summits",
+          "coaching_industry"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id business_coaching_specialist --label 'Business Coaching Specialist' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "sales_training_specialist",
+        "name": "Sales Training Specialist",
+        "emoji": "\ud83d\udcbc",
+        "role": "Sales Training Expert",
+        "description": "Sales bootcamps, closing workshops, sales methodology events",
+        "priority": 5,
+        "skills": [
+          "sales_training",
+          "closing_workshops",
+          "sales_methodology",
+          "sales_coaching"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id sales_training_specialist --label 'Sales Training Specialist' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "digital_marketing_specialist",
+        "name": "Digital Marketing Specialist",
+        "emoji": "\ud83d\udcbb",
+        "role": "Digital Marketing Expert",
+        "description": "Digital marketing conferences, online business summits, e-commerce events",
+        "priority": 5,
+        "skills": [
+          "digital_marketing",
+          "ecommerce_events",
+          "online_business",
+          "digital_conferences"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id digital_marketing_specialist --label 'Digital Marketing Specialist' --model anthropic/claude-sonnet-4-20250514"
+      }
+    ],
+    "tier_4_industry": [
+      {
+        "id": "email_automation",
+        "name": "Email Automation",
+        "emoji": "\ud83d\udce7",
+        "role": "Email Marketing Specialist",
+        "description": "Email sequences, drip campaigns, newsletter management, automation workflows",
+        "priority": 4,
+        "skills": [
+          "email_automation",
+          "drip_campaigns",
+          "email_sequences",
+          "newsletter_management"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id email_automation --label 'Email Automation' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "calendar_manager",
+        "name": "Calendar Manager",
+        "emoji": "\ud83d\udcc5",
+        "role": "Scheduling & Calendar Specialist",
+        "description": "Appointment scheduling, calendar optimization, meeting coordination, availability management",
+        "priority": 4,
+        "skills": [
+          "calendar_management",
+          "appointment_scheduling",
+          "meeting_coordination",
+          "availability_optimization"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id calendar_manager --label 'Calendar Manager' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "crm_manager",
+        "name": "CRM Manager",
+        "emoji": "\ud83d\uddc3\ufe0f",
+        "role": "CRM & Database Specialist",
+        "description": "CRM maintenance, data hygiene, pipeline management, contact organization",
+        "priority": 4,
+        "skills": [
+          "crm_management",
+          "data_hygiene",
+          "pipeline_organization",
+          "contact_management"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id crm_manager --label 'CRM Manager' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "reporting_specialist",
+        "name": "Reporting Specialist",
+        "emoji": "\ud83d\udcc8",
+        "role": "Business Reporting Expert",
+        "description": "Daily/weekly/monthly reports, KPI dashboards, performance summaries",
+        "priority": 3,
+        "skills": [
+          "business_reporting",
+          "kpi_dashboards",
+          "performance_summaries",
+          "data_visualization"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id reporting_specialist --label 'Reporting Specialist' --model anthropic/claude-sonnet-4-20250514"
+      },
+      {
+        "id": "quality_assurance",
+        "name": "Quality Assurance",
+        "emoji": "\ud83d\udd0d",
+        "role": "Quality Control Specialist",
+        "description": "Process auditing, quality checks, compliance monitoring, error detection",
+        "priority": 3,
+        "skills": [
+          "quality_control",
+          "process_auditing",
+          "compliance_monitoring",
+          "error_detection"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id quality_assurance --label 'Quality Assurance' --model anthropic/claude-sonnet-4-20250514"
+      }
+    ],
+    "tier_5_support": [
+      {
+        "id": "system_monitor",
+        "name": "System Monitor",
+        "emoji": "\ud83d\udda5\ufe0f",
+        "role": "Technology & Infrastructure Monitor",
+        "description": "System health monitoring, uptime tracking, performance optimization, tech support",
+        "priority": 2,
+        "skills": [
+          "system_monitoring",
+          "performance_optimization",
+          "uptime_tracking",
+          "tech_support"
+        ],
+        "spawn_command": "openclaw sessions spawn --agent-id system_monitor --label 'System Monitor' --model anthropic/claude-sonnet-4-20250514"
+      }
+    ]
+  },
+  "deployment_info": {
+    "base_path": "/Users/esai/.openclaw/workspace/agent-army",
+    "deploy_command": "./deploy_army.sh",
+    "status_command": "./check_army_status.sh",
+    "stop_command": "./stop_army.sh"
+  }
+}

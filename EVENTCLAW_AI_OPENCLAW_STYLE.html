@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventClaw.AI — AI-Powered Event Sales</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: #000;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header */
+        .header {
+            padding: 40px 0;
+            border-bottom: 1px solid #222;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            margin-right: 8px;
+        }
+        
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .logo-text .ai {
+            color: #3b82f6;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: #3b82f6;
+        }
+        
+        .cta-button {
+            background: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .cta-button:hover {
+            background: #1d4ed8;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: left;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: white;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+        
+        .btn-secondary {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 16px;
+        }
+        
+        .btn-secondary:hover {
+            color: white;
+        }
+        
+        /* Stats */
+        .stats {
+            display: flex;
+            gap: 48px;
+            margin: 60px 0;
+            padding: 24px 0;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+        }
+        
+        .stat {
+            text-align: left;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3b82f6;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        /* Testimonials Section */
+        .testimonials {
+            padding: 60px 0;
+        }
+        
+        .testimonials h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+        
+        .testimonial {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 24px;
+            transition: all 0.2s;
+        }
+        
+        .testimonial:hover {
+            border-color: #333;
+            background: #151515;
+        }
+        
+        .testimonial-content {
+            color: #e2e8f0;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .testimonial-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .testimonial-name {
+            font-weight: 600;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .testimonial-handle {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        /* Demo Section */
+        .demo {
+            padding: 80px 0;
+            border-top: 1px solid #222;
+        }
+        
+        .demo h2 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: white;
+        }
+        
+        .demo p {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+        
+        .terminal {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .terminal-header {
+            background: #111;
+            padding: 12px 16px;
+            border-bottom: 1px solid #222;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .terminal-dot.red { background: #ef4444; }
+        .terminal-dot.yellow { background: #f59e0b; }
+        .terminal-dot.green { background: #10b981; }
+        
+        .terminal-title {
+            margin-left: 12px;
+            color: #64748b;
+            font-size: 12px;
+        }
+        
+        .terminal-content {
+            padding: 20px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .terminal-line {
+            margin-bottom: 8px;
+        }
+        
+        .prompt {
+            color: #3b82f6;
+        }
+        
+        .command {
+            color: #10b981;
+        }
+        
+        .output {
+            color: #e2e8f0;
+        }
+        
+        .success {
+            color: #10b981;
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 60px 0 40px;
+            border-top: 1px solid #222;
+            text-align: center;
+        }
+        
+        .footer-content {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: #3b82f6;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 24px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">EC</div>
+                    <div class="logo-text">EventClaw<span class="ai">.AI</span></div>
+                </a>
+                
+                <nav class="nav-links">
+                    <a href="#demo">Demo</a>
+                    <a href="#testimonials">Reviews</a>
+                    <a href="#contact">Contact</a>
+                    <a href="#contact" class="cta-button">Get Started</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>The AI that sells out events.</h1>
+            <p>Fills your events, manages your leads, closes your sales, generates your revenue.<br>
+            All from WhatsApp, Telegram, or any chat app you already use.</p>
+            
+            <div class="hero-buttons">
+                <a href="#contact" class="btn-primary">Get Your AI Assistant</a>
+                <a href="#demo" class="btn-secondary">See Live Demo →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="container">
+            <div style="display: flex; gap: 48px;">
+                <div class="stat">
+                    <span class="stat-number">65,000+</span>
+                    <span class="stat-label">Tickets Sold</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">$65M+</span>
+                    <span class="stat-label">Revenue Generated</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">28</span>
+                    <span class="stat-label">AI Agents</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2>Real results from real clients</h2>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "EventClaw.AI filled my Miami summit in 3 weeks. 500 attendees at $2,000 each. My AI assistant never stopped selling, even while I slept. This is the future."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MJ</div>
+                        <div>
+                            <div class="testimonial-name">Mike Johnson</div>
+                            <div class="testimonial-handle">Business Coach, $1M Revenue</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "I thought AI event marketing was hype until I tried EventClaw. My AI Brian assistant handled 200+ leads while I focused on content. Sold out my mastermind in 6 weeks."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SR</div>
+                        <div>
+                            <div class="testimonial-name">Sarah Rodriguez</div>
+                            <div class="testimonial-handle">High-Ticket Coach</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "My AI assistant from EventClaw works 24/7 across all time zones. I'm filling events in New York and London simultaneously. This is exactly what I needed to scale globally."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">DT</div>
+                        <div>
+                            <div class="testimonial-name">David Thompson</div>
+                            <div class="testimonial-handle">International Speaker</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "EventClaw.AI generated $480K in ticket sales for my virtual conference. The AI handled objections, follow-ups, and bookings better than any human sales team I've hired."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">LP</div>
+                        <div>
+                            <div class="testimonial-name">Lisa Park</div>
+                            <div class="testimonial-handle">Online Course Creator</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "I was skeptical about AI selling tickets, but my EventClaw assistant outperformed my entire human sales team. It never gets tired, never misses follow-ups, and closes deals at 3 AM."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">CW</div>
+                        <div>
+                            <div class="testimonial-name">Chris Williams</div>
+                            <div class="testimonial-handle">Event Organizer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "My AI Brian knows my entire event strategy and can answer any prospect question instantly. It's like having Brian Rand's brain available 24/7. Game-changing technology."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AN</div>
+                        <div>
+                            <div class="testimonial-name">Amanda Nash</div>
+                            <div class="testimonial-handle">Mastermind Host</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "EventClaw.AI built my complete marketing system in 2 weeks and started selling tickets immediately. The AI assistant handles everything while I focus on delivering value."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JM</div>
+                        <div>
+                            <div class="testimonial-name">James Mitchell</div>
+                            <div class="testimonial-handle">Corporate Trainer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        "The AI revolution in events is here. My EventClaw assistant filled my workshop faster than any marketing campaign I've ever run. This technology is incredible."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">KL</div>
+                        <div>
+                            <div class="testimonial-name">Kelly Lee</div>
+                            <div class="testimonial-handle">Workshop Facilitator</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <h2>See AI Brian in action</h2>
+            <p>Watch how your personal AI assistant sells tickets while you sleep.</p>
+            
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dot red"></div>
+                    <div class="terminal-dot yellow"></div>
+                    <div class="terminal-dot green"></div>
+                    <div class="terminal-title">EventClaw.AI Assistant</div>
+                </div>
+                
+                <div class="terminal-content">
+                    <div class="terminal-line">
+                        <span class="prompt">You:</span> <span class="command">AI Brian, I need to fill 300 tickets for my Miami summit at $2,000 each</span>
+                    </div>
+                    
+                    <div class="terminal-line">
+                        <span class="output">🤖 <strong>AI Brian:</strong> Perfect. I'm analyzing your Miami summit now...</span>
+                    </div>
+                    
+                    <div class="terminal-line">
+                        <span class="success">✅ Target: 300 attendees × $2,000 = $600K revenue goal</span>
+                    </div>
+                    
+                    <div class="terminal-line">
+                        <span class="success">✅ Strategy: Facebook ads → landing page → sales calls</span>
+                    </div>
+                    
+                    <div class="terminal-line">
+                        <span class="success">✅ Timeline: Event fills in 45 days</span>
+                    </div>
+                    
+                    <div class="terminal-line">
+                        <span class="prompt">You:</span> <span class="command">Deploy the system and start selling</span>
+                    </div>
+                    
+                    <div class="terminal-line">
+                        <span class="output">🚀 Deploying complete event marketing system...</span>
+                    </div>
+                    
+                    <div class="terminal-line">
+                        <span class="success">📊 2 hours later: 12 tickets sold, $24,000 revenue</span>
+                    </div>
+                    
+                    <div class="terminal-line">
+                        <span class="success">💰 24 hours later: 89 tickets sold, $178,000 revenue</span>
+                    </div>
+                    
+                    <div class="terminal-line">
+                        <span class="output">🤖 <strong>AI Brian:</strong> "This is just the beginning. I never sleep, never stop selling. Your event will be sold out in 3 weeks."</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="mailto:brian@eventclaw.ai">Contact</a>
+                    <a href="https://instagram.com/brianrand">Instagram</a>
+                    <a href="https://cal.com/brianrand">Book a Call</a>
+                </div>
+                <p>© 2026 EventClaw.AI. Built by Brian Rand in Miami, FL.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

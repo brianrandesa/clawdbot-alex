@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventClaw.AI - The World's First AI-Powered Event Agency</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="The world's first AI-powered event agency. Every client gets their own AI Brian assistant. 24/7 expertise. Global reach. Unlimited scale.">
+    <meta property="og:title" content="EventClaw.AI - The World's First AI-Powered Event Agency">
+    <meta property="og:description" content="Revolutionary AI-powered event marketing. 65K+ tickets sold. $65M+ revenue generated. Now with AI assistants for every client.">
+    <meta property="og:image" content="https://eventclaw.ai/og-image.jpg">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #000;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, #3b82f6 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, #8b5cf6 0%, transparent 50%);
+            opacity: 0.1;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            background: linear-gradient(45deg, #ffffff, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: #cbd5e1;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .ai-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin: 60px 0;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .ai-feature {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .ai-feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .ai-feature h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .ai-feature p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        
+        .cta-primary {
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 18px 40px;
+            font-size: 1.125rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+        }
+        
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            padding: 18px 40px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+        
+        /* Revolution Section */
+        .revolution {
+            padding: 120px 0;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            color: white;
+        }
+        
+        .revolution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        
+        .revolution-content h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+        
+        .revolution-content p {
+            font-size: 1.25rem;
+            color: #e2e8f0;
+            margin-bottom: 30px;
+        }
+        
+        .revolution-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #3b82f6;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.95rem;
+            color: #94a3b8;
+        }
+        
+        .ai-demo {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+        }
+        
+        .demo-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .demo-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .demo-info h4 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .demo-info p {
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+        
+        .chat-message {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid #3b82f6;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        /* Results Section */
+        .results {
+            padding: 120px 0;
+            background: white;
+            color: #333;
+        }
+        
+        .results h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .results-subtitle {
+            font-size: 1.25rem;
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 80px;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+        
+        .result-item {
+            text-align: center;
+        }
+        
+        .result-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #3b82f6;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .result-label {
+            font-size: 1.125rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            padding: 120px 0;
+            background: #f8fafc;
+        }
+        
+        .how-it-works h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+        
+        .step {
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 25px;
+        }
+        
+        .step h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .step p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+        
+        /* CTA Section */
+        .final-cta {
+            padding: 120px 0;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .final-cta h2 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ffffff, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .final-cta p {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #000;
+            color: #94a3b8;
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            border-bottom: 1px solid #334155;
+            padding-bottom: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #3b82f6;
+        }
+        
+        .copyright {
+            font-size: 0.875rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .ai-features {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .revolution-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .result-number {
+                font-size: 3rem;
+            }
+            
+            .revolution-content h2 {
+                font-size: 2rem;
+            }
+            
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">World's First AI-Powered Event Agency</div>
+                <h1>EventClaw.AI</h1>
+                <p class="subtitle">Revolutionary AI-powered event marketing where every client gets their own AI Brian assistant. 24/7 expertise. Global reach. Unlimited scale.</p>
+                
+                <div class="ai-features">
+                    <div class="ai-feature">
+                        <span class="ai-feature-icon">🤖</span>
+                        <h3>Personal AI Assistant</h3>
+                        <p>Every client gets their own AI version of Brian for 24/7 support</p>
+                    </div>
+                    <div class="ai-feature">
+                        <span class="ai-feature-icon">🌍</span>
+                        <h3>Global Scale</h3>
+                        <p>AI never sleeps. Serve clients across all time zones simultaneously</p>
+                    </div>
+                    <div class="ai-feature">
+                        <span class="ai-feature-icon">⚡</span>
+                        <h3>Instant Expertise</h3>
+                        <p>Access to proven event strategies and solutions in real-time</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <a href="#apply" class="cta-primary">Get Your AI Assistant</a>
+                    <a href="#demo" class="cta-secondary">See Live Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Revolution Section -->
+    <section class="revolution">
+        <div class="container">
+            <div class="revolution-grid">
+                <div class="revolution-content">
+                    <h2>The Future of Event Marketing Has Arrived</h2>
+                    <p>While other agencies are still doing things the old way, EventClaw.AI has built the world's first AI-powered event sales system.</p>
+                    <p>Every client gets their own dedicated AI assistant trained on Brian's expertise and your specific event strategy.</p>
+                    
+                    <div class="revolution-stats">
+                        <div class="stat">
+                            <span class="stat-number">65K+</span>
+                            <span class="stat-label">Tickets Sold</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">250+</span>
+                            <span class="stat-label">Events Filled</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">$65M+</span>
+                            <span class="stat-label">Revenue Generated</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">28</span>
+                            <span class="stat-label">AI Agents</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ai-demo" id="demo">
+                    <div class="demo-header">
+                        <div class="demo-avatar">AI</div>
+                        <div class="demo-info">
+                            <h4>Brian's AI Assistant</h4>
+                            <p>Available 24/7 • Trained on $65M+ in results</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-message">
+                        <strong>You:</strong> "My event is in 60 days and I need 200 attendees. What's our strategy?"
+                    </div>
+                    
+                    <div class="chat-message">
+                        <strong>AI Brian:</strong> "Based on your $2K ticket price and coaching backend, here's your roadmap: Phase 1 - Facebook ads targeting lookalike audience of past clients. Budget $5K weekly. Phase 2 - Speed-to-lead SMS sequence for 90-second response. Phase 3 - Backend offer integration for $25K coaching program. Expected ROI: 400%."
+                    </div>
+                    
+                    <div class="chat-message">
+                        <strong>You:</strong> "Can you build the funnel today?"
+                    </div>
+                    
+                    <div class="chat-message">
+                        <strong>AI Brian:</strong> "Absolutely. I'll have your complete GHL system built within 24 hours with our proven Event AutoPilot framework. You'll get landing pages, automation sequences, and ticket tracker dashboard - the same system that's generated $65M+ in revenue."
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results">
+        <div class="container">
+            <h2>Proven Results. Now AI-Powered.</h2>
+            <p class="results-subtitle">The same systems that generated these results are now available 24/7 through your personal AI assistant</p>
+            
+            <div class="results-grid">
+                <div class="result-item">
+                    <span class="result-number">65,000+</span>
+                    <span class="result-label">Tickets Sold</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-number">250+</span>
+                    <span class="result-label">Events Filled</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-number">$65M+</span>
+                    <span class="result-label">Revenue Generated</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>How EventClaw.AI Works</h2>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Apply & Qualify</h3>
+                    <p>Complete our qualification process. We only work with serious business events with high-ticket backend offers.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Get Your AI Assistant</h3>
+                    <p>We deploy your personal AI Brian, trained on your specific event and loaded with our proven systems.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Build Your System</h3>
+                    <p>Your AI assistant guides your team through building the complete event marketing system in 90 days.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Fill Your Event</h3>
+                    <p>Launch campaigns, generate leads, and sell tickets with 24/7 AI guidance and support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="apply">
+        <div class="container">
+            <h2>Ready to Join the AI Revolution?</h2>
+            <p>Limited availability. We're only accepting clients who are ready to embrace the future of event marketing.</p>
+            
+            <div>
+                <a href="https://cal.com/brianrand/eventclaw-strategy" class="cta-primary">Book Strategy Call</a>
+                <a href="mailto:brian@eventclaw.ai" class="cta-secondary">Email Direct</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">EventClaw.AI</div>
+                <div class="footer-links">
+                    <a href="#about">About</a>
+                    <a href="#results">Results</a>
+                    <a href="#contact">Contact</a>
+                    <a href="https://instagram.com/brianrand">Instagram</a>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2026 EventClaw.AI. All rights reserved. | Built by Brian Rand in Miami, FL
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Track button clicks
+        document.querySelectorAll('.cta-primary, .cta-secondary').forEach(button => {
+            button.addEventListener('click', function() {
+                // Add analytics tracking here
+                console.log('CTA clicked:', this.textContent);
+            });
+        });
+    </script>
+</body>
+</html>

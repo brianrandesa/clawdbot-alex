@@ -1,0 +1,22 @@
+[
+  {
+    "agent": "Nick Towery",
+    "recording_url": "",
+    "duration": 148,
+    "status": "answered",
+    "crm_link": "https://calls.kixie.com/b0fb3890-96a0-4a1c-a7c3-eeb6016ff925.mp3",
+    "phone": "12395398537",
+    "date": "2025-11-12 16:31:32",
+    "analysis_priority": "HIGH"
+  },
+  {
+    "agent": "Chloe Sands",
+    "recording_url": "",
+    "duration": 85,
+    "status": "answered",
+    "crm_link": "https://calls.kixie.com/288902fb-31f9-44bb-90c2-38ae14a8b216.mp3",
+    "phone": "19362785514",
+    "date": "2025-11-12 17:03:04",
+    "analysis_priority": "MEDIUM"
+  }
+]

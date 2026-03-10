@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📱 Event Hunter + Instagram LIVE</title>
+    <meta http-equiv="refresh" content="15">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+        }
+        
+        .live-header {
+            position: sticky;
+            top: 0;
+            background: #1a1a1a;
+            z-index: 1000;
+            padding: 20px 0;
+            border-bottom: 2px solid #333;
+            margin-bottom: 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .live-indicator {
+            background: linear-gradient(45deg, #e91e63, #9c27b0);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .stats-bar {
+            display: flex;
+            gap: 30px;
+            font-size: 1.1em;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stat-number {
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .instagram-stats {
+            color: #e91e63;
+        }
+        
+        .spreadsheet-container {
+            background: #2a2a2a;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .spreadsheet-table {
+            width: 100%;
+            min-width: 1800px;
+            border-collapse: collapse;
+            font-size: 0.85em;
+        }
+        
+        .spreadsheet-table th {
+            background: #333;
+            color: #FFD700;
+            padding: 12px 6px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #444;
+            position: sticky;
+            top: 120px;
+            font-size: 0.8em;
+        }
+        
+        .instagram-header {
+            background: linear-gradient(135deg, #e91e63, #9c27b0);
+            color: white;
+        }
+        
+        .spreadsheet-table td {
+            padding: 10px 6px;
+            border-bottom: 1px solid #3a3a3a;
+            vertical-align: top;
+            font-size: 0.85em;
+        }
+        
+        .spreadsheet-table tr:hover {
+            background: #333;
+        }
+        
+        .new-entry {
+            background: linear-gradient(90deg, rgba(76, 175, 80, 0.3), rgba(76, 175, 80, 0.1));
+            animation: highlight 3s ease-in-out;
+        }
+        
+        @keyframes highlight {
+            0% { background: rgba(255, 215, 0, 0.8); }
+            100% { background: rgba(76, 175, 80, 0.1); }
+        }
+        
+        .high-priority {
+            border-left: 4px solid #FFD700;
+        }
+        
+        .medium-priority {
+            border-left: 4px solid #FF9800;
+        }
+        
+        .low-priority {
+            border-left: 4px solid #666;
+        }
+        
+        .instagram-cell {
+            color: #e91e63;
+            font-weight: bold;
+        }
+        
+        .instagram-username {
+            background: linear-gradient(135deg, #e91e63, #9c27b0);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            display: inline-block;
+        }
+        
+        .verified-badge {
+            color: #1DA1F2;
+            font-weight: bold;
+        }
+        
+        .follower-count {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .engagement-high { color: #4CAF50; }
+        .engagement-medium { color: #FF9800; }
+        .engagement-low { color: #f44336; }
+        
+        .score-high { color: #4CAF50; font-weight: bold; }
+        .score-medium { color: #FF9800; font-weight: bold; }
+        .score-low { color: #999; }
+        
+        .value-high { color: #4CAF50; font-weight: bold; }
+        .value-medium { color: #FFD700; }
+        
+        .discovery-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(233, 30, 99, 0.9);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .loading-dots {
+            display: inline-block;
+            animation: dots 2s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        
+        .instagram-link {
+            color: #e91e63;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .instagram-link:hover {
+            color: #ad1457;
+        }
+        
+        .no-instagram {
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="live-header">
+        <div class="header-content">
+            <div>
+                <h1>📱 Event Hunter + Instagram LIVE</h1>
+                <p>Watch prospects fill up with real Instagram data</p>
+            </div>
+            <div class="live-indicator">🔴 LIVE + INSTAGRAM<span class="loading-dots"></span></div>
+        </div>
+        
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span>📊 Total:</span>
+                <span class="stat-number">5</span>
+            </div>
+            <div class="stat-item">
+                <span>💰 Pipeline:</span>
+                <span class="stat-number">$61,446</span>
+            </div>
+            <div class="stat-item">
+                <span>🏆 High Priority:</span>
+                <span class="stat-number">0</span>
+            </div>
+            <div class="stat-item instagram-stats">
+                <span>📱 Instagram Found:</span>
+                <span class="stat-number">5</span>
+            </div>
+            <div class="stat-item instagram-stats">
+                <span>👥 Total Followers:</span>
+                <span class="stat-number">183,186</span>
+            </div>
+            <div class="stat-item instagram-stats">
+                <span>📈 Avg Followers:</span>
+                <span class="stat-number">36,637</span>
+            </div>
+            <div class="stat-item">
+                <span>🕐 Last Update:</span>
+                <span class="stat-number">21:03:26</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="spreadsheet-container">
+        <table class="spreadsheet-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Event Name</th>
+                    <th>Host</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Score</th>
+                    <th>ESS Value</th>
+                    <th>Priority</th>
+                    <th class="instagram-header">📱 Instagram</th>
+                    <th class="instagram-header">👥 Followers</th>
+                    <th class="instagram-header">📊 Engagement</th>
+                    <th class="instagram-header">✅ Verified</th>
+                    <th>Social Following</th>
+                    <th>Discovered</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="low-priority new-entry">
+                    <td>1</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>Robert Chen</td>
+                    <td>2026-04-10</td>
+                    <td>Phoenix, AZ</td>
+                    <td class="score-low">61</td>
+                    <td class="">$11,320</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td class="instagram-cell"><a href="https://instagram.com/coachrobertchen" target="_blank" class="instagram-link">@coachrobertchen</a></td>
+                    <td class="instagram-cell"><span class="follower-count">75,885</span></td>
+                    <td class="instagram-cell"><span class="engagement-high">5.8%</span></td>
+                    <td class="instagram-cell">❌</td>
+                    <td>53,251</td>
+                    <td>20:33:26</td>
+                </tr>
+                <tr class="low-priority new-entry">
+                    <td>2</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-07-15</td>
+                    <td>Las Vegas, NV</td>
+                    <td class="score-low">60</td>
+                    <td class="">$13,318</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td class="instagram-cell"><a href="https://instagram.com/alexthompson" target="_blank" class="instagram-link">@alexthompson</a></td>
+                    <td class="instagram-cell"><span class="follower-count">5,849</span></td>
+                    <td class="instagram-cell"><span class="engagement-high">6.7%</span></td>
+                    <td class="instagram-cell">❌</td>
+                    <td>62,318</td>
+                    <td>20:33:26</td>
+                </tr>
+                <tr class="low-priority new-entry">
+                    <td>3</td>
+                    <td><strong>Property Investment Bootcamp</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-04-10</td>
+                    <td>Phoenix, AZ</td>
+                    <td class="score-low">69</td>
+                    <td class="">$11,605</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td class="instagram-cell"><a href="https://instagram.com/mark_williams" target="_blank" class="instagram-link">@mark_williams</a></td>
+                    <td class="instagram-cell"><span class="follower-count">6,239</span></td>
+                    <td class="instagram-cell"><span class="engagement-medium">3.3%</span></td>
+                    <td class="instagram-cell">❌</td>
+                    <td>16,000</td>
+                    <td>20:33:26</td>
+                </tr>
+                <tr class="medium-priority new-entry">
+                    <td>4</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-03-27</td>
+                    <td>Austin, TX</td>
+                    <td class="score-medium">79</td>
+                    <td class="">$10,268</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td class="instagram-cell"><a href="https://instagram.com/jenniferkimofficial" target="_blank" class="instagram-link">@jenniferkimofficial</a></td>
+                    <td class="instagram-cell"><span class="follower-count">52,419</span></td>
+                    <td class="instagram-cell"><span class="engagement-medium">4.3%</span></td>
+                    <td class="instagram-cell">❌</td>
+                    <td>25,171</td>
+                    <td>20:33:26</td>
+                </tr>
+                <tr class="low-priority new-entry">
+                    <td>5</td>
+                    <td><strong>Real Estate Investment Mastery</strong></td>
+                    <td>David Kim</td>
+                    <td>2026-06-26</td>
+                    <td>Dallas, TX</td>
+                    <td class="score-low">69</td>
+                    <td class="">$14,935</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td class="instagram-cell"><a href="https://instagram.com/david_kim_coach" target="_blank" class="instagram-link">@david_kim_coach</a></td>
+                    <td class="instagram-cell"><span class="follower-count">42,794</span></td>
+                    <td class="instagram-cell"><span class="engagement-high">6.5%</span></td>
+                    <td class="instagram-cell">❌</td>
+                    <td>15,546</td>
+                    <td>20:33:26</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="discovery-indicator" id="newDiscovery">
+        📱 New prospects with Instagram data discovered!
+    </div>
+    
+    <script>
+        // Flash effect on refresh to show live updates
+        document.body.style.opacity = '0.9';
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+            
+            // Show discovery indicator if we likely have new entries
+            const newEntries = document.querySelectorAll('.new-entry');
+            if (newEntries.length > 0) {
+                const indicator = document.getElementById('newDiscovery');
+                indicator.style.display = 'block';
+                setTimeout(() => {
+                    indicator.style.display = 'none';
+                }, 4000);
+            }
+        }, 300);
+        
+        // Animate loading dots
+        const dots = document.querySelector('.loading-dots');
+        let dotCount = 0;
+        setInterval(() => {
+            dotCount = (dotCount + 1) % 4;
+            dots.textContent = '.'.repeat(dotCount);
+        }, 500);
+        
+        // Auto-scroll to show latest entries
+        setTimeout(() => {
+            window.scrollTo({
+                top: document.body.scrollHeight * 0.7,
+                behavior: 'smooth'
+            });
+        }, 2000);
+    </script>
+</body>
+</html>

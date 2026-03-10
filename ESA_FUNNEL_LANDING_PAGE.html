@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Sales Agency - We Fill Events AND Close High-Ticket Offers</title>
+    
+    <!-- Meta Tags for Social Sharing -->
+    <meta property="og:title" content="We Fill Events AND Close High-Ticket Offers">
+    <meta property="og:description" content="Built for Serious Business Events. Not Parties. 65K+ Tickets Sold · 250+ Events Filled · $65M+ Revenue Generated">
+    <meta property="og:image" content="https://your-domain.com/og-image.jpg">
+    
+    <!-- UTM Tracking Script -->
+    <script>
+        // Capture UTM parameters and store for form submission
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                utm_source: params.get('utm_source') || '',
+                utm_medium: params.get('utm_medium') || '',
+                utm_campaign: params.get('utm_campaign') || '',
+                utm_content: params.get('utm_content') || '',
+                utm_term: params.get('utm_term') || '',
+                ad_id: params.get('ad_id') || '',
+                adset_id: params.get('adset_id') || '',
+                campaign_id: params.get('campaign_id') || ''
+            };
+        }
+        
+        // Store UTM data in localStorage
+        localStorage.setItem('utmData', JSON.stringify(getUrlParams()));
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #fbbf24;
+        }
+        
+        .social-proof {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .proof-item {
+            text-align: center;
+        }
+        
+        .proof-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            display: block;
+        }
+        
+        .proof-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            background: #f59e0b;
+            color: white;
+            padding: 20px 40px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        
+        .cta-button:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+        
+        .qualification-section {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .section-subtitle {
+            font-size: 1.25rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #64748b;
+        }
+        
+        .qualification-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .qual-column {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+        
+        .best-fit {
+            border-top: 4px solid #10b981;
+        }
+        
+        .not-fit {
+            border-top: 4px solid #ef4444;
+        }
+        
+        .qual-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .best-fit .qual-title {
+            color: #10b981;
+        }
+        
+        .not-fit .qual-title {
+            color: #ef4444;
+        }
+        
+        .qual-list {
+            list-style: none;
+        }
+        
+        .qual-list li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .qual-list li::before {
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .best-fit .qual-list li::before {
+            content: "✓";
+            background: #10b981;
+        }
+        
+        .not-fit .qual-list li::before {
+            content: "✗";
+            background: #ef4444;
+        }
+        
+        .process-section {
+            padding: 80px 0;
+        }
+        
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+        
+        .step-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .step-description {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+        
+        .urgency-section {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .urgency-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .urgency-text {
+            font-size: 1.125rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+        
+        .application-section {
+            padding: 80px 0;
+            background: #1f2937;
+            color: white;
+            text-align: center;
+        }
+        
+        .app-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .app-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .requirements {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            text-align: left;
+        }
+        
+        .requirements ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .requirements li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .requirements li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #fbbf24;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.25rem;
+            }
+            
+            .social-proof {
+                gap: 20px;
+            }
+            
+            .proof-number {
+                font-size: 2rem;
+            }
+            
+            .qualification-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .process-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>We Fill Events AND Close High-Ticket Offers</h1>
+            <p class="subtitle">Built for Serious Business Events. Not Parties.</p>
+            
+            <div class="social-proof">
+                <div class="proof-item">
+                    <span class="proof-number">65K+</span>
+                    <span class="proof-label">Tickets Sold</span>
+                </div>
+                <div class="proof-item">
+                    <span class="proof-number">250+</span>
+                    <span class="proof-label">Events Filled</span>
+                </div>
+                <div class="proof-item">
+                    <span class="proof-number">$65M+</span>
+                    <span class="proof-label">Revenue Generated</span>
+                </div>
+            </div>
+            
+            <p style="font-size: 1.125rem; margin-bottom: 10px;">
+                Ads, funnels, AI follow-up, ticket sales systems, and in-person closers for masterminds, 
+                workshops, business events, and premium live experiences with real backend revenue.
+            </p>
+            
+            <a href="#application" class="cta-button" onclick="scrollToApplication()">
+                Check If You Qualify →
+            </a>
+        </div>
+    </section>
+
+    <!-- Qualification Section -->
+    <section class="qualification-section">
+        <div class="container">
+            <h2 class="section-title">Built for Serious Business Events. Not Parties.</h2>
+            <p class="section-subtitle">We work with proven business operators, not event dreamers.</p>
+            
+            <div class="qualification-grid">
+                <div class="qual-column best-fit">
+                    <h3 class="qual-title">✅ Best Fit For</h3>
+                    <ul class="qual-list">
+                        <li>Coaches and consultants</li>
+                        <li>Mastermind owners</li>
+                        <li>Business event hosts</li>
+                        <li>Workshop and seminar leaders</li>
+                        <li>Corporate training events</li>
+                        <li>Experts with a backend offer ($5K+)</li>
+                        <li>Events happening in the next 90 days</li>
+                        <li>Businesses willing to invest in paid traffic</li>
+                    </ul>
+                </div>
+                
+                <div class="qual-column not-fit">
+                    <h3 class="qual-title">❌ Not a Fit For</h3>
+                    <ul class="qual-list">
+                        <li>Music festivals or concerts</li>
+                        <li>DJ or nightlife events</li>
+                        <li>Weddings or social events</li>
+                        <li>Low-ticket entertainment-only events</li>
+                        <li>Organizers with no backend offer</li>
+                        <li>People only looking for free advice</li>
+                        <li>Businesses not ready to invest in growth</li>
+                        <li>Events with no scheduled date</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <div class="container">
+            <h2 class="section-title">How ESA Helps Fill the Room and Close the Deal</h2>
+            
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="step-number">01</div>
+                    <h3 class="step-title">Strategy</h3>
+                    <p class="step-description">
+                        We build the strategy around your offer, room size, price point, and revenue targets.
+                    </p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">02</div>
+                    <h3 class="step-title">Launch</h3>
+                    <p class="step-description">
+                        We launch the ads, funnels, and application flow to start generating qualified attendees.
+                    </p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">03</div>
+                    <h3 class="step-title">Conversion</h3>
+                    <p class="step-description">
+                        We run follow-up, nurture, and ticket conversion so the right people commit and show up.
+                    </p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">04</div>
+                    <h3 class="step-title">Monetize</h3>
+                    <p class="step-description">
+                        We help monetize the event with high-ticket sales support, room strategy, and backend optimization.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Urgency Section -->
+    <section class="urgency-section">
+        <div class="container">
+            <h2 class="urgency-title">60-120 Days Notice Required</h2>
+            <p class="urgency-text">
+                We need adequate time to build your event acquisition system properly. 
+                If your event is inside 60 days, apply anyway—we'll tell you honestly if the timeline is realistic.
+            </p>
+            <a href="#application" class="cta-button" onclick="scrollToApplication()" style="background: white; color: #dc2626;">
+                Apply Now - Limited Spots →
+            </a>
+        </div>
+    </section>
+
+    <!-- Application Section -->
+    <section class="application-section" id="application">
+        <div class="container">
+            <h2 class="app-title">Apply for ESA Partnership</h2>
+            <p class="app-subtitle">
+                We review every application to make sure there is a real event, a real offer, and a clear path to ROI.
+            </p>
+            
+            <div class="requirements">
+                <h3 style="text-align: center; margin-bottom: 20px; color: #fbbf24;">Share in Your Application:</h3>
+                <ul>
+                    <li>Your event type and dates</li>
+                    <li>Your current and target ticket price</li>
+                    <li>Your backend offer and sales goals</li>
+                    <li>Your current marketing and sales process</li>
+                    <li>Your monthly advertising budget comfort level</li>
+                </ul>
+            </div>
+            
+            <!-- Replace this button with your GHL form embed or calendar link -->
+            <a href="YOUR_CALENDAR_LINK_OR_FORM" class="cta-button" id="final-cta">
+                Start Application Process →
+            </a>
+            
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">
+                If you're running nightlife, entertainment-only, or low-ticket public events, this is not for you.<br>
+                If it's not a fit, we'll tell you directly.
+            </p>
+        </div>
+    </section>
+
+    <script>
+        function scrollToApplication() {
+            document.getElementById('application').scrollIntoView({
+                behavior: 'smooth'
+            });
+            
+            // Track the button click with UTM data
+            const utmData = JSON.parse(localStorage.getItem('utmData') || '{}');
+            
+            // Add UTM data to final CTA if needed
+            const finalCTA = document.getElementById('final-cta');
+            if (finalCTA.href.includes('YOUR_CALENDAR_LINK')) {
+                // Replace with actual tracking setup
+                console.log('Button clicked with UTM data:', utmData);
+            }
+        }
+        
+        // Track page load with UTM data
+        window.addEventListener('load', function() {
+            const utmData = JSON.parse(localStorage.getItem('utmData') || '{}');
+            console.log('Page loaded with UTM data:', utmData);
+            // Send to your analytics/tracking system here
+        });
+    </script>
+</body>
+</html>

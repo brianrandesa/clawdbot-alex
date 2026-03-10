@@ -1,0 +1,2741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 Event Hunter LIVE Spreadsheet</title>
+    <meta http-equiv="refresh" content="15">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+        }
+        
+        .live-header {
+            position: sticky;
+            top: 0;
+            background: #1a1a1a;
+            z-index: 1000;
+            padding: 20px 0;
+            border-bottom: 2px solid #333;
+            margin-bottom: 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .live-indicator {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .stats-bar {
+            display: flex;
+            gap: 30px;
+            font-size: 1.1em;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stat-number {
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .spreadsheet-container {
+            background: #2a2a2a;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .spreadsheet-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        
+        .spreadsheet-table th {
+            background: #333;
+            color: #FFD700;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #444;
+            position: sticky;
+            top: 120px;
+        }
+        
+        .spreadsheet-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #3a3a3a;
+            vertical-align: top;
+        }
+        
+        .spreadsheet-table tr:hover {
+            background: #333;
+        }
+        
+        .new-entry {
+            background: linear-gradient(90deg, rgba(76, 175, 80, 0.3), rgba(76, 175, 80, 0.1));
+            animation: highlight 3s ease-in-out;
+        }
+        
+        @keyframes highlight {
+            0% { background: rgba(255, 215, 0, 0.8); }
+            100% { background: rgba(76, 175, 80, 0.1); }
+        }
+        
+        .high-priority {
+            border-left: 4px solid #FFD700;
+        }
+        
+        .medium-priority {
+            border-left: 4px solid #FF9800;
+        }
+        
+        .low-priority {
+            border-left: 4px solid #666;
+        }
+        
+        .score-high { color: #4CAF50; font-weight: bold; }
+        .score-medium { color: #FF9800; font-weight: bold; }
+        .score-low { color: #999; }
+        
+        .value-high { color: #4CAF50; font-weight: bold; }
+        .value-medium { color: #FFD700; }
+        
+        .discovery-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .auto-scroll {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .loading-dots {
+            display: inline-block;
+            animation: dots 2s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body>
+    <div class="live-header">
+        <div class="header-content">
+            <div>
+                <h1>🔥 Event Hunter LIVE Spreadsheet</h1>
+                <p>Watch prospects fill up in real-time</p>
+            </div>
+            <div class="live-indicator">🔴 LIVE UPDATING<span class="loading-dots"></span></div>
+        </div>
+        
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span>📊 Total:</span>
+                <span class="stat-number">206</span>
+            </div>
+            <div class="stat-item">
+                <span>💰 Pipeline:</span>
+                <span class="stat-number">$3,344,557</span>
+            </div>
+            <div class="stat-item">
+                <span>🏆 High Priority:</span>
+                <span class="stat-number">36</span>
+            </div>
+            <div class="stat-item">
+                <span>🕐 Last Update:</span>
+                <span class="stat-number">22:17:13</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="spreadsheet-container">
+        <table class="spreadsheet-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Event Name</th>
+                    <th>Host</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Attendance</th>
+                    <th>Score</th>
+                    <th>ESS Value</th>
+                    <th>Priority</th>
+                    <th>Discovered</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="medium-priority ">
+                    <td>1</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-06-18</td>
+                    <td>Orlando, FL</td>
+                    <td>702</td>
+                    <td class="score-medium">83</td>
+                    <td class="value-medium">$19,453</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:43:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>2</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-03-28</td>
+                    <td>Houston, TX</td>
+                    <td>950</td>
+                    <td class="score-medium">81</td>
+                    <td class="value-high">$22,056</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:43:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>3</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-07-28</td>
+                    <td>Houston, TX</td>
+                    <td>1074</td>
+                    <td class="score-medium">78</td>
+                    <td class="">$12,080</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:43:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>4</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-05-08</td>
+                    <td>Nashville, TN</td>
+                    <td>572</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-medium">$17,005</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:43:50</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>5</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-04-25</td>
+                    <td>Miami, FL</td>
+                    <td>574</td>
+                    <td class="score-low">68</td>
+                    <td class="">$10,676</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>14:43:50</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>6</td>
+                    <td><strong>Million Dollar Business Blueprint</strong></td>
+                    <td>James Park</td>
+                    <td>2026-08-21</td>
+                    <td>Chicago, IL</td>
+                    <td>1053</td>
+                    <td class="score-high">98</td>
+                    <td class="value-high">$24,300</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>14:43:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>7</td>
+                    <td><strong>Property Profits Bootcamp</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-06-10</td>
+                    <td>Dallas, TX</td>
+                    <td>592</td>
+                    <td class="score-medium">77</td>
+                    <td class="">$7,828</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:43:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>8</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-04-10</td>
+                    <td>Chicago, IL</td>
+                    <td>995</td>
+                    <td class="score-medium">88</td>
+                    <td class="value-medium">$18,109</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:43:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>9</td>
+                    <td><strong>Real Estate Investment Summit</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-03-28</td>
+                    <td>Miami, FL</td>
+                    <td>447</td>
+                    <td class="score-medium">81</td>
+                    <td class="">$9,892</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:43:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>10</td>
+                    <td><strong>Real Estate Investment Summit</strong></td>
+                    <td>Sarah Thompson</td>
+                    <td>2026-04-12</td>
+                    <td>Atlanta, GA</td>
+                    <td>621</td>
+                    <td class="score-medium">85</td>
+                    <td class="">$11,622</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:43:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>11</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-04-08</td>
+                    <td>Houston, TX</td>
+                    <td>751</td>
+                    <td class="score-medium">78</td>
+                    <td class="value-high">$28,918</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:44:24</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>12</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-06-15</td>
+                    <td>Nashville, TN</td>
+                    <td>516</td>
+                    <td class="score-high">95</td>
+                    <td class="value-medium">$17,194</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>14:44:24</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>13</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-07-05</td>
+                    <td>Chicago, IL</td>
+                    <td>911</td>
+                    <td class="score-medium">74</td>
+                    <td class="value-high">$26,762</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>14:44:24</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>14</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-04-03</td>
+                    <td>Austin, TX</td>
+                    <td>512</td>
+                    <td class="score-medium">83</td>
+                    <td class="value-medium">$17,461</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:44:24</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>15</td>
+                    <td><strong>Property Profits Bootcamp</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-04-03</td>
+                    <td>Phoenix, AZ</td>
+                    <td>469</td>
+                    <td class="score-medium">76</td>
+                    <td class="">$14,450</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:44:24</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>16</td>
+                    <td><strong>Real Estate Riches Workshop</strong></td>
+                    <td>Robert Johnson</td>
+                    <td>2026-04-13</td>
+                    <td>Dallas, TX</td>
+                    <td>346</td>
+                    <td class="score-medium">73</td>
+                    <td class="">$7,242</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>14:44:24</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>17</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>Amanda Foster</td>
+                    <td>2026-05-18</td>
+                    <td>Seattle, WA</td>
+                    <td>774</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-high">$22,370</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:44:24</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>18</td>
+                    <td><strong>Real Estate Riches Workshop</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-05-23</td>
+                    <td>Dallas, TX</td>
+                    <td>648</td>
+                    <td class="score-medium">77</td>
+                    <td class="">$14,025</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:44:24</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>19</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-06-09</td>
+                    <td>Phoenix, AZ</td>
+                    <td>622</td>
+                    <td class="score-medium">78</td>
+                    <td class="">$9,615</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:44:24</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>20</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Michael Rodriguez</td>
+                    <td>2026-03-25</td>
+                    <td>Denver, CO</td>
+                    <td>632</td>
+                    <td class="score-low">67</td>
+                    <td class="value-medium">$17,860</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>14:44:50</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>21</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-06-16</td>
+                    <td>Denver, CO</td>
+                    <td>873</td>
+                    <td class="score-high">92</td>
+                    <td class="value-high">$20,536</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>14:44:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>22</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>James Park</td>
+                    <td>2026-04-22</td>
+                    <td>Houston, TX</td>
+                    <td>1053</td>
+                    <td class="score-medium">78</td>
+                    <td class="">$14,844</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:44:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>23</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>James Park</td>
+                    <td>2026-06-06</td>
+                    <td>San Diego, CA</td>
+                    <td>752</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-medium">$19,399</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:44:50</td>
+                </tr>
+                <tr class="nurture-priority ">
+                    <td>24</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-07-28</td>
+                    <td>Atlanta, GA</td>
+                    <td>446</td>
+                    <td class="score-low">58</td>
+                    <td class="">$6,919</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">NURTURE</span></td>
+                    <td>14:44:50</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>25</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>Sarah Thompson</td>
+                    <td>2026-05-14</td>
+                    <td>Dallas, TX</td>
+                    <td>627</td>
+                    <td class="score-low">69</td>
+                    <td class="">$8,492</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>14:44:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>26</td>
+                    <td><strong>Property Profits Bootcamp</strong></td>
+                    <td>Sarah Thompson</td>
+                    <td>2026-08-14</td>
+                    <td>Phoenix, AZ</td>
+                    <td>596</td>
+                    <td class="score-medium">86</td>
+                    <td class="">$6,647</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:44:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>27</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-08-21</td>
+                    <td>Seattle, WA</td>
+                    <td>903</td>
+                    <td class="score-medium">83</td>
+                    <td class="value-high">$24,258</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:44:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>28</td>
+                    <td><strong>Real Estate Riches Workshop</strong></td>
+                    <td>Sarah Thompson</td>
+                    <td>2026-06-09</td>
+                    <td>Atlanta, GA</td>
+                    <td>663</td>
+                    <td class="score-medium">88</td>
+                    <td class="">$9,091</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:44:50</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>29</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>Robert Johnson</td>
+                    <td>2026-03-29</td>
+                    <td>Dallas, TX</td>
+                    <td>650</td>
+                    <td class="score-low">60</td>
+                    <td class="">$13,881</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>14:44:50</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>30</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-08-18</td>
+                    <td>Orlando, FL</td>
+                    <td>763</td>
+                    <td class="score-medium">70</td>
+                    <td class="value-high">$20,848</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>14:44:50</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>31</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Nicole Davis</td>
+                    <td>2026-08-17</td>
+                    <td>San Diego, CA</td>
+                    <td>859</td>
+                    <td class="score-medium">80</td>
+                    <td class="value-medium">$16,145</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:45:10</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>32</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>Amanda Foster</td>
+                    <td>2026-07-13</td>
+                    <td>Houston, TX</td>
+                    <td>868</td>
+                    <td class="score-medium">81</td>
+                    <td class="value-medium">$19,630</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:45:10</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>33</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>James Park</td>
+                    <td>2026-05-28</td>
+                    <td>Houston, TX</td>
+                    <td>928</td>
+                    <td class="score-medium">89</td>
+                    <td class="value-medium">$17,828</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:45:10</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>34</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-07-18</td>
+                    <td>Seattle, WA</td>
+                    <td>748</td>
+                    <td class="score-medium">74</td>
+                    <td class="value-high">$21,166</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>14:45:10</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>35</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>Lisa Chen</td>
+                    <td>2026-06-14</td>
+                    <td>Tampa, FL</td>
+                    <td>696</td>
+                    <td class="score-medium">88</td>
+                    <td class="">$12,544</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:45:10</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>36</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>James Park</td>
+                    <td>2026-04-12</td>
+                    <td>Chicago, IL</td>
+                    <td>726</td>
+                    <td class="score-high">93</td>
+                    <td class="value-high">$26,407</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>14:45:10</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>37</td>
+                    <td><strong>Real Estate Investment Summit</strong></td>
+                    <td>Sarah Thompson</td>
+                    <td>2026-04-20</td>
+                    <td>Tampa, FL</td>
+                    <td>571</td>
+                    <td class="score-medium">83</td>
+                    <td class="">$13,355</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>14:45:10</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>38</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-07-12</td>
+                    <td>Nashville, TN</td>
+                    <td>624</td>
+                    <td class="score-medium">73</td>
+                    <td class="">$13,728</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>15:19:30</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>39</td>
+                    <td><strong>Sales Domination Conference</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-03-27</td>
+                    <td>Las Vegas, NV</td>
+                    <td>571</td>
+                    <td class="score-medium">75</td>
+                    <td class="">$11,382</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:30</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>40</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>James Park</td>
+                    <td>2026-08-07</td>
+                    <td>Houston, TX</td>
+                    <td>857</td>
+                    <td class="score-medium">81</td>
+                    <td class="value-high">$25,453</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:30</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>41</td>
+                    <td><strong>Real Estate Riches Workshop</strong></td>
+                    <td>Sarah Thompson</td>
+                    <td>2026-04-12</td>
+                    <td>Dallas, TX</td>
+                    <td>475</td>
+                    <td class="score-medium">80</td>
+                    <td class="">$8,071</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:30</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>42</td>
+                    <td><strong>Million Dollar Business Blueprint</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-07-28</td>
+                    <td>Phoenix, AZ</td>
+                    <td>1053</td>
+                    <td class="score-high">91</td>
+                    <td class="value-high">$29,980</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>15:19:30</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>43</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-04-07</td>
+                    <td>Phoenix, AZ</td>
+                    <td>634</td>
+                    <td class="score-medium">84</td>
+                    <td class="">$12,495</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:30</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>44</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-08-07</td>
+                    <td>Las Vegas, NV</td>
+                    <td>716</td>
+                    <td class="score-medium">79</td>
+                    <td class="value-high">$20,798</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:30</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>45</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-08-05</td>
+                    <td>Houston, TX</td>
+                    <td>726</td>
+                    <td class="score-high">92</td>
+                    <td class="value-medium">$19,079</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>15:19:30</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>46</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-07-17</td>
+                    <td>San Diego, CA</td>
+                    <td>1003</td>
+                    <td class="score-high">91</td>
+                    <td class="value-high">$22,121</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>15:19:30</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>47</td>
+                    <td><strong>Real Estate Investment Summit</strong></td>
+                    <td>Lisa Chen</td>
+                    <td>2026-04-04</td>
+                    <td>Phoenix, AZ</td>
+                    <td>641</td>
+                    <td class="score-medium">85</td>
+                    <td class="">$11,892</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:40</td>
+                </tr>
+                <tr class="nurture-priority ">
+                    <td>48</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-07-26</td>
+                    <td>Dallas, TX</td>
+                    <td>307</td>
+                    <td class="score-low">56</td>
+                    <td class="">$7,802</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">NURTURE</span></td>
+                    <td>15:19:40</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>49</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-06-03</td>
+                    <td>Tampa, FL</td>
+                    <td>601</td>
+                    <td class="score-medium">75</td>
+                    <td class="">$11,303</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:40</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>50</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>Sarah Thompson</td>
+                    <td>2026-08-15</td>
+                    <td>Dallas, TX</td>
+                    <td>418</td>
+                    <td class="score-medium">75</td>
+                    <td class="">$11,573</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:40</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>51</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>Amanda Foster</td>
+                    <td>2026-07-01</td>
+                    <td>San Diego, CA</td>
+                    <td>948</td>
+                    <td class="score-medium">88</td>
+                    <td class="value-high">$24,358</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:40</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>52</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>Amanda Foster</td>
+                    <td>2026-04-17</td>
+                    <td>Houston, TX</td>
+                    <td>948</td>
+                    <td class="score-medium">87</td>
+                    <td class="value-high">$27,994</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:40</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>53</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>Robert Johnson</td>
+                    <td>2026-06-05</td>
+                    <td>Tampa, FL</td>
+                    <td>514</td>
+                    <td class="score-medium">81</td>
+                    <td class="">$11,317</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:40</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>54</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-08-07</td>
+                    <td>Nashville, TN</td>
+                    <td>737</td>
+                    <td class="score-medium">89</td>
+                    <td class="value-medium">$19,352</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:40</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>55</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-06-21</td>
+                    <td>Nashville, TN</td>
+                    <td>769</td>
+                    <td class="score-medium">73</td>
+                    <td class="value-medium">$17,950</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>15:19:40</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>56</td>
+                    <td><strong>Property Profits Bootcamp</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-07-05</td>
+                    <td>Atlanta, GA</td>
+                    <td>350</td>
+                    <td class="score-medium">82</td>
+                    <td class="">$13,780</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:19:40</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>57</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Nicole Davis</td>
+                    <td>2026-07-07</td>
+                    <td>San Diego, CA</td>
+                    <td>1055</td>
+                    <td class="score-medium">71</td>
+                    <td class="value-high">$28,344</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>15:19:40</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>58</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-03-28</td>
+                    <td>Nashville, TN</td>
+                    <td>730</td>
+                    <td class="score-medium">77</td>
+                    <td class="value-high">$20,862</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:27:07</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>59</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-07-04</td>
+                    <td>Dallas, TX</td>
+                    <td>389</td>
+                    <td class="score-low">69</td>
+                    <td class="">$10,159</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>15:27:07</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>60</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Michael Rodriguez</td>
+                    <td>2026-08-07</td>
+                    <td>Las Vegas, NV</td>
+                    <td>597</td>
+                    <td class="score-high">92</td>
+                    <td class="value-medium">$15,035</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>15:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>61</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-08-09</td>
+                    <td>Seattle, WA</td>
+                    <td>881</td>
+                    <td class="score-medium">89</td>
+                    <td class="value-medium">$18,542</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>62</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>James Park</td>
+                    <td>2026-05-23</td>
+                    <td>Chicago, IL</td>
+                    <td>1003</td>
+                    <td class="score-medium">88</td>
+                    <td class="">$12,734</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>63</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-03-28</td>
+                    <td>Atlanta, GA</td>
+                    <td>627</td>
+                    <td class="score-medium">83</td>
+                    <td class="">$13,460</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>15:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>64</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>Nicole Davis</td>
+                    <td>2026-07-13</td>
+                    <td>Houston, TX</td>
+                    <td>859</td>
+                    <td class="score-medium">75</td>
+                    <td class="value-high">$24,994</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>65</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-04-07</td>
+                    <td>Austin, TX</td>
+                    <td>583</td>
+                    <td class="score-medium">86</td>
+                    <td class="value-medium">$19,780</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>66</td>
+                    <td><strong>Property Profits Bootcamp</strong></td>
+                    <td>Lisa Chen</td>
+                    <td>2026-08-17</td>
+                    <td>Tampa, FL</td>
+                    <td>521</td>
+                    <td class="score-medium">87</td>
+                    <td class="">$9,878</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>67</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-06-17</td>
+                    <td>Nashville, TN</td>
+                    <td>877</td>
+                    <td class="score-medium">79</td>
+                    <td class="value-medium">$15,830</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>68</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-05-18</td>
+                    <td>Chicago, IL</td>
+                    <td>916</td>
+                    <td class="score-medium">81</td>
+                    <td class="">$12,222</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:27:07</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>69</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>James Park</td>
+                    <td>2026-04-20</td>
+                    <td>Chicago, IL</td>
+                    <td>1022</td>
+                    <td class="score-high">96</td>
+                    <td class="value-medium">$15,763</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>16:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>70</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-07-06</td>
+                    <td>San Diego, CA</td>
+                    <td>835</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-high">$27,466</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>71</td>
+                    <td><strong>Real Estate Investment Summit</strong></td>
+                    <td>Lisa Chen</td>
+                    <td>2026-07-30</td>
+                    <td>Phoenix, AZ</td>
+                    <td>589</td>
+                    <td class="score-medium">81</td>
+                    <td class="">$9,091</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:27:07</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>72</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>James Park</td>
+                    <td>2026-06-27</td>
+                    <td>Houston, TX</td>
+                    <td>1030</td>
+                    <td class="score-high">98</td>
+                    <td class="value-medium">$16,840</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>16:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>73</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-07-10</td>
+                    <td>Phoenix, AZ</td>
+                    <td>972</td>
+                    <td class="score-medium">86</td>
+                    <td class="">$12,616</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>74</td>
+                    <td><strong>Real Estate Riches Workshop</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-07-20</td>
+                    <td>Miami, FL</td>
+                    <td>532</td>
+                    <td class="score-medium">81</td>
+                    <td class="">$8,930</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>75</td>
+                    <td><strong>Real Estate Investment Summit</strong></td>
+                    <td>Robert Johnson</td>
+                    <td>2026-08-19</td>
+                    <td>Dallas, TX</td>
+                    <td>479</td>
+                    <td class="score-medium">79</td>
+                    <td class="">$7,724</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:27:07</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>76</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>Robert Johnson</td>
+                    <td>2026-06-22</td>
+                    <td>Miami, FL</td>
+                    <td>395</td>
+                    <td class="score-medium">82</td>
+                    <td class="">$7,336</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:32:28</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>77</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Nicole Davis</td>
+                    <td>2026-08-04</td>
+                    <td>San Diego, CA</td>
+                    <td>724</td>
+                    <td class="score-medium">77</td>
+                    <td class="value-high">$29,955</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:32:28</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>78</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Michael Rodriguez</td>
+                    <td>2026-04-11</td>
+                    <td>Denver, CO</td>
+                    <td>538</td>
+                    <td class="score-medium">71</td>
+                    <td class="">$14,880</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>16:32:28</td>
+                </tr>
+                <tr class="nurture-priority ">
+                    <td>79</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>Robert Johnson</td>
+                    <td>2026-03-28</td>
+                    <td>Dallas, TX</td>
+                    <td>538</td>
+                    <td class="score-low">56</td>
+                    <td class="">$7,630</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">NURTURE</span></td>
+                    <td>16:32:28</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>80</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>James Park</td>
+                    <td>2026-05-11</td>
+                    <td>Houston, TX</td>
+                    <td>1025</td>
+                    <td class="score-medium">78</td>
+                    <td class="value-medium">$19,107</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:32:28</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>81</td>
+                    <td><strong>Real Estate Investment Summit</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-07-12</td>
+                    <td>Atlanta, GA</td>
+                    <td>381</td>
+                    <td class="score-medium">83</td>
+                    <td class="">$10,273</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:32:28</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>82</td>
+                    <td><strong>Sales Domination Conference</strong></td>
+                    <td>Michael Rodriguez</td>
+                    <td>2026-05-24</td>
+                    <td>Orlando, FL</td>
+                    <td>623</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-medium">$15,880</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:38:29</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>83</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-04-29</td>
+                    <td>Chicago, IL</td>
+                    <td>727</td>
+                    <td class="score-high">95</td>
+                    <td class="value-high">$27,293</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>16:38:29</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>84</td>
+                    <td><strong>Real Estate Investment Summit</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-05-10</td>
+                    <td>Dallas, TX</td>
+                    <td>467</td>
+                    <td class="score-medium">79</td>
+                    <td class="">$10,264</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:38:29</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>85</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-04-25</td>
+                    <td>Tampa, FL</td>
+                    <td>447</td>
+                    <td class="score-low">64</td>
+                    <td class="">$13,410</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>16:38:29</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>86</td>
+                    <td><strong>Million Dollar Business Blueprint</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-07-21</td>
+                    <td>Chicago, IL</td>
+                    <td>732</td>
+                    <td class="score-medium">86</td>
+                    <td class="value-medium">$17,771</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:38:29</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>87</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>Nicole Davis</td>
+                    <td>2026-04-29</td>
+                    <td>Phoenix, AZ</td>
+                    <td>737</td>
+                    <td class="score-high">92</td>
+                    <td class="value-medium">$15,376</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>16:38:29</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>88</td>
+                    <td><strong>Sales Domination Conference</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-04-22</td>
+                    <td>Las Vegas, NV</td>
+                    <td>653</td>
+                    <td class="score-high">93</td>
+                    <td class="value-medium">$18,361</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>16:38:29</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>89</td>
+                    <td><strong>Sales Domination Conference</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-06-24</td>
+                    <td>Orlando, FL</td>
+                    <td>768</td>
+                    <td class="score-high">92</td>
+                    <td class="value-medium">$19,765</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>16:38:29</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>90</td>
+                    <td><strong>Sales Domination Conference</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-08-17</td>
+                    <td>Denver, CO</td>
+                    <td>638</td>
+                    <td class="score-medium">87</td>
+                    <td class="">$10,443</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:41:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>91</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-03-29</td>
+                    <td>Chicago, IL</td>
+                    <td>1095</td>
+                    <td class="score-medium">80</td>
+                    <td class="value-high">$28,876</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:41:53</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>92</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-05-20</td>
+                    <td>Tampa, FL</td>
+                    <td>558</td>
+                    <td class="score-high">93</td>
+                    <td class="">$10,033</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>16:41:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>93</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-04-23</td>
+                    <td>Phoenix, AZ</td>
+                    <td>423</td>
+                    <td class="score-medium">82</td>
+                    <td class="">$11,334</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:41:53</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>94</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-05-29</td>
+                    <td>Orlando, FL</td>
+                    <td>867</td>
+                    <td class="score-high">95</td>
+                    <td class="value-medium">$17,743</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>16:41:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>95</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-06-07</td>
+                    <td>Austin, TX</td>
+                    <td>581</td>
+                    <td class="score-medium">79</td>
+                    <td class="value-medium">$15,552</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:41:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>96</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-06-04</td>
+                    <td>Austin, TX</td>
+                    <td>822</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-medium">$15,212</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:41:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>97</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Michael Rodriguez</td>
+                    <td>2026-07-28</td>
+                    <td>Nashville, TN</td>
+                    <td>542</td>
+                    <td class="score-medium">77</td>
+                    <td class="value-medium">$15,490</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:41:53</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>98</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Nicole Davis</td>
+                    <td>2026-07-14</td>
+                    <td>Houston, TX</td>
+                    <td>824</td>
+                    <td class="score-low">66</td>
+                    <td class="value-medium">$16,851</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>16:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>99</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-08-21</td>
+                    <td>Orlando, FL</td>
+                    <td>873</td>
+                    <td class="score-medium">79</td>
+                    <td class="value-medium">$18,720</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>100</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-05-11</td>
+                    <td>Houston, TX</td>
+                    <td>751</td>
+                    <td class="score-medium">83</td>
+                    <td class="value-high">$20,675</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>101</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Michael Rodriguez</td>
+                    <td>2026-04-13</td>
+                    <td>Las Vegas, NV</td>
+                    <td>834</td>
+                    <td class="score-medium">77</td>
+                    <td class="value-medium">$16,591</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>102</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-08-06</td>
+                    <td>Chicago, IL</td>
+                    <td>837</td>
+                    <td class="score-medium">85</td>
+                    <td class="">$13,084</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:44:12</td>
+                </tr>
+                <tr class="nurture-priority ">
+                    <td>103</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>Lisa Chen</td>
+                    <td>2026-03-29</td>
+                    <td>Miami, FL</td>
+                    <td>442</td>
+                    <td class="score-low">56</td>
+                    <td class="">$9,451</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">NURTURE</span></td>
+                    <td>16:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>104</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-08-05</td>
+                    <td>Orlando, FL</td>
+                    <td>831</td>
+                    <td class="score-medium">88</td>
+                    <td class="value-medium">$16,928</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>105</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-06-12</td>
+                    <td>Houston, TX</td>
+                    <td>714</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-high">$22,095</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:44:12</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>106</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-07-18</td>
+                    <td>Austin, TX</td>
+                    <td>876</td>
+                    <td class="score-high">90</td>
+                    <td class="">$12,259</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>16:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>107</td>
+                    <td><strong>Real Estate Riches Workshop</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-08-20</td>
+                    <td>Phoenix, AZ</td>
+                    <td>333</td>
+                    <td class="score-medium">85</td>
+                    <td class="">$8,145</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:44:12</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>108</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-04-17</td>
+                    <td>Miami, FL</td>
+                    <td>587</td>
+                    <td class="score-low">68</td>
+                    <td class="">$12,320</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>16:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>109</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-07-21</td>
+                    <td>Phoenix, AZ</td>
+                    <td>643</td>
+                    <td class="score-medium">81</td>
+                    <td class="">$7,823</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>16:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>110</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Michael Rodriguez</td>
+                    <td>2026-05-14</td>
+                    <td>Las Vegas, NV</td>
+                    <td>801</td>
+                    <td class="score-medium">79</td>
+                    <td class="">$9,307</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>17:14:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>111</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>Nicole Davis</td>
+                    <td>2026-05-01</td>
+                    <td>Chicago, IL</td>
+                    <td>1096</td>
+                    <td class="score-medium">88</td>
+                    <td class="value-high">$24,101</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>17:14:12</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>112</td>
+                    <td><strong>Property Profits Bootcamp</strong></td>
+                    <td>Robert Johnson</td>
+                    <td>2026-05-29</td>
+                    <td>Miami, FL</td>
+                    <td>301</td>
+                    <td class="score-medium">73</td>
+                    <td class="">$14,729</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>17:14:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>113</td>
+                    <td><strong>Real Estate Investment Summit</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-03-25</td>
+                    <td>Tampa, FL</td>
+                    <td>425</td>
+                    <td class="score-medium">84</td>
+                    <td class="">$9,313</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>17:14:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>114</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Michael Rodriguez</td>
+                    <td>2026-05-25</td>
+                    <td>Denver, CO</td>
+                    <td>748</td>
+                    <td class="score-medium">81</td>
+                    <td class="value-medium">$18,845</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>17:14:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>115</td>
+                    <td><strong>Real Estate Riches Workshop</strong></td>
+                    <td>Robert Johnson</td>
+                    <td>2026-07-26</td>
+                    <td>Miami, FL</td>
+                    <td>372</td>
+                    <td class="score-medium">86</td>
+                    <td class="">$14,141</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>17:14:12</td>
+                </tr>
+                <tr class="nurture-priority ">
+                    <td>116</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-07-29</td>
+                    <td>Atlanta, GA</td>
+                    <td>464</td>
+                    <td class="score-low">58</td>
+                    <td class="">$14,352</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">NURTURE</span></td>
+                    <td>17:14:12</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>117</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-05-31</td>
+                    <td>Austin, TX</td>
+                    <td>780</td>
+                    <td class="score-high">90</td>
+                    <td class="">$11,740</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>17:44:12</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>118</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Amanda Foster</td>
+                    <td>2026-06-25</td>
+                    <td>Phoenix, AZ</td>
+                    <td>959</td>
+                    <td class="score-low">67</td>
+                    <td class="">$14,740</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>17:44:12</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>119</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-05-17</td>
+                    <td>Phoenix, AZ</td>
+                    <td>998</td>
+                    <td class="score-high">92</td>
+                    <td class="value-high">$21,922</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>17:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>120</td>
+                    <td><strong>Real Estate Riches Workshop</strong></td>
+                    <td>Sarah Thompson</td>
+                    <td>2026-08-15</td>
+                    <td>Tampa, FL</td>
+                    <td>609</td>
+                    <td class="score-medium">84</td>
+                    <td class="">$7,599</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>17:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>121</td>
+                    <td><strong>Real Estate Investment Summit</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-07-24</td>
+                    <td>Tampa, FL</td>
+                    <td>691</td>
+                    <td class="score-medium">86</td>
+                    <td class="">$8,443</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>17:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>122</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>James Park</td>
+                    <td>2026-04-19</td>
+                    <td>Seattle, WA</td>
+                    <td>833</td>
+                    <td class="score-medium">83</td>
+                    <td class="value-high">$22,481</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>17:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>123</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-05-22</td>
+                    <td>Orlando, FL</td>
+                    <td>778</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-medium">$18,801</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>17:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>124</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-06-28</td>
+                    <td>Austin, TX</td>
+                    <td>513</td>
+                    <td class="score-medium">86</td>
+                    <td class="value-medium">$17,261</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>17:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>125</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Michael Rodriguez</td>
+                    <td>2026-04-21</td>
+                    <td>Orlando, FL</td>
+                    <td>553</td>
+                    <td class="score-medium">85</td>
+                    <td class="">$13,517</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>17:44:12</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>126</td>
+                    <td><strong>Million Dollar Business Blueprint</strong></td>
+                    <td>Nicole Davis</td>
+                    <td>2026-06-15</td>
+                    <td>Chicago, IL</td>
+                    <td>895</td>
+                    <td class="score-high">92</td>
+                    <td class="value-medium">$19,692</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>17:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>127</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-04-06</td>
+                    <td>Austin, TX</td>
+                    <td>654</td>
+                    <td class="score-medium">87</td>
+                    <td class="value-medium">$16,649</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>17:44:12</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>128</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-06-26</td>
+                    <td>Denver, CO</td>
+                    <td>623</td>
+                    <td class="score-medium">70</td>
+                    <td class="value-medium">$15,881</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>18:14:12</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>129</td>
+                    <td><strong>Sales Domination Conference</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-04-10</td>
+                    <td>Austin, TX</td>
+                    <td>654</td>
+                    <td class="score-high">90</td>
+                    <td class="value-high">$20,939</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>18:14:12</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>130</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-04-09</td>
+                    <td>Orlando, FL</td>
+                    <td>795</td>
+                    <td class="score-low">69</td>
+                    <td class="value-medium">$19,343</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>18:14:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>131</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-08-05</td>
+                    <td>Orlando, FL</td>
+                    <td>848</td>
+                    <td class="score-medium">79</td>
+                    <td class="value-medium">$18,209</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>18:14:12</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>132</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-07-02</td>
+                    <td>Nashville, TN</td>
+                    <td>535</td>
+                    <td class="score-high">92</td>
+                    <td class="value-medium">$18,497</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>18:14:12</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>133</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-07-19</td>
+                    <td>Las Vegas, NV</td>
+                    <td>819</td>
+                    <td class="score-high">90</td>
+                    <td class="">$13,124</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>18:14:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>134</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>James Park</td>
+                    <td>2026-07-28</td>
+                    <td>Seattle, WA</td>
+                    <td>858</td>
+                    <td class="score-medium">83</td>
+                    <td class="">$12,927</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>18:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>135</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-06-03</td>
+                    <td>Nashville, TN</td>
+                    <td>567</td>
+                    <td class="score-medium">83</td>
+                    <td class="value-medium">$16,094</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>18:44:12</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>136</td>
+                    <td><strong>Sales Domination Conference</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-05-28</td>
+                    <td>Orlando, FL</td>
+                    <td>555</td>
+                    <td class="score-high">92</td>
+                    <td class="value-medium">$16,814</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>18:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>137</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-05-11</td>
+                    <td>Austin, TX</td>
+                    <td>565</td>
+                    <td class="score-medium">85</td>
+                    <td class="">$14,869</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>18:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>138</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>Lisa Chen</td>
+                    <td>2026-06-08</td>
+                    <td>Phoenix, AZ</td>
+                    <td>696</td>
+                    <td class="score-medium">79</td>
+                    <td class="">$13,778</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>18:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>139</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>Lisa Chen</td>
+                    <td>2026-03-31</td>
+                    <td>Dallas, TX</td>
+                    <td>674</td>
+                    <td class="score-medium">87</td>
+                    <td class="">$8,207</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>18:44:12</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>140</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Michael Rodriguez</td>
+                    <td>2026-04-30</td>
+                    <td>Denver, CO</td>
+                    <td>532</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-medium">$17,203</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:14:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>141</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Michael Rodriguez</td>
+                    <td>2026-04-30</td>
+                    <td>Las Vegas, NV</td>
+                    <td>638</td>
+                    <td class="score-medium">83</td>
+                    <td class="value-medium">$17,058</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:14:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>142</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>James Park</td>
+                    <td>2026-07-16</td>
+                    <td>Houston, TX</td>
+                    <td>772</td>
+                    <td class="score-medium">79</td>
+                    <td class="value-high">$28,409</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:14:13</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>143</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-04-08</td>
+                    <td>Orlando, FL</td>
+                    <td>559</td>
+                    <td class="score-low">67</td>
+                    <td class="">$10,636</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>19:14:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>144</td>
+                    <td><strong>Real Estate Riches Workshop</strong></td>
+                    <td>Lisa Chen</td>
+                    <td>2026-06-25</td>
+                    <td>Miami, FL</td>
+                    <td>620</td>
+                    <td class="score-medium">79</td>
+                    <td class="">$13,056</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:14:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>145</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-07-01</td>
+                    <td>Denver, CO</td>
+                    <td>897</td>
+                    <td class="score-medium">83</td>
+                    <td class="">$9,922</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:14:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>146</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-07-19</td>
+                    <td>Austin, TX</td>
+                    <td>775</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-high">$20,367</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:44:13</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>147</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-08-20</td>
+                    <td>Houston, TX</td>
+                    <td>1072</td>
+                    <td class="score-high">93</td>
+                    <td class="value-medium">$18,731</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>19:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>148</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>Nicole Davis</td>
+                    <td>2026-05-02</td>
+                    <td>Phoenix, AZ</td>
+                    <td>1027</td>
+                    <td class="score-medium">84</td>
+                    <td class="value-high">$29,232</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>149</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-08-10</td>
+                    <td>Atlanta, GA</td>
+                    <td>613</td>
+                    <td class="score-medium">81</td>
+                    <td class="">$7,669</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>150</td>
+                    <td><strong>Real Estate Riches Workshop</strong></td>
+                    <td>Lisa Chen</td>
+                    <td>2026-06-12</td>
+                    <td>Phoenix, AZ</td>
+                    <td>348</td>
+                    <td class="score-medium">89</td>
+                    <td class="">$11,017</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>151</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-04-25</td>
+                    <td>Tampa, FL</td>
+                    <td>542</td>
+                    <td class="score-medium">87</td>
+                    <td class="">$13,847</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>152</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>Nicole Davis</td>
+                    <td>2026-08-12</td>
+                    <td>San Diego, CA</td>
+                    <td>834</td>
+                    <td class="score-medium">86</td>
+                    <td class="">$13,336</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:44:13</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>153</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>James Park</td>
+                    <td>2026-06-15</td>
+                    <td>Seattle, WA</td>
+                    <td>818</td>
+                    <td class="score-high">95</td>
+                    <td class="value-high">$20,575</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>19:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>154</td>
+                    <td><strong>Sales Domination Conference</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-06-05</td>
+                    <td>Las Vegas, NV</td>
+                    <td>876</td>
+                    <td class="score-medium">89</td>
+                    <td class="value-high">$20,203</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:44:13</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>155</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-07-04</td>
+                    <td>Seattle, WA</td>
+                    <td>995</td>
+                    <td class="score-high">90</td>
+                    <td class="value-high">$22,408</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>19:44:13</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>156</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-05-05</td>
+                    <td>Chicago, IL</td>
+                    <td>782</td>
+                    <td class="score-high">95</td>
+                    <td class="value-high">$24,677</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>19:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>157</td>
+                    <td><strong>Million Dollar Business Blueprint</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-07-08</td>
+                    <td>Seattle, WA</td>
+                    <td>767</td>
+                    <td class="score-medium">86</td>
+                    <td class="value-high">$27,989</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>19:44:13</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>158</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>James Park</td>
+                    <td>2026-05-05</td>
+                    <td>San Diego, CA</td>
+                    <td>1077</td>
+                    <td class="score-high">98</td>
+                    <td class="value-high">$22,034</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>20:14:13</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>159</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-07-01</td>
+                    <td>Las Vegas, NV</td>
+                    <td>530</td>
+                    <td class="score-high">90</td>
+                    <td class="value-high">$20,063</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>20:14:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>160</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-06-29</td>
+                    <td>Phoenix, AZ</td>
+                    <td>863</td>
+                    <td class="score-medium">75</td>
+                    <td class="value-high">$28,718</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>20:14:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>161</td>
+                    <td><strong>Million Dollar Business Blueprint</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-07-07</td>
+                    <td>Chicago, IL</td>
+                    <td>881</td>
+                    <td class="score-medium">89</td>
+                    <td class="value-medium">$15,104</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>20:14:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>162</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-04-07</td>
+                    <td>San Diego, CA</td>
+                    <td>747</td>
+                    <td class="score-medium">75</td>
+                    <td class="value-high">$24,503</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>20:14:13</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>163</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-07-06</td>
+                    <td>Las Vegas, NV</td>
+                    <td>723</td>
+                    <td class="score-medium">74</td>
+                    <td class="value-medium">$16,169</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>20:14:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>164</td>
+                    <td><strong>Real Estate Riches Workshop</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-05-06</td>
+                    <td>Atlanta, GA</td>
+                    <td>384</td>
+                    <td class="score-medium">83</td>
+                    <td class="">$11,541</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>20:44:13</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>165</td>
+                    <td><strong>Real Estate Investment Summit</strong></td>
+                    <td>Sarah Thompson</td>
+                    <td>2026-07-18</td>
+                    <td>Atlanta, GA</td>
+                    <td>436</td>
+                    <td class="score-medium">72</td>
+                    <td class="">$6,763</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>20:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>166</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-03-31</td>
+                    <td>Orlando, FL</td>
+                    <td>566</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-medium">$16,240</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>20:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>167</td>
+                    <td><strong>Property Profits Bootcamp</strong></td>
+                    <td>Sarah Thompson</td>
+                    <td>2026-06-05</td>
+                    <td>Dallas, TX</td>
+                    <td>465</td>
+                    <td class="score-medium">77</td>
+                    <td class="">$11,023</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>20:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>168</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-04-25</td>
+                    <td>Denver, CO</td>
+                    <td>575</td>
+                    <td class="score-medium">82</td>
+                    <td class="value-medium">$17,239</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>20:44:13</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>169</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-07-25</td>
+                    <td>Nashville, TN</td>
+                    <td>616</td>
+                    <td class="score-low">68</td>
+                    <td class="">$11,714</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>20:44:13</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>170</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-04-02</td>
+                    <td>Seattle, WA</td>
+                    <td>959</td>
+                    <td class="score-medium">73</td>
+                    <td class="value-high">$25,024</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>20:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>171</td>
+                    <td><strong>Property Profits Bootcamp</strong></td>
+                    <td>Robert Johnson</td>
+                    <td>2026-03-25</td>
+                    <td>Dallas, TX</td>
+                    <td>603</td>
+                    <td class="score-medium">82</td>
+                    <td class="">$8,176</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>20:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>172</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-04-04</td>
+                    <td>Nashville, TN</td>
+                    <td>752</td>
+                    <td class="score-medium">85</td>
+                    <td class="">$9,696</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>20:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>173</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-05-07</td>
+                    <td>Denver, CO</td>
+                    <td>756</td>
+                    <td class="score-medium">86</td>
+                    <td class="">$12,380</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>20:44:13</td>
+                </tr>
+                <tr class="nurture-priority ">
+                    <td>174</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>Lisa Chen</td>
+                    <td>2026-06-26</td>
+                    <td>Phoenix, AZ</td>
+                    <td>614</td>
+                    <td class="score-low">58</td>
+                    <td class="">$11,467</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">NURTURE</span></td>
+                    <td>20:44:13</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>175</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-07-03</td>
+                    <td>Austin, TX</td>
+                    <td>552</td>
+                    <td class="score-medium">87</td>
+                    <td class="value-medium">$19,584</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>21:11:53</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>176</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-04-22</td>
+                    <td>Nashville, TN</td>
+                    <td>782</td>
+                    <td class="score-high">90</td>
+                    <td class="value-medium">$18,508</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>21:11:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>177</td>
+                    <td><strong>Million Dollar Business Blueprint</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-05-24</td>
+                    <td>San Diego, CA</td>
+                    <td>899</td>
+                    <td class="score-medium">83</td>
+                    <td class="value-medium">$18,641</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>21:11:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>178</td>
+                    <td><strong>Million Dollar Business Blueprint</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-05-06</td>
+                    <td>Seattle, WA</td>
+                    <td>844</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-high">$23,446</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>21:11:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>179</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-07-13</td>
+                    <td>Las Vegas, NV</td>
+                    <td>595</td>
+                    <td class="score-medium">89</td>
+                    <td class="value-medium">$16,343</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>21:11:53</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>180</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-06-24</td>
+                    <td>Austin, TX</td>
+                    <td>559</td>
+                    <td class="score-high">92</td>
+                    <td class="value-medium">$17,089</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>21:11:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>181</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-07-26</td>
+                    <td>Las Vegas, NV</td>
+                    <td>588</td>
+                    <td class="score-medium">83</td>
+                    <td class="">$12,358</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>21:11:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>182</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>Robert Johnson</td>
+                    <td>2026-05-19</td>
+                    <td>Phoenix, AZ</td>
+                    <td>585</td>
+                    <td class="score-medium">83</td>
+                    <td class="">$8,780</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>21:11:53</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>183</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Amanda Foster</td>
+                    <td>2026-06-23</td>
+                    <td>Chicago, IL</td>
+                    <td>875</td>
+                    <td class="score-low">68</td>
+                    <td class="value-high">$20,405</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>21:11:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>184</td>
+                    <td><strong>Million Dollar Business Blueprint</strong></td>
+                    <td>Nicole Davis</td>
+                    <td>2026-07-05</td>
+                    <td>San Diego, CA</td>
+                    <td>702</td>
+                    <td class="score-medium">83</td>
+                    <td class="value-high">$27,572</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>21:41:53</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>185</td>
+                    <td><strong>Sales Domination Conference</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-03-25</td>
+                    <td>Nashville, TN</td>
+                    <td>748</td>
+                    <td class="score-high">90</td>
+                    <td class="value-medium">$16,910</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>21:41:53</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>186</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-05-28</td>
+                    <td>Dallas, TX</td>
+                    <td>687</td>
+                    <td class="score-low">60</td>
+                    <td class="">$8,592</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>21:41:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>187</td>
+                    <td><strong>Sales Domination Conference</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-06-13</td>
+                    <td>Orlando, FL</td>
+                    <td>612</td>
+                    <td class="score-medium">83</td>
+                    <td class="">$11,576</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>21:41:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>188</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-04-05</td>
+                    <td>Phoenix, AZ</td>
+                    <td>629</td>
+                    <td class="score-medium">81</td>
+                    <td class="">$14,224</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>21:41:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>189</td>
+                    <td><strong>Scale Your Business Workshop</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-05-01</td>
+                    <td>Seattle, WA</td>
+                    <td>798</td>
+                    <td class="score-medium">85</td>
+                    <td class="value-high">$21,944</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>21:41:53</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>190</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Amanda Foster</td>
+                    <td>2026-05-21</td>
+                    <td>Seattle, WA</td>
+                    <td>943</td>
+                    <td class="score-low">68</td>
+                    <td class="">$12,550</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>21:41:53</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>191</td>
+                    <td><strong>Property Wealth Conference</strong></td>
+                    <td>David Martinez</td>
+                    <td>2026-05-03</td>
+                    <td>Atlanta, GA</td>
+                    <td>366</td>
+                    <td class="score-low">69</td>
+                    <td class="">$14,565</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>21:41:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>192</td>
+                    <td><strong>Million Dollar Business Blueprint</strong></td>
+                    <td>James Park</td>
+                    <td>2026-06-18</td>
+                    <td>Seattle, WA</td>
+                    <td>1029</td>
+                    <td class="score-medium">78</td>
+                    <td class="value-high">$29,522</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>21:41:53</td>
+                </tr>
+                <tr class="nurture-priority ">
+                    <td>193</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>Sarah Thompson</td>
+                    <td>2026-05-09</td>
+                    <td>Atlanta, GA</td>
+                    <td>362</td>
+                    <td class="score-low">56</td>
+                    <td class="">$8,023</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">NURTURE</span></td>
+                    <td>21:41:53</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>194</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-03-28</td>
+                    <td>Orlando, FL</td>
+                    <td>781</td>
+                    <td class="score-medium">73</td>
+                    <td class="">$13,078</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>21:41:53</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>195</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Kevin Chen</td>
+                    <td>2026-05-27</td>
+                    <td>Nashville, TN</td>
+                    <td>726</td>
+                    <td class="score-low">69</td>
+                    <td class="value-medium">$16,221</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>22:11:53</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>196</td>
+                    <td><strong>Business Growth Conference</strong></td>
+                    <td>Jessica Lee</td>
+                    <td>2026-05-07</td>
+                    <td>San Diego, CA</td>
+                    <td>990</td>
+                    <td class="score-high">92</td>
+                    <td class="value-high">$20,423</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>22:11:53</td>
+                </tr>
+                <tr class="low-priority ">
+                    <td>197</td>
+                    <td><strong>REI Mastermind</strong></td>
+                    <td>Mark Williams</td>
+                    <td>2026-05-25</td>
+                    <td>Dallas, TX</td>
+                    <td>314</td>
+                    <td class="score-medium">71</td>
+                    <td class="">$10,581</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>22:11:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>198</td>
+                    <td><strong>CEO Success Formula</strong></td>
+                    <td>Ryan Miller</td>
+                    <td>2026-04-15</td>
+                    <td>Phoenix, AZ</td>
+                    <td>760</td>
+                    <td class="score-medium">78</td>
+                    <td class="value-medium">$18,699</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>22:11:53</td>
+                </tr>
+                <tr class="medium-priority ">
+                    <td>199</td>
+                    <td><strong>Property Profits Bootcamp</strong></td>
+                    <td>Robert Johnson</td>
+                    <td>2026-06-05</td>
+                    <td>Miami, FL</td>
+                    <td>638</td>
+                    <td class="score-medium">88</td>
+                    <td class="">$12,638</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>22:11:53</td>
+                </tr>
+                <tr class="high-priority ">
+                    <td>200</td>
+                    <td><strong>Entrepreneur Summit</strong></td>
+                    <td>Amanda Foster</td>
+                    <td>2026-04-12</td>
+                    <td>Chicago, IL</td>
+                    <td>805</td>
+                    <td class="score-high">93</td>
+                    <td class="value-medium">$16,331</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>22:11:53</td>
+                </tr>
+                <tr class="low-priority new-entry">
+                    <td>201</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-08-13</td>
+                    <td>Denver, CO</td>
+                    <td>862</td>
+                    <td class="score-low">60</td>
+                    <td class="value-medium">$16,642</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>22:11:53</td>
+                </tr>
+                <tr class="low-priority new-entry">
+                    <td>202</td>
+                    <td><strong>High Ticket Closing Intensive</strong></td>
+                    <td>Maria Gonzalez</td>
+                    <td>2026-06-30</td>
+                    <td>Orlando, FL</td>
+                    <td>810</td>
+                    <td class="score-medium">70</td>
+                    <td class="value-high">$20,191</td>
+                    <td><span style="background: #666; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">LOW</span></td>
+                    <td>22:11:53</td>
+                </tr>
+                <tr class="high-priority new-entry">
+                    <td>203</td>
+                    <td><strong>Million Dollar Business Blueprint</strong></td>
+                    <td>Amanda Foster</td>
+                    <td>2026-04-26</td>
+                    <td>Chicago, IL</td>
+                    <td>1057</td>
+                    <td class="score-high">90</td>
+                    <td class="value-medium">$17,205</td>
+                    <td><span style="background: #FFD700; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">HIGH</span></td>
+                    <td>22:11:53</td>
+                </tr>
+                <tr class="medium-priority new-entry">
+                    <td>204</td>
+                    <td><strong>Closing Mastery Workshop</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-05-19</td>
+                    <td>Nashville, TN</td>
+                    <td>630</td>
+                    <td class="score-medium">89</td>
+                    <td class="value-medium">$15,213</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>22:11:53</td>
+                </tr>
+                <tr class="medium-priority new-entry">
+                    <td>205</td>
+                    <td><strong>Sales Excellence Bootcamp</strong></td>
+                    <td>Alex Thompson</td>
+                    <td>2026-07-09</td>
+                    <td>Orlando, FL</td>
+                    <td>668</td>
+                    <td class="score-medium">81</td>
+                    <td class="value-medium">$19,702</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>22:11:53</td>
+                </tr>
+                <tr class="medium-priority new-entry">
+                    <td>206</td>
+                    <td><strong>Revenue Growth Summit</strong></td>
+                    <td>Jennifer Kim</td>
+                    <td>2026-04-20</td>
+                    <td>Nashville, TN</td>
+                    <td>510</td>
+                    <td class="score-medium">77</td>
+                    <td class="value-medium">$17,965</td>
+                    <td><span style="background: #FF9800; padding: 3px 8px; border-radius: 5px; font-size: 0.8em;">MEDIUM</span></td>
+                    <td>22:11:53</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="discovery-indicator" id="newDiscovery">
+        🎯 New prospects discovered! Updating...
+    </div>
+    
+    <button class="auto-scroll" onclick="scrollToBottom()">📍 Scroll to Latest</button>
+    
+    <script>
+        // Auto-scroll to bottom to see latest entries
+        function scrollToBottom() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Flash effect on refresh to show live updates
+        document.body.style.opacity = '0.9';
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+            
+            // Show discovery indicator if we likely have new entries
+            const newEntries = document.querySelectorAll('.new-entry');
+            if (newEntries.length > 0) {
+                const indicator = document.getElementById('newDiscovery');
+                indicator.style.display = 'block';
+                setTimeout(() => {
+                    indicator.style.display = 'none';
+                }, 4000);
+            }
+        }, 300);
+        
+        // Auto-scroll to latest entries after load
+        setTimeout(() => {
+            if (window.location.hash !== '#top') {
+                scrollToBottom();
+            }
+        }, 1000);
+        
+        // Animate loading dots
+        const dots = document.querySelector('.loading-dots');
+        let dotCount = 0;
+        setInterval(() => {
+            dotCount = (dotCount + 1) % 4;
+            dots.textContent = '.'.repeat(dotCount);
+        }, 500);
+    </script>
+</body>
+</html>

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESA Partnership Application - Event Sales Agency</title>
+    
+    <!-- UTM Tracking Script -->
+    <script>
+        // Get UTM data from localStorage or URL
+        function getUtmData() {
+            const stored = localStorage.getItem('utmData');
+            if (stored) {
+                return JSON.parse(stored);
+            }
+            
+            const params = new URLSearchParams(window.location.search);
+            return {
+                utm_source: params.get('utm_source') || '',
+                utm_medium: params.get('utm_medium') || '',
+                utm_campaign: params.get('utm_campaign') || '',
+                utm_content: params.get('utm_content') || '',
+                utm_term: params.get('utm_term') || '',
+                ad_id: params.get('ad_id') || '',
+                adset_id: params.get('adset_id') || '',
+                campaign_id: params.get('campaign_id') || ''
+            };
+        }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.125rem;
+            color: #64748b;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+        
+        .form-section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        
+        .required {
+            color: #ef4444;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        .radio-group {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .radio-item:hover {
+            border-color: #3b82f6;
+            background: #f8fafc;
+        }
+        
+        .radio-item.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .radio-input {
+            margin-right: 12px;
+        }
+        
+        .radio-label {
+            font-weight: 500;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .radio-description {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        
+        .warning-title {
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 8px;
+        }
+        
+        .warning-text {
+            color: #92400e;
+            font-size: 0.875rem;
+        }
+        
+        .submit-button {
+            width: 100%;
+            background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+            color: white;
+            padding: 16px 32px;
+            font-size: 1.125rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .submit-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .qualification-score {
+            background: #f0f9ff;
+            border: 2px solid #0284c7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .score-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0284c7;
+        }
+        
+        .score-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #0284c7;
+            margin: 10px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ESA Partnership Application</h1>
+            <p>Help us understand your event and business to determine the best way we can help you succeed.</p>
+        </div>
+
+        <form id="applicationForm" class="form-container" onsubmit="handleSubmit(event)">
+            <!-- Contact Information -->
+            <div class="form-section">
+                <h3 class="section-title">Contact Information</h3>
+                
+                <div class="form-group">
+                    <label class="form-label" for="firstName">First Name <span class="required">*</span></label>
+                    <input type="text" id="firstName" name="firstName" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="lastName">Last Name <span class="required">*</span></label>
+                    <input type="text" id="lastName" name="lastName" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="phone">Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="company">Company/Brand Name</label>
+                    <input type="text" id="company" name="company" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="website">Website URL</label>
+                    <input type="url" id="website" name="website" class="form-input" placeholder="https://yourwebsite.com">
+                </div>
+            </div>
+
+            <!-- Event Details -->
+            <div class="form-section">
+                <h3 class="section-title">Event Details</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">What type of event are you planning? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item" onclick="selectRadio('eventType', 'mastermind', 25)">
+                            <input type="radio" name="eventType" value="mastermind" class="radio-input">
+                            <div>
+                                <div class="radio-label">Mastermind/Coaching Workshop</div>
+                                <div class="radio-description">Business coaching, skill development, strategy sessions</div>
+                            </div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('eventType', 'business_conference', 25)">
+                            <input type="radio" name="eventType" value="business_conference" class="radio-input">
+                            <div>
+                                <div class="radio-label">Business Conference/Seminar</div>
+                                <div class="radio-description">Industry conference, business summit, corporate training</div>
+                            </div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('eventType', 'workshop', 20)">
+                            <input type="radio" name="eventType" value="workshop" class="radio-input">
+                            <div>
+                                <div class="radio-label">Educational Workshop</div>
+                                <div class="radio-description">Skills training, educational seminar, professional development</div>
+                            </div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('eventType', 'entertainment', 0)">
+                            <input type="radio" name="eventType" value="entertainment" class="radio-input">
+                            <div>
+                                <div class="radio-label">Entertainment/Social Event</div>
+                                <div class="radio-description">Concert, festival, wedding, party, social gathering</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="eventName">Event Name/Title</label>
+                    <input type="text" id="eventName" name="eventName" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">When is your event scheduled? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item" onclick="selectRadio('eventTiming', 'next_30_days', 25)">
+                            <input type="radio" name="eventTiming" value="next_30_days" class="radio-input">
+                            <div class="radio-label">Next 30 days</div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('eventTiming', 'next_90_days', 25)">
+                            <input type="radio" name="eventTiming" value="next_90_days" class="radio-input">
+                            <div class="radio-label">Next 30-90 days</div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('eventTiming', 'next_6_months', 15)">
+                            <input type="radio" name="eventTiming" value="next_6_months" class="radio-input">
+                            <div class="radio-label">3-6 months</div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('eventTiming', 'not_scheduled', 0)">
+                            <input type="radio" name="eventTiming" value="not_scheduled" class="radio-input">
+                            <div class="radio-label">Not yet scheduled</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="eventLocation">Event Location (City, State)</label>
+                    <input type="text" id="eventLocation" name="eventLocation" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="currentTicketPrice">Current Ticket Price (if applicable)</label>
+                    <input type="text" id="currentTicketPrice" name="currentTicketPrice" class="form-input" placeholder="e.g., $497">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="targetTicketPrice">Target Ticket Price</label>
+                    <input type="text" id="targetTicketPrice" name="targetTicketPrice" class="form-input" placeholder="e.g., $997">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="targetAttendees">Target Number of Attendees</label>
+                    <input type="number" id="targetAttendees" name="targetAttendees" class="form-input" placeholder="e.g., 100">
+                </div>
+            </div>
+
+            <!-- Backend Offer -->
+            <div class="form-section">
+                <h3 class="section-title">Backend Offer & Revenue Model</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Do you have a backend offer to sell at the event? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item" onclick="selectRadio('hasBackend', 'yes_high_ticket', 25)">
+                            <input type="radio" name="hasBackend" value="yes_high_ticket" class="radio-input">
+                            <div>
+                                <div class="radio-label">Yes - High-Ticket Program ($5,000+)</div>
+                                <div class="radio-description">Coaching program, mastermind, consulting, high-value service</div>
+                            </div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('hasBackend', 'yes_mid_ticket', 15)">
+                            <input type="radio" name="hasBackend" value="yes_mid_ticket" class="radio-input">
+                            <div>
+                                <div class="radio-label">Yes - Mid-Ticket Program ($1,000-$5,000)</div>
+                                <div class="radio-description">Course, group coaching, moderate-value program</div>
+                            </div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('hasBackend', 'yes_low_ticket', 5)">
+                            <input type="radio" name="hasBackend" value="yes_low_ticket" class="radio-input">
+                            <div>
+                                <div class="radio-label">Yes - Low-Ticket Program (Under $1,000)</div>
+                                <div class="radio-description">Digital course, book, low-price offering</div>
+                            </div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('hasBackend', 'no', 0)">
+                            <input type="radio" name="hasBackend" value="no" class="radio-input">
+                            <div>
+                                <div class="radio-label">No Backend Offer</div>
+                                <div class="radio-description">Event ticket sales only</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="backendPrice">Backend Offer Price (if applicable)</label>
+                    <input type="text" id="backendPrice" name="backendPrice" class="form-input" placeholder="e.g., $15,000">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="backendDescription">Describe Your Backend Offer</label>
+                    <textarea id="backendDescription" name="backendDescription" class="form-input form-textarea" placeholder="What do you sell? How does it help people? What results do clients get?"></textarea>
+                </div>
+            </div>
+
+            <!-- Business Details -->
+            <div class="form-section">
+                <h3 class="section-title">Business & Investment Capacity</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">What's your current annual revenue? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item" onclick="selectRadio('annualRevenue', '5m_plus', 25)">
+                            <input type="radio" name="annualRevenue" value="5m_plus" class="radio-input">
+                            <div class="radio-label">$5M+ annually</div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('annualRevenue', '2m_to_5m', 20)">
+                            <input type="radio" name="annualRevenue" value="2m_to_5m" class="radio-input">
+                            <div class="radio-label">$2M - $5M annually</div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('annualRevenue', '1m_to_2m', 15)">
+                            <input type="radio" name="annualRevenue" value="1m_to_2m" class="radio-input">
+                            <div class="radio-label">$1M - $2M annually</div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('annualRevenue', 'under_1m', 5)">
+                            <input type="radio" name="annualRevenue" value="under_1m" class="radio-input">
+                            <div class="radio-label">Under $1M annually</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">What's your monthly advertising budget comfort level? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item" onclick="selectRadio('adBudget', '10k_plus', 25)">
+                            <input type="radio" name="adBudget" value="10k_plus" class="radio-input">
+                            <div>
+                                <div class="radio-label">$10,000+ monthly</div>
+                                <div class="radio-description">Serious investment in growth</div>
+                            </div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('adBudget', '5k_to_10k', 20)">
+                            <input type="radio" name="adBudget" value="5k_to_10k" class="radio-input">
+                            <div>
+                                <div class="radio-label">$5,000 - $10,000 monthly</div>
+                                <div class="radio-description">Ready to invest for results</div>
+                            </div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('adBudget', '2k_to_5k', 10)">
+                            <input type="radio" name="adBudget" value="2k_to_5k" class="radio-input">
+                            <div>
+                                <div class="radio-label">$2,000 - $5,000 monthly</div>
+                                <div class="radio-description">Moderate investment capacity</div>
+                            </div>
+                        </div>
+                        <div class="radio-item" onclick="selectRadio('adBudget', 'under_2k', 0)">
+                            <input type="radio" name="adBudget" value="under_2k" class="radio-input">
+                            <div>
+                                <div class="radio-label">Under $2,000 monthly</div>
+                                <div class="radio-description">Limited advertising budget</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Marketing -->
+            <div class="form-section">
+                <h3 class="section-title">Current Marketing & Goals</h3>
+                
+                <div class="form-group">
+                    <label class="form-label" for="currentMarketing">Describe your current marketing process (if any)</label>
+                    <textarea id="currentMarketing" name="currentMarketing" class="form-input form-textarea" placeholder="What marketing are you currently doing? Social media, ads, email, etc."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="socialFollowing">Social Media Following (approximate total across all platforms)</label>
+                    <select id="socialFollowing" name="socialFollowing" class="form-select" onchange="updateScore('socialFollowing', this.value)">
+                        <option value="" data-score="0">Select...</option>
+                        <option value="100k_plus" data-score="10">100,000+ followers</option>
+                        <option value="50k_to_100k" data-score="8">50,000 - 100,000 followers</option>
+                        <option value="25k_to_50k" data-score="6">25,000 - 50,000 followers</option>
+                        <option value="10k_to_25k" data-score="4">10,000 - 25,000 followers</option>
+                        <option value="under_10k" data-score="2">Under 10,000 followers</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="eventGoals">What are your primary goals for this event?</label>
+                    <textarea id="eventGoals" name="eventGoals" class="form-input form-textarea" placeholder="Revenue targets, brand building, client acquisition, etc."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="challengesExpected">What challenges do you expect with marketing/filling your event?</label>
+                    <textarea id="challengesExpected" name="challengesExpected" class="form-input form-textarea" placeholder="Getting qualified attendees, conversion, budget concerns, etc."></textarea>
+                </div>
+            </div>
+
+            <!-- Qualification Score Display -->
+            <div id="qualificationScore" class="qualification-score">
+                <div class="score-title">Your Qualification Score</div>
+                <div class="score-value"><span id="scoreNumber">0</span>/100</div>
+                <div id="scoreMessage"></div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn" class="submit-button">
+                Submit Application
+            </button>
+
+            <!-- Hidden fields for UTM tracking -->
+            <input type="hidden" name="utm_source" id="utm_source">
+            <input type="hidden" name="utm_medium" id="utm_medium">
+            <input type="hidden" name="utm_campaign" id="utm_campaign">
+            <input type="hidden" name="utm_content" id="utm_content">
+            <input type="hidden" name="utm_term" id="utm_term">
+            <input type="hidden" name="ad_id" id="ad_id">
+            <input type="hidden" name="adset_id" id="adset_id">
+            <input type="hidden" name="campaign_id" id="campaign_id">
+            <input type="hidden" name="qualification_score" id="qualification_score_hidden">
+        </form>
+
+        <!-- Warning for entertainment events -->
+        <div id="entertainmentWarning" class="warning-box" style="display: none;">
+            <div class="warning-title">⚠️ Not a Good Fit</div>
+            <div class="warning-text">
+                Based on your selections, ESA is not the right fit for entertainment, social, or low-ticket events. 
+                We specialize in business events with high-ticket backend offers. 
+                You can still submit the application, but we'll likely recommend other resources instead.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let qualificationScore = 0;
+        const scoreCategories = {
+            eventType: 0,
+            eventTiming: 0,
+            hasBackend: 0,
+            annualRevenue: 0,
+            adBudget: 0,
+            socialFollowing: 0
+        };
+
+        // Load UTM data on page load
+        window.addEventListener('load', function() {
+            const utmData = getUtmData();
+            
+            // Populate hidden UTM fields
+            Object.keys(utmData).forEach(key => {
+                const field = document.getElementById(key);
+                if (field) {
+                    field.value = utmData[key];
+                }
+            });
+        });
+
+        function selectRadio(name, value, score) {
+            // Update radio selection
+            const radio = document.querySelector(`input[name="${name}"][value="${value}"]`);
+            if (radio) {
+                radio.checked = true;
+                
+                // Update visual selection
+                document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+                    r.closest('.radio-item').classList.remove('selected');
+                });
+                radio.closest('.radio-item').classList.add('selected');
+                
+                // Update score
+                scoreCategories[name] = score;
+                updateQualificationScore();
+                
+                // Show warning for entertainment events
+                if (name === 'eventType' && (value === 'entertainment' || value === 'social')) {
+                    document.getElementById('entertainmentWarning').style.display = 'block';
+                } else if (name === 'eventType') {
+                    document.getElementById('entertainmentWarning').style.display = 'none';
+                }
+            }
+        }
+
+        function updateScore(category, value) {
+            const option = document.querySelector(`#${category} option[value="${value}"]`);
+            if (option) {
+                const score = parseInt(option.dataset.score) || 0;
+                scoreCategories[category] = score;
+                updateQualificationScore();
+            }
+        }
+
+        function updateQualificationScore() {
+            qualificationScore = Object.values(scoreCategories).reduce((sum, score) => sum + score, 0);
+            
+            const scoreDisplay = document.getElementById('qualificationScore');
+            const scoreNumber = document.getElementById('scoreNumber');
+            const scoreMessage = document.getElementById('scoreMessage');
+            const hiddenScore = document.getElementById('qualification_score_hidden');
+            
+            scoreNumber.textContent = qualificationScore;
+            hiddenScore.value = qualificationScore;
+            
+            let message = '';
+            let displayScore = false;
+            
+            if (qualificationScore >= 80) {
+                message = '🎉 Excellent Fit! You qualify for immediate calendar booking.';
+                scoreDisplay.style.borderColor = '#10b981';
+                scoreDisplay.style.background = '#f0fdf4';
+                displayScore = true;
+            } else if (qualificationScore >= 60) {
+                message = '✅ Good Fit! Your application will be reviewed within 24 hours.';
+                scoreDisplay.style.borderColor = '#f59e0b';
+                scoreDisplay.style.background = '#fffbeb';
+                displayScore = true;
+            } else if (qualificationScore >= 35) {
+                message = '⚠️ Potential Fit. We may have resources to help, but ESA may not be the best solution right now.';
+                scoreDisplay.style.borderColor = '#ef4444';
+                scoreDisplay.style.background = '#fef2f2';
+                displayScore = true;
+            } else if (qualificationScore > 0) {
+                message = '❌ Not Currently a Fit. We recommend focusing on business fundamentals first.';
+                scoreDisplay.style.borderColor = '#ef4444';
+                scoreDisplay.style.background = '#fef2f2';
+                displayScore = true;
+            }
+            
+            scoreMessage.textContent = message;
+            scoreDisplay.style.display = displayScore ? 'block' : 'none';
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Add qualification score
+            data.qualification_score = qualificationScore;
+            data.submission_time = new Date().toISOString();
+            
+            console.log('Application submitted:', data);
+            
+            // Here you would typically send to your GHL webhook or API
+            // For now, we'll show a success message based on score
+            
+            if (qualificationScore >= 80) {
+                alert('🎉 Congratulations! You are highly qualified. Redirecting to calendar booking...');
+                // Redirect to calendar booking
+                window.location.href = 'YOUR_CALENDAR_LINK_FOR_HIGH_QUALIFIED';
+            } else if (qualificationScore >= 60) {
+                alert('✅ Thank you! Your application has been submitted. You will hear back within 24 hours.');
+                // Redirect to thank you page
+                window.location.href = 'YOUR_THANK_YOU_PAGE';
+            } else {
+                alert('Thank you for your interest. Based on your responses, we may not be the best fit right now, but we will be in touch with some resources that might help.');
+                // Redirect to resources page
+                window.location.href = 'YOUR_RESOURCES_PAGE';
+            }
+        }
+    </script>
+</body>
+</html>

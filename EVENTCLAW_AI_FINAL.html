@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventClaw.AI - The AI Revolution in Event Sales</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #000;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 40%, #3b82f6 0%, transparent 50%);
+            opacity: 0.1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            margin-right: 20px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .logo-text {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: white;
+        }
+        
+        .logo-text .ai {
+            color: #3b82f6;
+        }
+        
+        /* Main Content */
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #fff 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.4rem;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin: 60px 0;
+        }
+        
+        .stat {
+            text-align: left;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #3b82f6;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+        
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin: 80px 0;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .feature h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .feature p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* CTA */
+        .cta {
+            margin-top: 60px;
+        }
+        
+        .btn {
+            background: #3b82f6;
+            color: white;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 20px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #374151;
+            color: #d1d5db;
+        }
+        
+        .btn-secondary:hover {
+            border-color: #6b7280;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Demo Section */
+        .demo {
+            background: #0f172a;
+            padding: 80px 0;
+            margin-top: 100px;
+        }
+        
+        .demo h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+        }
+        
+        .terminal {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 30px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid #334155;
+        }
+        
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .terminal-dots {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .dot:nth-child(1) { background: #ef4444; }
+        .dot:nth-child(2) { background: #f59e0b; }
+        .dot:nth-child(3) { background: #10b981; }
+        
+        .terminal-line {
+            margin-bottom: 10px;
+            color: #e2e8f0;
+        }
+        
+        .prompt {
+            color: #3b82f6;
+        }
+        
+        .command {
+            color: #10b981;
+        }
+        
+        .output {
+            color: #94a3b8;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #000;
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid #1f2937;
+            margin-top: 100px;
+        }
+        
+        .footer-content {
+            color: #6b7280;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: #3b82f6;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .logo-text {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <!-- Clean Logo -->
+                <div class="logo">
+                    <div class="logo-icon">EC</div>
+                    <div class="logo-text">EventClaw<span class="ai">.AI</span></div>
+                </div>
+                
+                <h1>The Future of Event Marketing</h1>
+                <p>AI-powered agents that sell out your events while you sleep. 28 agents working 24/7 across every timezone.</p>
+                
+                <!-- Stats -->
+                <div class="stats">
+                    <div class="stat">
+                        <span class="stat-number">65,000+</span>
+                        <span class="stat-label">Tickets Sold</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">$65M+</span>
+                        <span class="stat-label">Revenue Generated</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">28</span>
+                        <span class="stat-label">AI Agents</span>
+                    </div>
+                </div>
+                
+                <!-- Features -->
+                <div class="features">
+                    <div class="feature">
+                        <span class="feature-icon">🤖</span>
+                        <h3>AI Assistant</h3>
+                        <p>Every client gets their own AI Brian assistant trained on $65M+ in proven event strategies.</p>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🌍</span>
+                        <h3>Global Reach</h3>
+                        <p>AI works across all timezones simultaneously. Fill events in New York, London, and Tokyo at the same time.</p>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">⚡</span>
+                        <h3>Instant Scale</h3>
+                        <p>From startup workshops to stadium events. AI scales with unlimited capacity and zero burnout.</p>
+                    </div>
+                </div>
+                
+                <!-- CTA -->
+                <div class="cta">
+                    <a href="#contact" class="btn">Get Your AI Assistant</a>
+                    <a href="#demo" class="btn btn-secondary">See Live Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Demo Section -->
+    <section class="demo">
+        <div class="container">
+            <h2>See AI Brian in Action</h2>
+            
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                
+                <div class="terminal-line">
+                    <span class="prompt">client@eventclaw.ai:~$</span> <span class="command">ai-brian --help-event "Miami Summit 2026"</span>
+                </div>
+                
+                <div class="terminal-line">
+                    <span class="output">🤖 AI Brian: Analyzing your Miami Summit...</span>
+                </div>
+                
+                <div class="terminal-line">
+                    <span class="output">✅ Target: 500 attendees at $2,000 each</span>
+                </div>
+                
+                <div class="terminal-line">
+                    <span class="output">✅ Strategy: Facebook ads → landing page → sales calls</span>
+                </div>
+                
+                <div class="terminal-line">
+                    <span class="output">✅ Timeline: Event fills in 45 days</span>
+                </div>
+                
+                <div class="terminal-line">
+                    <span class="prompt">client@eventclaw.ai:~$</span> <span class="command">ai-brian --deploy-system</span>
+                </div>
+                
+                <div class="terminal-line">
+                    <span class="output">🚀 Deploying complete event system...</span>
+                </div>
+                
+                <div class="terminal-line">
+                    <span class="output">📊 60 minutes later: 23 tickets sold, $46,000 revenue</span>
+                </div>
+                
+                <div class="terminal-line">
+                    <span class="output">🤖 AI Brian: "This is just the first hour. I'm just getting started."</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">EventClaw.AI</div>
+                <div class="footer-links">
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                    <a href="https://instagram.com/brianrand">Instagram</a>
+                    <a href="mailto:brian@eventclaw.ai">Email</a>
+                </div>
+                <p>© 2026 EventClaw.AI. Built by Brian Rand in Miami, FL.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                console.log('EventClaw.AI interaction');
+            });
+        });
+    </script>
+</body>
+</html>
