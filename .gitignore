@@ -1,0 +1,62 @@
+# ===========================
+# CREDENTIALS & SECRETS
+# ===========================
+.env
+.env.*
+.env.real
+.env.local
+.env.production
+credentials/
+secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*_token.txt
+*_secret.txt
+*_credentials.json
+service-account*.json
+
+# ===========================
+# API KEYS & TOKENS
+# ===========================
+ghl_api_token*
+notion_token*
+slack_token*
+clickup_token*
+
+# ===========================
+# OS & EDITOR
+# ===========================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# ===========================
+# NODE
+# ===========================
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ===========================
+# PYTHON
+# ===========================
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+*.egg-info/
+
+# ===========================
+# LOGS & TEMP
+# ===========================
+*.log
+tmp/
+temp/

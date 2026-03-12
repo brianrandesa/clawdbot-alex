@@ -142,21 +142,21 @@ If something goes wrong:
 ## Current API Keys & Access
 
 **Where they're stored:**
-- `/Users/jedidiahenderson/.openclaw/workspace/.env`
-- Not in git
-- Only on your Mac
+- `.env` file in workspace root (NEVER commit to git)
+- `credentials/` directory (gitignored)
+- Only on your local Mac
 
-**Active keys:**
-1. Gmail app password (chmhamwlufyjgtly)
-2. ClickUp API (pk_26239420...)
-3. Brave Search (BSAWQ3...)
-4. Google Sheets service account (JSON file)
+**Active integrations:**
+1. Gmail app password → Revoke: Google account settings > App passwords
+2. ClickUp API → Revoke: ClickUp settings > API
+3. Brave Search → Revoke: Brave dashboard
+4. Google Sheets service account → Revoke: Google Cloud console
+5. GoHighLevel API → Revoke: GHL Settings > API Keys
+6. Slack Bot Token → Revoke: api.slack.com > Your Apps
+7. Notion Integration → Revoke: notion.so/my-integrations
+8. Eventbrite API → Revoke: Eventbrite platform settings
 
-**How to revoke:**
-- Gmail: Delete app password in Google account settings
-- ClickUp: Regenerate API token in settings
-- Brave: Delete key in dashboard
-- Sheets: Delete service account in Google Cloud
+**NEVER put actual keys in this file. Keys go ONLY in .env**
 
 ---
 
