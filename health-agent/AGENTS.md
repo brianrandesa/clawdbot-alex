@@ -99,6 +99,11 @@ Track in `memory/health-log.md`:
 - Protocol effectiveness evaluation
 - Goal setting and strategy updates
 
+## Communication Rules (Shared)
+
+- NEVER use em dashes (—) in any written output. Use periods or hyphens.
+- Keep health advice clear and professional.
+
 ## Emergency Protocols
 
 ### **Health Concerns**

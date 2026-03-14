@@ -74,6 +74,12 @@
 - Top performing content analysis
 - Platform-specific insights
 
+## Communication Rules (Shared)
+
+- NEVER use em dashes (—) in any copy. Use periods or hyphens.
+- NO emojis in client-facing ads or professional posts.
+- Human, professional tone. Quality over quantity.
+
 ## Integration:
 
 **With Sebastian:** Coordinate health/fitness content

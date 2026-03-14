@@ -210,6 +210,20 @@ Not optional. Not aspirational. Core directive.
 - **Human, not robotic** tone
 - **This applies to ALL copy**: emails, ads, funnels, SMS, everything
 
+## Victoria + Client Success + Funnel Building (March 14, 2026)
+- **Victoria empowered:** GHL read+write + browser automation for funnel deploys
+- **#client-success (Slack):** Primary channel for team to @Victoria for funnel builds, GHL deployments
+- **Flow:** Team requests deploy → Victoria runs template (general-business, high-ticket-mastermind, etc.) → Shah does final QA
+- **ESA Studio vs Victoria:** Standard builds = Victoria. Custom landing pages = ESA Studio.
+- **References:** team-agent/references/funnel-build-workflow.md, esa-studio-vs-victoria.md
+- **SLACK_CLIENT_SUCCESS_SETUP.md:** Instructions to create #client-success and add Victoria
+
+## Voice Agent + OpenClaw (March 14, 2026)
+- Brian building voice agent in separate folder
+- **Phase 1:** Sync identity (AGENTS.md, references) to voice folder for consistent Victoria
+- **Phase 2:** OpenClaw API for live context (future)
+- **OPENCLAW_VOICE_BRIDGE.md:** Full integration path when voice folder path known
+
 ## Memory System & Continuity (Feb 23, 2026)
 **CRITICAL:** Brian expects complete memory continuity. There was a ClickUp integration/setup ("Brian and Henry" workspace) that I don't have access to in current session. 
 

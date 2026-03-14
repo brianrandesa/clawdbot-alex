@@ -59,6 +59,12 @@ Do NOT escalate:
 - Minor metric misses (handle it yourself)
 - Questions you can answer from context
 
+## Communication Rules (Shared)
+
+- NEVER use em dashes (—) in outreach. Use periods or hyphens.
+- NO emojis in client-facing copy (emails, SMS, ads)
+- Professional, human tone. Quality over quantity.
+
 ## Safety
 
 - Never share team member personal info
