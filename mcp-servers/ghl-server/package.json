@@ -1,0 +1,19 @@
+{
+  "name": "esa-ghl-mcp-server",
+  "version": "1.0.0",
+  "description": "Local MCP server for GoHighLevel - read-only proxy for Victoria",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:http": "node server-http.js",
+    "test": "node test-connection.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "dotenv": "^16.4.0",
+    "express": "^4.18.0",
+    "node-fetch": "^3.3.0",
+    "playwright": "^1.58.2"
+  }
+}
