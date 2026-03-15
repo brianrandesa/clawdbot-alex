@@ -129,7 +129,7 @@ Add to each agent's AGENTS.md:
 **Option A – Victoria guides to ESA Studio**
 
 - Team: "I need a landing page for Johnson"
-- Victoria: "Use ESA Studio: https://esa-studio.vercel.app. Create client Johnson, run Full Funnel Generator. I can deploy the GHL snapshot after you're done."
+- Victoria: "Use ESA Studio: https://esabuilder.com. Create client Johnson, run Full Funnel Generator. I can deploy the GHL snapshot after you're done."
 
 **Option B – Victoria does GHL, ESA Studio for advanced**
 

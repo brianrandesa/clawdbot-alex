@@ -38,7 +38,7 @@
 
 ## 🧪 READY FOR TESTING
 
-**Access URL:** https://esa-studio.vercel.app  
+**Access URL:** https://esabuilder.com  
 **Location:** New "Video Editor" tab in ESA Studio  
 **Test Process:**
 1. Login to ESA Studio

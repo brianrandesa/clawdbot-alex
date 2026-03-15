@@ -15,7 +15,7 @@
 *This is 100% my fault for not properly validating the data before presenting it to you. I fucked up.*
 
 *Here's what's real:*
-*- ESA Studio platform: 11 working features, live at esa-studio.vercel.app*
+*- ESA Studio platform: 11 working features, live at esabuilder.com*
 *- Real prospect list: 94 actual contacts we can reach*  
 *- Qualification scorecard: 80-point system that actually works*
 *- Team structure and payroll: All accurate*

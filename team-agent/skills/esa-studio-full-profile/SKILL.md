@@ -16,7 +16,7 @@ When the team requests a **full profile** or **custom site** in ESA Studio, run 
 
 ## API flow
 
-**Base URL:** See TOOLS.md (e.g. https://esa-studio.vercel.app). No auth required.
+**Base URL:** https://esabuilder.com (see TOOLS.md). No auth required.
 
 ### 1. Create client
 
@@ -32,7 +32,26 @@ When the team requests a **full profile** or **custom site** in ESA Studio, run 
 
 ### 3. Reply in Slack
 
-- "Done. **[Client Name]** is ready in ESA Studio. [Open ESA Studio]({base}). Select the client to see the full funnel, landing, ads, email, and SMS."
+- "Done. **[Client Name]** is ready in ESA Studio. [Open ESA Studio](https://esabuilder.com). Select the client to see the full funnel, landing, ads, email, and SMS."
+
+## Sending the plan into ESA Studio
+
+When you build a plan in Slack (client success plan, launch plan, strategy), send it so the team sees it in ESA Studio:
+
+- **POST** `https://esabuilder.com/api/strategy`
+- **Body (JSON):** `{ "clientId": "[client UUID]", "plan": "[full plan text]" }`
+- The plan appears in ESA Studio under **Victoria's Plan** for that client.
+
+## Sending the checklist into ESA Builder
+
+When you create the plan/checklist in the client's Slack channel (after Fathom, recordings, etc.), push the task list so it becomes the single to-do list for the team in ESA Builder:
+
+- **POST** `https://esabuilder.com/api/checklist`
+- **Body (JSON):** `{ "clientId": "[client UUID]", "replaceExisting": true, "tasks": [ { "title": "Task title", "assignedTo": "Shaw", "phase": "Phase 1", "dueDate": "2026-03-12" }, ... ] }`
+- **Assignees:** Use only these names in `assignedTo`: **Shaw, Jawad, Hamza, Zoe, Denise, Kim, Brian, Diamond**. (Dropdown in ESA Builder is limited to these.)
+- Fields: `title` (required), `assignedTo`, `phase`, `dueDate` (YYYY-MM-DD). Set `replaceExisting: true` to replace the client's checklist.
+- Tasks appear in ESA Builder under Victoria's Plan + Checklist; the team can add more tasks and check off when done.
+- Reply in Slack: "Plan and checklist are in ESA Builder for [Client]. Open the client and check Victoria's Plan."
 
 ## References
 

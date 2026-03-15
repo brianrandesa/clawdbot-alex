@@ -54,7 +54,7 @@
 ## TESTING REQUIRED
 
 **Brian needs to test:**
-1. Go to https://esa-studio.vercel.app
+1. Go to https://esabuilder.com
 2. Generate a NEW landing page (any template)
 3. Click ANY CTA button
 4. Verify A2P modal appears with TWO checkboxes

@@ -71,7 +71,7 @@ Not optional. Not aspirational. Core directive.
 
 ## ESA Studio — Full Event Marketing Platform (Built Feb 17, 2026)
 - **Repo:** `brianrandesa/esa-studio` | **Local:** `/Users/henry/.openclaw/workspace/esa-studio/`
-- **Live URL:** `https://esa-studio.vercel.app` (deploy hook working, last deployed Feb 18 2026)
+- **Live URL:** `https://esabuilder.com` (deploy hook working, last deployed Feb 18 2026)
 - **MAJOR REBUILD IN PROGRESS:** Claude Code on Brian's machine executing Phase 1-2 of upgrade plan
 - **Upgrade plan:** `esa-studio/UPGRADE-PLAN.md` (14-week roadmap, drag-and-drop builder, templates, client portal)
 - **Denise Brooks approved** as user (denise@eventsalesagency.com)

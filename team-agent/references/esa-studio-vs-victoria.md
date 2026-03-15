@@ -18,7 +18,7 @@
 
 ---
 
-## ESA Studio (esa-studio.vercel.app)
+## ESA Studio (esabuilder.com)
 
 **Strengths:**
 - Full funnel generator (strategist → copywriter → designer → QA)

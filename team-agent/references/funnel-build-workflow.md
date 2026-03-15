@@ -98,7 +98,7 @@ After Victoria deploys:
 | Need | Use |
 |------|-----|
 | Standard pipeline + funnel (4 templates) | Victoria – deploy via Slack |
-| Custom landing page, headline lab, creative | ESA Studio (https://esa-studio.vercel.app) |
+| Custom landing page, headline lab, creative | ESA Studio (https://esabuilder.com) |
 | Funnel already in ESA Studio, need GHL deploy | Victoria can deploy template; custom pages may need manual GHL build |
 | Quick funnel for testing | Victoria – general-business |
 

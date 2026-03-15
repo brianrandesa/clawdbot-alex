@@ -4,9 +4,12 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 
 ## ESA Studio (full profile flow)
 
-- **Base URL:** https://esa-studio.vercel.app (change if you use a custom domain)
-- **Create client:** POST `{base}/api/create-client` — Body: `{ "name", "event_name?", "knowledge_base?", "avatar?" }` → returns `{ "clientId" }`
-- **Full profile:** POST `{base}/api/full-profile` — Body: `{ "clientId" }` (or `{ "brief" }` to create + run in one step) → returns `{ "clientId", "status": "ready", "message", "landingUrl?" }`
+- **Base URL:** https://esabuilder.com
+- **Create client:** POST `https://esabuilder.com/api/create-client` — Body: `{ "name", "event_name?", "knowledge_base?", "avatar?" }` → returns `{ "clientId" }`
+- **Full profile:** POST `https://esabuilder.com/api/full-profile` — Body: `{ "clientId" }` (or `{ "brief" }` to create + run in one step) → returns `{ "clientId", "status": "ready", "message", "landingUrl?" }`
+- **Send plan (Victoria → ESA Studio):** POST `https://esabuilder.com/api/strategy` — Body: `{ "clientId": "uuid", "plan": "full plan text" }` → plan appears in ESA Studio → Victoria's Plan tab for that client
+- **Send checklist (Victoria → ESA Builder):** POST `https://esabuilder.com/api/checklist` — Body: `{ "clientId": "uuid", "replaceExisting": true, "tasks": [ { "title": "...", "assignedTo": "Shaw"|"Jawad"|"Hamza"|"Zoe"|"Denise"|"Kim"|"Brian"|"Diamond", "phase": "Phase 1", "dueDate": "YYYY-MM-DD" } ] }` → tasks appear in ESA Builder; team can add more and check off
+- **Add one task (in ESA Builder):** POST `https://esabuilder.com/api/checklist/task` — Body: `{ "clientId": "uuid", "title": "...", "assignedTo?", "dueDate?" }` → appends one task
 
 ## What Goes Here
 
