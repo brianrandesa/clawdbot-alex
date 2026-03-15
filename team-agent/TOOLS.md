@@ -2,6 +2,12 @@
 
 Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
 
+## ESA Studio (full profile flow)
+
+- **Base URL:** https://esa-studio.vercel.app (change if you use a custom domain)
+- **Create client:** POST `{base}/api/create-client` — Body: `{ "name", "event_name?", "knowledge_base?", "avatar?" }` → returns `{ "clientId" }`
+- **Full profile:** POST `{base}/api/full-profile` — Body: `{ "clientId" }` (or `{ "brief" }` to create + run in one step) → returns `{ "clientId", "status": "ready", "message", "landingUrl?" }`
+
 ## What Goes Here
 
 Things like:

@@ -1,0 +1,8 @@
+{
+  "name": "victoria-scripts",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@slack/web-api": "^7.0.0"
+  }
+}
