@@ -1,0 +1,19 @@
+{
+  "scenario_weights": {
+    "bear": 0.2,
+    "base": 0.6,
+    "bull": 0.2
+  },
+  "revenue_growth_overrides": {
+    "year1": 0.2,
+    "year2": 0.18,
+    "year3": 0.16,
+    "year4": 0.14,
+    "year5": 0.12
+  },
+  "margin_overrides": {
+    "gross_margin": 0.72,
+    "operating_margin": 0.52,
+    "net_margin": 0.45
+  }
+}

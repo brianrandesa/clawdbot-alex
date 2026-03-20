@@ -1,0 +1,2 @@
+"""Financial Modeling Robot package."""
+

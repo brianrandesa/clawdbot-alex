@@ -1,0 +1,19 @@
+{
+  "revenue_cagr_3y": 1.0004509499443963,
+  "eps_cagr_3y": 2.0179613706779187,
+  "gross_margin_trend_bps": 1413.9189866555757,
+  "operating_margin_trend_bps": 3970.6218368567015,
+  "net_margin_trend_bps": 3940.9162666026255,
+  "operating_leverage_score": 2.0170517812893016,
+  "capital_intensity_ratio": 0.027980253591308617,
+  "working_capital_efficiency": 0.432726060258037,
+  "key_drivers": [
+    "High topline momentum (>15% CAGR) supports forward revenue scaling.",
+    "Gross margin expansion indicates pricing power or mix shift.",
+    "Operating margin expansion signals operating leverage.",
+    "Low capital intensity supports free cash conversion."
+  ],
+  "key_risks": [
+    "Working capital intensity is high versus sales, potentially constraining cash."
+  ]
+}

@@ -1,0 +1,4 @@
+ticker,long_name,sector,industry,market_cap,enterprise_value,trailing_pe,forward_pe,price_to_sales,ebitda_margin,gross_margin,operating_margin,net_margin,revenue_ttm,eps_ttm
+MSFT,Microsoft Corporation,Technology,Software - Infrastructure,2891343462400.0,2922534141952.0,24.328955,20.644226,9.465755,0.57377,0.68586,0.47094002,0.39044,305453006848.0,15.99
+GOOGL,Alphabet Inc.,Communication Services,Internet Content & Information,3715351707648.0,3655504494592.0,28.437963,22.883314,9.222988,0.37278998,0.59652,0.31568,0.32810003,402835996672.0,10.8
+AMZN,"Amazon.com, Inc.",Consumer Cyclical,Internet Retail,2241021870080.0,2296647516160.0,29.075209,22.336828,3.1258848,0.20327,0.50286,0.10533,0.108339995,716923994112.0,7.18

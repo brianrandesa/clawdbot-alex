@@ -1,0 +1,17 @@
+{
+  "ticker": "NVDA",
+  "long_name": "NVIDIA Corporation",
+  "sector": "Technology",
+  "industry": "Semiconductors",
+  "market_cap": 4339900874752.0,
+  "enterprise_value": 4287863980032.0,
+  "trailing_pe": 36.3666,
+  "forward_pe": 16.062826,
+  "price_to_sales": 20.097902,
+  "ebitda_margin": 0.61698,
+  "gross_margin": 0.71068,
+  "operating_margin": 0.65024,
+  "net_margin": 0.55603004,
+  "revenue_ttm": 215938007040.0,
+  "eps_ttm": 4.91
+}

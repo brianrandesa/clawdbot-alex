@@ -1,0 +1,17 @@
+{
+  "ticker": "TSLA",
+  "long_name": "Tesla, Inc.",
+  "sector": "Consumer Cyclical",
+  "industry": "Auto Manufacturers",
+  "market_cap": 1427049807872.0,
+  "enterprise_value": 1398227730432.0,
+  "trailing_pe": 358.7736,
+  "forward_pe": 135.31737,
+  "price_to_sales": 15.048982,
+  "ebitda_margin": 0.11076,
+  "gross_margin": 0.18027,
+  "operating_margin": 0.047030002,
+  "net_margin": 0.040009998,
+  "revenue_ttm": 94827003904.0,
+  "eps_ttm": 1.06
+}

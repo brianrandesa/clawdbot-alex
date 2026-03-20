@@ -1,0 +1,18 @@
+{
+  "revenue_cagr_3y": 0.051943257367141005,
+  "eps_cagr_3y": -0.32943989733298273,
+  "gross_margin_trend_bps": -757.192709914285,
+  "operating_margin_trend_bps": -1186.617353464475,
+  "net_margin_trend_bps": -1144.549564901619,
+  "operating_leverage_score": -6.342303390880227,
+  "capital_intensity_ratio": 0.08992164678836197,
+  "working_capital_efficiency": 0.3894249528087992,
+  "key_drivers": [
+    "Moderate topline growth indicates stable demand and expansion capacity."
+  ],
+  "key_risks": [
+    "Gross margin compression may reflect competitive or cost pressure.",
+    "Operating margin deterioration suggests cost structure stress.",
+    "Working capital intensity is high versus sales, potentially constraining cash."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "ticker": "AAPL",
+  "long_name": "Apple Inc.",
+  "sector": "Technology",
+  "industry": "Consumer Electronics",
+  "market_cap": 3659195744256.0,
+  "enterprise_value": 3678618517504.0,
+  "trailing_pe": 31.513924,
+  "forward_pe": 26.709324,
+  "price_to_sales": 8.400029,
+  "ebitda_margin": 0.35099998,
+  "gross_margin": 0.47325,
+  "operating_margin": 0.35374,
+  "net_margin": 0.27037,
+  "revenue_ttm": 435617005568.0,
+  "eps_ttm": 7.9
+}

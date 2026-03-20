@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boardroom Financial Modeling Robot</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="backdrop"></div>
+    <main class="container">
+      <section class="hero">
+        <p class="eyebrow">AI FINANCIAL INTELLIGENCE</p>
+        <h1 id="productTitle">Boardroom Financial Modeling Robot</h1>
+        <p id="productSubtitle" class="subtitle"></p>
+      </section>
+
+      <section class="controls card">
+        <label for="companySelect">Select Company:</label>
+        <select id="companySelect"></select>
+      </section>
+
+      <section class="kpi-grid">
+        <article class="card"><h3>Revenue TTM</h3><p id="kpiRevenue" class="kpi"></p></article>
+        <article class="card"><h3>Net Margin</h3><p id="kpiNetMargin" class="kpi"></p></article>
+        <article class="card"><h3>Forward P/E</h3><p id="kpiForwardPE" class="kpi"></p></article>
+        <article class="card"><h3>3Y Revenue CAGR</h3><p id="kpiCagr" class="kpi"></p></article>
+      </section>
+
+      <section class="charts">
+        <article class="card chart-card">
+          <h3>5-Year Revenue Forecast</h3>
+          <canvas id="revenueChart"></canvas>
+        </article>
+        <article class="card chart-card">
+          <h3>5-Year Net Income Forecast</h3>
+          <canvas id="incomeChart"></canvas>
+        </article>
+      </section>
+
+      <section class="insights">
+        <article class="card">
+          <h3>Primary Revenue Drivers</h3>
+          <ul id="driversList"></ul>
+        </article>
+        <article class="card">
+          <h3>Primary Risks</h3>
+          <ul id="risksList"></ul>
+        </article>
+      </section>
+
+      <section class="card">
+        <h3>Peer Benchmark</h3>
+        <div class="table-wrap">
+          <table id="peersTable">
+            <thead>
+              <tr>
+                <th>Ticker</th>
+                <th>Market Cap</th>
+                <th>Forward P/E</th>
+                <th>P/S</th>
+                <th>Op Margin</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+  </html>
+

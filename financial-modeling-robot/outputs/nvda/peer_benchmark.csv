@@ -1,0 +1,4 @@
+ticker,long_name,sector,industry,market_cap,enterprise_value,trailing_pe,forward_pe,price_to_sales,ebitda_margin,gross_margin,operating_margin,net_margin,revenue_ttm,eps_ttm
+AMD,"Advanced Micro Devices, Inc.",Technology,Semiconductors,334674460672.0,328128430080.0,78.647514,19.103022,9.661782,0.19472,0.52493,0.17059,0.12515001,34638999552.0,2.61
+INTC,Intel Corporation,Technology,Semiconductors,230677348352.0,252441100288.0,,46.59093,4.364508,0.23902,0.36563998,0.051409997,-0.00505,52852998144.0,-0.06
+TSM,Taiwan Semiconductor Manufacturing Company Limited,Technology,Semiconductors,1757136027648.0,6826801233920.0,32.70174,18.867327,0.46130505,0.68633,0.59891,0.53916,0.45099998,3809054294016.0,10.36

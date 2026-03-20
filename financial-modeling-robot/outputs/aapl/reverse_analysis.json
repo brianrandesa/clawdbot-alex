@@ -1,0 +1,19 @@
+{
+  "revenue_cagr_3y": 0.01812535743479393,
+  "eps_cagr_3y": 0.039212592033254,
+  "gross_margin_trend_bps": 359.5533545800367,
+  "operating_margin_trend_bps": 168.20553670632899,
+  "net_margin_trend_bps": 160.54234166185066,
+  "operating_leverage_score": 2.1634106899310264,
+  "capital_intensity_ratio": 0.030553079216937677,
+  "working_capital_efficiency": -0.04246914054897023,
+  "key_drivers": [
+    "Gross margin expansion indicates pricing power or mix shift.",
+    "Operating margin expansion signals operating leverage.",
+    "Low capital intensity supports free cash conversion.",
+    "Efficient working capital profile supports liquidity and growth."
+  ],
+  "key_risks": [
+    "Low historical revenue CAGR suggests muted organic growth."
+  ]
+}

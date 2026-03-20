@@ -1,0 +1,4 @@
+ticker,long_name,sector,industry,market_cap,enterprise_value,trailing_pe,forward_pe,price_to_sales,ebitda_margin,gross_margin,operating_margin,net_margin,revenue_ttm,eps_ttm
+GM,General Motors Company,Consumer Cyclical,Auto Manufacturers,68835835904.0,172661784576.0,22.56575,5.317531,0.37204736,0.09528,0.107209995,0.065359995,0.014579999,185019006976.0,3.27
+F,Ford Motor Company,Consumer Cyclical,Auto Manufacturers,46437494784.0,183770497024.0,,6.338868,0.24797478,0.028800001,0.0581,-0.0669,-0.04369,187267006464.0,-2.06
+TM,Toyota Motor Corporation,Consumer Cyclical,Auto Manufacturers,272306536448.0,29276506161152.0,11.698208,13.240177,0.005397471,0.12299,0.17597,0.08851,0.073249996,50450762039296.0,17.86

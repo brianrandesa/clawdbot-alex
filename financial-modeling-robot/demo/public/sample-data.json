@@ -1,0 +1,821 @@
+{
+  "product_name": "Boardroom Financial Modeling Robot",
+  "subtitle": "Reverse analysis, peer benchmarking, and scenario-driven forecasts",
+  "companies": {
+    "AAPL": {
+      "snapshot": {
+        "ticker": "AAPL",
+        "long_name": "Apple Inc.",
+        "sector": "Technology",
+        "industry": "Consumer Electronics",
+        "market_cap": 3659195744256.0,
+        "enterprise_value": 3678618517504.0,
+        "trailing_pe": 31.513924,
+        "forward_pe": 26.709324,
+        "price_to_sales": 8.400029,
+        "ebitda_margin": 0.35099998,
+        "gross_margin": 0.47325,
+        "operating_margin": 0.35374,
+        "net_margin": 0.27037,
+        "revenue_ttm": 435617005568.0,
+        "eps_ttm": 7.9
+      },
+      "reverse_analysis": {
+        "revenue_cagr_3y": 0.01812535743479393,
+        "eps_cagr_3y": 0.039212592033254,
+        "gross_margin_trend_bps": 359.5533545800367,
+        "operating_margin_trend_bps": 168.20553670632899,
+        "net_margin_trend_bps": 160.54234166185066,
+        "operating_leverage_score": 2.1634106899310264,
+        "capital_intensity_ratio": 0.030553079216937677,
+        "working_capital_efficiency": -0.04246914054897023,
+        "key_drivers": [
+          "Gross margin expansion indicates pricing power or mix shift.",
+          "Operating margin expansion signals operating leverage.",
+          "Low capital intensity supports free cash conversion.",
+          "Efficient working capital profile supports liquidity and growth."
+        ],
+        "key_risks": [
+          "Low historical revenue CAGR suggests muted organic growth."
+        ]
+      },
+      "annual_forecast": [
+        {
+          "year": "2027",
+          "revenue": "444329345679.36",
+          "growth_rate": "0.02",
+          "gross_profit": "210278862842.7571",
+          "operating_income": "157177062740.6168",
+          "net_income": "120133325191.32855",
+          "gross_margin": "0.47325",
+          "operating_margin": "0.35374",
+          "net_margin": "0.27037",
+          "implied_eps_growth": "0.022000000000000002",
+          "scenario_growth_bear": "-0.02",
+          "scenario_growth_base": "0.02",
+          "scenario_growth_bull": "0.06"
+        },
+        {
+          "year": "2028",
+          "revenue": "453215932592.9472",
+          "growth_rate": "0.02",
+          "gross_profit": "214484440099.61227",
+          "operating_income": "160320603995.42914",
+          "net_income": "122535991695.15514",
+          "gross_margin": "0.47325",
+          "operating_margin": "0.35374",
+          "net_margin": "0.27037",
+          "implied_eps_growth": "0.022000000000000002",
+          "scenario_growth_bear": "-0.02",
+          "scenario_growth_base": "0.02",
+          "scenario_growth_bull": "0.06"
+        },
+        {
+          "year": "2029",
+          "revenue": "462280251244.80615",
+          "growth_rate": "0.02",
+          "gross_profit": "218774128901.60452",
+          "operating_income": "163527016075.33774",
+          "net_income": "124986711529.05824",
+          "gross_margin": "0.47325",
+          "operating_margin": "0.35374",
+          "net_margin": "0.27037",
+          "implied_eps_growth": "0.022000000000000002",
+          "scenario_growth_bear": "-0.02",
+          "scenario_growth_base": "0.02",
+          "scenario_growth_bull": "0.06"
+        },
+        {
+          "year": "2030",
+          "revenue": "471525856269.7023",
+          "growth_rate": "0.02",
+          "gross_profit": "223149611479.6366",
+          "operating_income": "166797556396.84448",
+          "net_income": "127486445759.6394",
+          "gross_margin": "0.47325",
+          "operating_margin": "0.35374",
+          "net_margin": "0.27037",
+          "implied_eps_growth": "0.022000000000000002",
+          "scenario_growth_bear": "-0.02",
+          "scenario_growth_base": "0.02",
+          "scenario_growth_bull": "0.06"
+        },
+        {
+          "year": "2031",
+          "revenue": "480956373395.0963",
+          "growth_rate": "0.02",
+          "gross_profit": "227612603709.22934",
+          "operating_income": "170133507524.78137",
+          "net_income": "130036174674.83218",
+          "gross_margin": "0.47325",
+          "operating_margin": "0.35374",
+          "net_margin": "0.27037",
+          "implied_eps_growth": "0.022000000000000002",
+          "scenario_growth_bear": "-0.02",
+          "scenario_growth_base": "0.02",
+          "scenario_growth_bull": "0.06"
+        }
+      ],
+      "monthly_forecast": [
+        {
+          "month_index": "1",
+          "revenue": "36361371872.43288",
+          "gross_profit": "17208019238.62886",
+          "operating_income": "12862471686.154406",
+          "net_income": "9831024113.149677",
+          "monthly_growth": "0.0016515813019202241"
+        },
+        {
+          "month_index": "2",
+          "revenue": "36421425634.32955",
+          "gross_profit": "17236439681.44646",
+          "operating_income": "12883715103.887735",
+          "net_income": "9847260848.753681",
+          "monthly_growth": "0.0016515813019202241"
+        },
+        {
+          "month_index": "3",
+          "revenue": "36481578579.89649",
+          "gross_profit": "17264907062.936016",
+          "operating_income": "12904993606.852585",
+          "net_income": "9863524400.646614",
+          "monthly_growth": "0.0016515813019202241"
+        },
+        {
+          "month_index": "4",
+          "revenue": "36541830872.94358",
+          "gross_profit": "17293421460.62055",
+          "operating_income": "12926307252.995062",
+          "net_income": "9879814813.117756",
+          "monthly_growth": "0.0016515813019202241"
+        },
+        {
+          "month_index": "5",
+          "revenue": "36602182677.55126",
+          "gross_profit": "17321982952.151134",
+          "operating_income": "12947656100.356983",
+          "net_income": "9896132130.529535",
+          "monthly_growth": "0.0016515813019202241"
+        },
+        {
+          "month_index": "6",
+          "revenue": "36662634158.07098",
+          "gross_profit": "17350591615.30709",
+          "operating_income": "12969040207.076027",
+          "net_income": "9912476397.31765",
+          "monthly_growth": "0.0016515813019202241"
+        },
+        {
+          "month_index": "7",
+          "revenue": "36723185479.12559",
+          "gross_profit": "17379247527.996185",
+          "operating_income": "12990459631.385885",
+          "net_income": "9928847657.991184",
+          "monthly_growth": "0.0016515813019202241"
+        },
+        {
+          "month_index": "8",
+          "revenue": "36783836805.60986",
+          "gross_profit": "17407950768.254868",
+          "operating_income": "13011914431.616432",
+          "net_income": "9945245957.132738",
+          "monthly_growth": "0.0016515813019202241"
+        },
+        {
+          "month_index": "9",
+          "revenue": "36844588302.690895",
+          "gross_profit": "17436701414.248466",
+          "operating_income": "13033404666.193876",
+          "net_income": "9961671339.398537",
+          "monthly_growth": "0.0016515813019202241"
+        },
+        {
+          "month_index": "10",
+          "revenue": "36905440135.80857",
+          "gross_profit": "17465499544.271408",
+          "operating_income": "13054930393.640924",
+          "net_income": "9978123849.518564",
+          "monthly_growth": "0.0016515813019202241"
+        },
+        {
+          "month_index": "11",
+          "revenue": "36966392470.67601",
+          "gross_profit": "17494345236.74742",
+          "operating_income": "13076491672.576931",
+          "net_income": "9994603532.296673",
+          "monthly_growth": "0.0016515813019202241"
+        },
+        {
+          "month_index": "12",
+          "revenue": "37027445473.28002",
+          "gross_profit": "17523238570.22977",
+          "operating_income": "13098088561.718075",
+          "net_income": "10011110432.61072",
+          "monthly_growth": "0.0016515813019202241"
+        }
+      ],
+      "peers": [
+        {
+          "ticker": "MSFT",
+          "long_name": "Microsoft Corporation",
+          "sector": "Technology",
+          "industry": "Software - Infrastructure",
+          "market_cap": "2891343462400.0",
+          "enterprise_value": "2922534141952.0",
+          "trailing_pe": "24.328955",
+          "forward_pe": "20.644226",
+          "price_to_sales": "9.465755",
+          "ebitda_margin": "0.57377",
+          "gross_margin": "0.68586",
+          "operating_margin": "0.47094002",
+          "net_margin": "0.39044",
+          "revenue_ttm": "305453006848.0",
+          "eps_ttm": "15.99"
+        },
+        {
+          "ticker": "GOOGL",
+          "long_name": "Alphabet Inc.",
+          "sector": "Communication Services",
+          "industry": "Internet Content & Information",
+          "market_cap": "3715351707648.0",
+          "enterprise_value": "3655504494592.0",
+          "trailing_pe": "28.437963",
+          "forward_pe": "22.883314",
+          "price_to_sales": "9.222988",
+          "ebitda_margin": "0.37278998",
+          "gross_margin": "0.59652",
+          "operating_margin": "0.31568",
+          "net_margin": "0.32810003",
+          "revenue_ttm": "402835996672.0",
+          "eps_ttm": "10.8"
+        },
+        {
+          "ticker": "AMZN",
+          "long_name": "Amazon.com, Inc.",
+          "sector": "Consumer Cyclical",
+          "industry": "Internet Retail",
+          "market_cap": "2241021870080.0",
+          "enterprise_value": "2296647516160.0",
+          "trailing_pe": "29.075209",
+          "forward_pe": "22.336828",
+          "price_to_sales": "3.1258848",
+          "ebitda_margin": "0.20327",
+          "gross_margin": "0.50286",
+          "operating_margin": "0.10533",
+          "net_margin": "0.108339995",
+          "revenue_ttm": "716923994112.0",
+          "eps_ttm": "7.18"
+        }
+      ],
+      "highlights": {
+        "year1_revenue": 444329345679.36,
+        "year5_revenue": 480956373395.0963,
+        "year1_net_income": 120133325191.32855,
+        "year5_net_income": 130036174674.83218
+      }
+    },
+    "NVDA": {
+      "snapshot": {
+        "ticker": "NVDA",
+        "long_name": "NVIDIA Corporation",
+        "sector": "Technology",
+        "industry": "Semiconductors",
+        "market_cap": 4339900874752.0,
+        "enterprise_value": 4287863980032.0,
+        "trailing_pe": 36.3666,
+        "forward_pe": 16.062826,
+        "price_to_sales": 20.097902,
+        "ebitda_margin": 0.61698,
+        "gross_margin": 0.71068,
+        "operating_margin": 0.65024,
+        "net_margin": 0.55603004,
+        "revenue_ttm": 215938007040.0,
+        "eps_ttm": 4.91
+      },
+      "reverse_analysis": {
+        "revenue_cagr_3y": 1.0004509499443963,
+        "eps_cagr_3y": 2.0179613706779187,
+        "gross_margin_trend_bps": 1413.9189866555757,
+        "operating_margin_trend_bps": 3970.6218368567015,
+        "net_margin_trend_bps": 3940.9162666026255,
+        "operating_leverage_score": 2.0170517812893016,
+        "capital_intensity_ratio": 0.027980253591308617,
+        "working_capital_efficiency": 0.432726060258037,
+        "key_drivers": [
+          "High topline momentum (>15% CAGR) supports forward revenue scaling.",
+          "Gross margin expansion indicates pricing power or mix shift.",
+          "Operating margin expansion signals operating leverage.",
+          "Low capital intensity supports free cash conversion."
+        ],
+        "key_risks": [
+          "Working capital intensity is high versus sales, potentially constraining cash."
+        ]
+      },
+      "annual_forecast": [
+        {
+          "year": "2027",
+          "revenue": "259125608448.0",
+          "growth_rate": "0.2",
+          "gross_profit": "186570438082.56",
+          "operating_income": "134745316392.96",
+          "net_income": "116606523801.6",
+          "gross_margin": "0.72",
+          "operating_margin": "0.52",
+          "net_margin": "0.45",
+          "implied_eps_growth": "0.22000000000000003",
+          "scenario_growth_bear": "0.16",
+          "scenario_growth_base": "0.2",
+          "scenario_growth_bull": "0.24000000000000002"
+        },
+        {
+          "year": "2028",
+          "revenue": "305768217968.63995",
+          "growth_rate": "0.18000000000000002",
+          "gross_profit": "220153116937.42075",
+          "operating_income": "158999473343.69278",
+          "net_income": "137595698085.88797",
+          "gross_margin": "0.72",
+          "operating_margin": "0.52",
+          "net_margin": "0.45",
+          "implied_eps_growth": "0.19800000000000004",
+          "scenario_growth_bear": "0.13999999999999999",
+          "scenario_growth_base": "0.18",
+          "scenario_growth_bull": "0.22"
+        },
+        {
+          "year": "2029",
+          "revenue": "354691132843.6223",
+          "growth_rate": "0.16",
+          "gross_profit": "255377615647.40805",
+          "operating_income": "184439389078.68362",
+          "net_income": "159611009779.63004",
+          "gross_margin": "0.72",
+          "operating_margin": "0.52",
+          "net_margin": "0.45",
+          "implied_eps_growth": "0.17600000000000002",
+          "scenario_growth_bear": "0.12",
+          "scenario_growth_base": "0.16",
+          "scenario_growth_bull": "0.2"
+        },
+        {
+          "year": "2030",
+          "revenue": "404347891441.7295",
+          "growth_rate": "0.14",
+          "gross_profit": "291130481838.0452",
+          "operating_income": "210260903549.69934",
+          "net_income": "181956551148.7783",
+          "gross_margin": "0.72",
+          "operating_margin": "0.52",
+          "net_margin": "0.45",
+          "implied_eps_growth": "0.15400000000000003",
+          "scenario_growth_bear": "0.1",
+          "scenario_growth_base": "0.14",
+          "scenario_growth_bull": "0.18000000000000002"
+        },
+        {
+          "year": "2031",
+          "revenue": "452869638414.73706",
+          "growth_rate": "0.12",
+          "gross_profit": "326066139658.61066",
+          "operating_income": "235492211975.66327",
+          "net_income": "203791337286.63168",
+          "gross_margin": "0.72",
+          "operating_margin": "0.52",
+          "net_margin": "0.45",
+          "implied_eps_growth": "0.132",
+          "scenario_growth_bear": "0.07999999999999999",
+          "scenario_growth_base": "0.12",
+          "scenario_growth_bull": "0.16"
+        }
+      ],
+      "monthly_forecast": [
+        {
+          "month_index": "1",
+          "revenue": "18270325299.045803",
+          "gross_profit": "13154634215.312977",
+          "operating_income": "9500569155.503819",
+          "net_income": "8221646384.570612",
+          "monthly_growth": "0.015309470499731193"
+        },
+        {
+          "month_index": "2",
+          "revenue": "18550034305.232037",
+          "gross_profit": "13356024699.767065",
+          "operating_income": "9646017838.72066",
+          "net_income": "8347515437.354417",
+          "monthly_growth": "0.015309470499731193"
+        },
+        {
+          "month_index": "3",
+          "revenue": "18834025508.196987",
+          "gross_profit": "13560498365.90183",
+          "operating_income": "9793693264.262434",
+          "net_income": "8475311478.688644",
+          "monthly_growth": "0.015309470499731193"
+        },
+        {
+          "month_index": "4",
+          "revenue": "19122364466.105915",
+          "gross_profit": "13768102415.596258",
+          "operating_income": "9943629522.375076",
+          "net_income": "8605064009.747662",
+          "monthly_growth": "0.015309470499731193"
+        },
+        {
+          "month_index": "5",
+          "revenue": "19415117740.78487",
+          "gross_profit": "13978884773.365107",
+          "operating_income": "10095861225.208134",
+          "net_income": "8736802983.353191",
+          "monthly_growth": "0.015309470499731193"
+        },
+        {
+          "month_index": "6",
+          "revenue": "19712352913.086224",
+          "gross_profit": "14192894097.422081",
+          "operating_income": "10250423514.804836",
+          "net_income": "8870558810.888802",
+          "monthly_growth": "0.015309470499731193"
+        },
+        {
+          "month_index": "7",
+          "revenue": "20014138598.489407",
+          "gross_profit": "14410179790.912373",
+          "operating_income": "10407352071.21449",
+          "net_income": "9006362369.320232",
+          "monthly_growth": "0.015309470499731193"
+        },
+        {
+          "month_index": "8",
+          "revenue": "20320544462.94051",
+          "gross_profit": "14630792013.317167",
+          "operating_income": "10566683120.729065",
+          "net_income": "9144245008.323229",
+          "monthly_growth": "0.015309470499731193"
+        },
+        {
+          "month_index": "9",
+          "revenue": "20631641238.934372",
+          "gross_profit": "14854781692.032747",
+          "operating_income": "10728453444.245874",
+          "net_income": "9284238557.520468",
+          "monthly_growth": "0.015309470499731193"
+        },
+        {
+          "month_index": "10",
+          "revenue": "20947500741.842876",
+          "gross_profit": "15082200534.126871",
+          "operating_income": "10892700385.758297",
+          "net_income": "9426375333.829294",
+          "monthly_growth": "0.015309470499731193"
+        },
+        {
+          "month_index": "11",
+          "revenue": "21268195886.493217",
+          "gross_profit": "15313101038.275116",
+          "operating_income": "11059461860.976473",
+          "net_income": "9570688148.921947",
+          "monthly_growth": "0.015309470499731193"
+        },
+        {
+          "month_index": "12",
+          "revenue": "21593800703.99999",
+          "gross_profit": "15547536506.879992",
+          "operating_income": "11228776366.079994",
+          "net_income": "9717210316.799995",
+          "monthly_growth": "0.015309470499731193"
+        }
+      ],
+      "peers": [
+        {
+          "ticker": "AMD",
+          "long_name": "Advanced Micro Devices, Inc.",
+          "sector": "Technology",
+          "industry": "Semiconductors",
+          "market_cap": "334674460672.0",
+          "enterprise_value": "328128430080.0",
+          "trailing_pe": "78.647514",
+          "forward_pe": "19.103022",
+          "price_to_sales": "9.661782",
+          "ebitda_margin": "0.19472",
+          "gross_margin": "0.52493",
+          "operating_margin": "0.17059",
+          "net_margin": "0.12515001",
+          "revenue_ttm": "34638999552.0",
+          "eps_ttm": "2.61"
+        },
+        {
+          "ticker": "INTC",
+          "long_name": "Intel Corporation",
+          "sector": "Technology",
+          "industry": "Semiconductors",
+          "market_cap": "230677348352.0",
+          "enterprise_value": "252441100288.0",
+          "trailing_pe": "",
+          "forward_pe": "46.59093",
+          "price_to_sales": "4.364508",
+          "ebitda_margin": "0.23902",
+          "gross_margin": "0.36563998",
+          "operating_margin": "0.051409997",
+          "net_margin": "-0.00505",
+          "revenue_ttm": "52852998144.0",
+          "eps_ttm": "-0.06"
+        },
+        {
+          "ticker": "TSM",
+          "long_name": "Taiwan Semiconductor Manufacturing Company Limited",
+          "sector": "Technology",
+          "industry": "Semiconductors",
+          "market_cap": "1757136027648.0",
+          "enterprise_value": "6826801233920.0",
+          "trailing_pe": "32.70174",
+          "forward_pe": "18.867327",
+          "price_to_sales": "0.46130505",
+          "ebitda_margin": "0.68633",
+          "gross_margin": "0.59891",
+          "operating_margin": "0.53916",
+          "net_margin": "0.45099998",
+          "revenue_ttm": "3809054294016.0",
+          "eps_ttm": "10.36"
+        }
+      ],
+      "highlights": {
+        "year1_revenue": 259125608448.0,
+        "year5_revenue": 452869638414.73706,
+        "year1_net_income": 116606523801.6,
+        "year5_net_income": 203791337286.63168
+      }
+    },
+    "TSLA": {
+      "snapshot": {
+        "ticker": "TSLA",
+        "long_name": "Tesla, Inc.",
+        "sector": "Consumer Cyclical",
+        "industry": "Auto Manufacturers",
+        "market_cap": 1427049807872.0,
+        "enterprise_value": 1398227730432.0,
+        "trailing_pe": 358.7736,
+        "forward_pe": 135.31737,
+        "price_to_sales": 15.048982,
+        "ebitda_margin": 0.11076,
+        "gross_margin": 0.18027,
+        "operating_margin": 0.047030002,
+        "net_margin": 0.040009998,
+        "revenue_ttm": 94827003904.0,
+        "eps_ttm": 1.06
+      },
+      "reverse_analysis": {
+        "revenue_cagr_3y": 0.051943257367141005,
+        "eps_cagr_3y": -0.32943989733298273,
+        "gross_margin_trend_bps": -757.192709914285,
+        "operating_margin_trend_bps": -1186.617353464475,
+        "net_margin_trend_bps": -1144.549564901619,
+        "operating_leverage_score": -6.342303390880227,
+        "capital_intensity_ratio": 0.08992164678836197,
+        "working_capital_efficiency": 0.3894249528087992,
+        "key_drivers": [
+          "Moderate topline growth indicates stable demand and expansion capacity."
+        ],
+        "key_risks": [
+          "Gross margin compression may reflect competitive or cost pressure.",
+          "Operating margin deterioration suggests cost structure stress.",
+          "Working capital intensity is high versus sales, potentially constraining cash."
+        ]
+      },
+      "annual_forecast": [
+        {
+          "year": "2027",
+          "revenue": "99752627373.14035",
+          "growth_rate": "0.051943257367141005",
+          "gross_profit": "17982406136.55601",
+          "operating_income": "4691366264.864045",
+          "net_income": "3991102421.6940904",
+          "gross_margin": "0.18027",
+          "operating_margin": "0.047030002",
+          "net_margin": "0.040009998",
+          "implied_eps_growth": "0.04934609449878395",
+          "scenario_growth_bear": "0.011943257367141004",
+          "scenario_growth_base": "0.051943257367141005",
+          "scenario_growth_bull": "0.09194325736714101"
+        },
+        {
+          "year": "2028",
+          "revenue": "103437814359.2348",
+          "growth_rate": "0.036943257367141005",
+          "gross_profit": "18646734794.53926",
+          "operating_income": "4864680616.190441",
+          "net_income": "4138546745.6373553",
+          "gross_margin": "0.18027",
+          "operating_margin": "0.047030002",
+          "net_margin": "0.040009998",
+          "implied_eps_growth": "0.03509609449878395",
+          "scenario_growth_bear": "-0.0030567426328589956",
+          "scenario_growth_base": "0.036943257367141005",
+          "scenario_growth_bull": "0.076943257367141"
+        },
+        {
+          "year": "2029",
+          "revenue": "105707576941.21404",
+          "growth_rate": "0.021943257367141006",
+          "gross_profit": "19055904895.192654",
+          "operating_income": "4971427554.96045",
+          "net_income": "4229359942.0028195",
+          "gross_margin": "0.18027",
+          "operating_margin": "0.047030002",
+          "net_margin": "0.040009998",
+          "implied_eps_growth": "0.020846094498783954",
+          "scenario_growth_bear": "-0.018056742632858995",
+          "scenario_growth_base": "0.021943257367141006",
+          "scenario_growth_bull": "0.06194325736714101"
+        },
+        {
+          "year": "2030",
+          "revenue": "107821728480.03831",
+          "growth_rate": "0.02",
+          "gross_profit": "19437022993.096508",
+          "operating_income": "5070856106.059659",
+          "net_income": "4313947140.8428755",
+          "gross_margin": "0.18027",
+          "operating_margin": "0.047030002",
+          "net_margin": "0.040009998",
+          "implied_eps_growth": "0.019",
+          "scenario_growth_bear": "-0.02",
+          "scenario_growth_base": "0.02",
+          "scenario_growth_bull": "0.06"
+        },
+        {
+          "year": "2031",
+          "revenue": "109978163049.63908",
+          "growth_rate": "0.02",
+          "gross_profit": "19825763452.95844",
+          "operating_income": "5172273228.180852",
+          "net_income": "4400226083.659734",
+          "gross_margin": "0.18027",
+          "operating_margin": "0.047030002",
+          "net_margin": "0.040009998",
+          "implied_eps_growth": "0.019",
+          "scenario_growth_bear": "-0.02",
+          "scenario_growth_base": "0.02",
+          "scenario_growth_bull": "0.06"
+        }
+      ],
+      "monthly_forecast": [
+        {
+          "month_index": "1",
+          "revenue": "7935667738.426454",
+          "gross_profit": "1430562823.206137",
+          "operating_income": "373214469.6095316",
+          "net_income": "317506050.3431069",
+          "monthly_growth": "0.004228847697470339"
+        },
+        {
+          "month_index": "2",
+          "revenue": "7969226468.669988",
+          "gross_profit": "1436612455.5071387",
+          "operating_income": "374792736.7600025",
+          "net_income": "318848735.0730333",
+          "monthly_growth": "0.004228847697470339"
+        },
+        {
+          "month_index": "3",
+          "revenue": "8002927113.672643",
+          "gross_profit": "1442687670.7817674",
+          "operating_income": "376377678.16187865",
+          "net_income": "320197097.8121882",
+          "monthly_growth": "0.004228847697470339"
+        },
+        {
+          "month_index": "4",
+          "revenue": "8036770273.57032",
+          "gross_profit": "1448788577.2165217",
+          "operating_income": "377969322.0395527",
+          "net_income": "321551162.57200795",
+          "monthly_growth": "0.004228847697470339"
+        },
+        {
+          "month_index": "5",
+          "revenue": "8070756551.036806",
+          "gross_profit": "1454915283.4554052",
+          "operating_income": "379567696.7367741",
+          "net_income": "322910953.4654695",
+          "monthly_growth": "0.004228847697470339"
+        },
+        {
+          "month_index": "6",
+          "revenue": "8104886551.294501",
+          "gross_profit": "1461067898.6018598",
+          "operating_income": "381172830.7171535",
+          "net_income": "324276494.7075199",
+          "monthly_growth": "0.004228847697470339"
+        },
+        {
+          "month_index": "7",
+          "revenue": "8139160882.125201",
+          "gross_profit": "1467246532.22071",
+          "operating_income": "382784752.56466997",
+          "net_income": "325647810.61550754",
+          "monthly_growth": "0.004228847697470339"
+        },
+        {
+          "month_index": "8",
+          "revenue": "8173580153.880917",
+          "gross_profit": "1473451294.340113",
+          "operating_income": "384403490.98417985",
+          "net_income": "327024925.60961515",
+          "monthly_growth": "0.004228847697470339"
+        },
+        {
+          "month_index": "9",
+          "revenue": "8208144979.494745",
+          "gross_profit": "1479682295.453518",
+          "operating_income": "386029074.80192786",
+          "net_income": "328407864.2132948",
+          "monthly_growth": "0.004228847697470339"
+        },
+        {
+          "month_index": "10",
+          "revenue": "8242855974.491784",
+          "gross_profit": "1485939646.521634",
+          "operating_income": "387661532.9660606",
+          "net_income": "329796651.0537043",
+          "monthly_growth": "0.004228847697470339"
+        },
+        {
+          "month_index": "11",
+          "revenue": "8277713757.000093",
+          "gross_profit": "1492223458.974407",
+          "operating_income": "389300894.5471419",
+          "net_income": "331191310.8621462",
+          "monthly_growth": "0.004228847697470339"
+        },
+        {
+          "month_index": "12",
+          "revenue": "8312718947.761702",
+          "gross_profit": "1498533844.713002",
+          "operating_income": "390947188.7386707",
+          "net_income": "332591868.47450775",
+          "monthly_growth": "0.004228847697470339"
+        }
+      ],
+      "peers": [
+        {
+          "ticker": "GM",
+          "long_name": "General Motors Company",
+          "sector": "Consumer Cyclical",
+          "industry": "Auto Manufacturers",
+          "market_cap": "68835835904.0",
+          "enterprise_value": "172661784576.0",
+          "trailing_pe": "22.56575",
+          "forward_pe": "5.317531",
+          "price_to_sales": "0.37204736",
+          "ebitda_margin": "0.09528",
+          "gross_margin": "0.107209995",
+          "operating_margin": "0.065359995",
+          "net_margin": "0.014579999",
+          "revenue_ttm": "185019006976.0",
+          "eps_ttm": "3.27"
+        },
+        {
+          "ticker": "F",
+          "long_name": "Ford Motor Company",
+          "sector": "Consumer Cyclical",
+          "industry": "Auto Manufacturers",
+          "market_cap": "46437494784.0",
+          "enterprise_value": "183770497024.0",
+          "trailing_pe": "",
+          "forward_pe": "6.338868",
+          "price_to_sales": "0.24797478",
+          "ebitda_margin": "0.028800001",
+          "gross_margin": "0.0581",
+          "operating_margin": "-0.0669",
+          "net_margin": "-0.04369",
+          "revenue_ttm": "187267006464.0",
+          "eps_ttm": "-2.06"
+        },
+        {
+          "ticker": "TM",
+          "long_name": "Toyota Motor Corporation",
+          "sector": "Consumer Cyclical",
+          "industry": "Auto Manufacturers",
+          "market_cap": "272306536448.0",
+          "enterprise_value": "29276506161152.0",
+          "trailing_pe": "11.698208",
+          "forward_pe": "13.240177",
+          "price_to_sales": "0.005397471",
+          "ebitda_margin": "0.12299",
+          "gross_margin": "0.17597",
+          "operating_margin": "0.08851",
+          "net_margin": "0.073249996",
+          "revenue_ttm": "50450762039296.0",
+          "eps_ttm": "17.86"
+        }
+      ],
+      "highlights": {
+        "year1_revenue": 99752627373.14035,
+        "year5_revenue": 109978163049.63908,
+        "year1_net_income": 3991102421.6940904,
+        "year5_net_income": 4400226083.659734
+      }
+    }
+  }
+}
