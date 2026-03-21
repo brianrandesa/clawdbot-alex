@@ -8,6 +8,8 @@ Your **spreadsheet workflow** on the site: use the **Sales** tab to enter deals;
 
 **System spec (tags, stages, SOP):** [ESA_SALES_SYSTEM.md](./ESA_SALES_SYSTEM.md) — Meta lead form workflow tag is aligned with marketer **Sam Sauter** (exact GHL string in the spec).
 
+**Product scope:** [VERSION_ROADMAP.md](./VERSION_ROADMAP.md) — what counts as **1.0** (shipped) vs **2.0** (optional follow-ons).
+
 **Env (Vercel):** `GHL_API_KEY`, `META_ACCESS_TOKEN`, `META_AD_ACCOUNT_ID`
 
 **GHL opportunity create errors:** If **Create in GHL** fails with 400/422, set **`GHL_LOCATION_ID`** on Vercel to your sub-account Location ID (GHL Settings) and redeploy. Until fixed, use **Dashboard only** on the Sales tab (no GHL call).
