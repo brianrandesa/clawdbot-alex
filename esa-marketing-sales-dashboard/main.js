@@ -504,7 +504,7 @@
       banner.innerHTML =
         '<strong>Redis returned an error.</strong> Env vars are set but the list read failed: ' +
         esc(submissionsCache.redisError) +
-        ' Fix URL/token in Vercel (use the <strong>REST</strong> URL and full token, not <code>redis://</code>).';
+        ' If you use <code>REDIS_URL</code>, confirm Vercel deployed with <code>package.json</code> (ioredis). REST mode needs HTTPS URL + token.';
     } else if (!submissionsCache.kvEnabled) {
       banner.style.display = '';
       banner.className = 'kv-banner kv-banner-warn';
@@ -593,7 +593,7 @@
       b.style.display = '';
       b.className = 'kv-banner kv-banner-warn';
       b.innerHTML =
-        '<strong>Redis not connected</strong> or no stats in range. Connect Upstash Redis (or KV env vars), redeploy, then log a deal from the Sales tab.';
+        '<strong>Redis not connected</strong> or no stats in range. Add <code>REDIS_URL</code> (Vercel Storage) or REST vars; <strong>redeploy</strong> so ioredis installs; then log a deal from the Sales tab.';
       el('salesboard-kpis').innerHTML = '';
       el('salesboard-by-product').innerHTML = '';
       el('salesboard-by-stage').innerHTML = '';
