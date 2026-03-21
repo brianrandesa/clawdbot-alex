@@ -1,0 +1,16 @@
+{
+  "functions": {
+    "api/data.js": {
+      "maxDuration": 60
+    },
+    "api/deal-upload.js": {
+      "maxDuration": 30
+    },
+    "api/deal-submissions.js": {
+      "maxDuration": 15
+    },
+    "api/sales-stats.js": {
+      "maxDuration": 15
+    }
+  }
+}

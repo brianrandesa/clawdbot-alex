@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ESA Sales Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <p class="eyebrow">Event Sales Agency</p>
+      <h1>Sales Command Center</h1>
+    </div>
+    <div class="topbar-right">
+      <div class="status-dot"></div>
+      <span class="status-label" id="status-label">Loading...</span>
+      <select id="range-select">
+        <option value="7d">Last 7 Days</option>
+        <option value="30d" selected>Last 30 Days</option>
+        <option value="90d">Last 90 Days</option>
+        <option value="all">All Time</option>
+        <option value="custom">Custom Range</option>
+      </select>
+      <div id="custom-range" class="custom-range" style="display:none">
+        <input type="date" id="date-start">
+        <span>to</span>
+        <input type="date" id="date-end">
+      </div>
+      <button id="refresh-btn" type="button">Refresh</button>
+    </div>
+  </header>
+
+  <!-- Tab Navigation -->
+  <nav class="tab-bar tab-bar-wide">
+    <button class="tab active" data-tab="dashboard">Dashboard</button>
+    <button class="tab" data-tab="rawdata">Raw Data</button>
+    <button class="tab" data-tab="snapshot">Snapshot</button>
+    <button class="tab" data-tab="submissions">Submissions</button>
+    <button class="tab" data-tab="salesboard">Sales board</button>
+    <button class="tab" data-tab="sales">Sales</button>
+  </nav>
+
+  <main>
+
+    <!-- === DASHBOARD TAB === -->
+    <div id="tab-dashboard">
+
+      <section class="marketing-kpi-block">
+        <div class="marketing-kpi-head">
+          <h2 class="marketing-kpi-title">FB Lead Form (SS) · Marketing QA</h2>
+          <p class="marketing-kpi-desc">Canonical GHL tag for Meta lead forms (Sam Sauter): <span class="mono">new lead - meta - lead form (sam)</span>. Agency volume still matches <strong>Meta</strong> “SS | Lead Form” campaigns; CRM also counts <span class="mono">src-fb-lead-form-ss</span> and related patterns for anyone already normalized.</p>
+        </div>
+        <section class="kpi-row kpi-row-marketing" id="kpi-lead-forms"></section>
+      </section>
+
+      <section class="kpi-row" id="kpi-top"></section>
+      <section class="kpi-row" id="kpi-bottom"></section>
+
+      <section class="panel benchmark-panel">
+        <div class="panel-head">
+          <h2>Actual vs. Benchmarks</h2>
+          <p>Where you sit against your Conservative, Base Case, and Optimized projections.</p>
+        </div>
+        <div class="table-wrap">
+          <table id="benchmark-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Conservative</th>
+                <th>Base Case</th>
+                <th>Optimized</th>
+                <th class="col-actual">Actual</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <h2>Pipeline Funnel</h2>
+            <p>Pre-call (Diamond) → call (Brian) → post-call stage moves. Appt status in GHL: Showed / No Show / Cancelled drives pipeline where automated.</p>
+          </div>
+          <div id="funnel"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head">
+            <h2>Lead Source Breakdown</h2>
+            <p>By channel. <strong>FB Lead Form:</strong> <code>src-fb-lead-form-ss</code>, <strong>meta ss</strong> in a tag, or <strong>meta</strong> + <strong>lead form</strong> (e.g. new lead - meta - lead form (sam)). New Lead + not booked = Diamond queue.</p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Source</th><th>Leads</th><th>Booked</th><th>Showed</th><th>Won (deals)</th><th>Revenue</th></tr></thead>
+              <tbody id="source-table"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel" id="campaigns-panel" style="display:none">
+        <div class="panel-head">
+          <h2>Meta Ad Campaigns</h2>
+          <p>Live from Facebook Ads API. &quot;Leads&quot; matches Ads Manager Results when possible (form leads vs website conversions like schedules).</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Campaign</th><th>Spend</th><th>Impressions</th><th>Clicks</th><th>Results</th><th>Cost / Result</th></tr></thead>
+            <tbody id="campaigns-table"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="two-col">
+        <article class="panel">
+          <div class="panel-head">
+            <h2>Team Scoreboard</h2>
+            <p>Rep activity and close performance.</p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Rep</th><th>Calls Set</th><th>Shows</th><th>Offers</th><th>Closes</th><th>Close %</th><th>Revenue</th></tr></thead>
+              <tbody id="team-table"></tbody>
+            </table>
+          </div>
+        </article>
+        <article class="panel">
+          <div class="panel-head">
+            <h2>Pipeline by Stage</h2>
+            <p>Current deal count and weighted value per stage.</p>
+          </div>
+          <div id="stage-bars"></div>
+          <div class="pipeline-total" id="pipeline-total"></div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Priority Actions</h2>
+          <p>Highest-leverage moves right now based on your data.</p>
+        </div>
+        <ul class="action-list" id="actions"></ul>
+      </section>
+
+    </div>
+
+    <!-- === RAW DATA TAB === -->
+    <div id="tab-rawdata" style="display:none">
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Raw Contact Data</h2>
+          <p id="raw-summary">Every contact with status tags in the selected date range. Verify the data the dashboard is built on.</p>
+        </div>
+        <div class="raw-controls">
+          <input type="text" id="raw-search" placeholder="Search by name, email, source, status...">
+          <button id="raw-export" type="button">Export CSV</button>
+        </div>
+        <div class="table-wrap raw-table-wrap">
+          <table class="raw-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Source</th>
+                <th>Statuses</th>
+                <th>Assigned To</th>
+                <th>Date Added</th>
+                <th>Last Activity</th>
+                <th>All Tags</th>
+              </tr>
+            </thead>
+            <tbody id="raw-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- === SNAPSHOT TAB (share / print / copy) === -->
+    <div id="tab-snapshot" style="display:none">
+      <section class="panel snapshot-panel">
+        <div class="panel-head">
+          <h2>Command center snapshot</h2>
+          <p>Flat list of KPIs for the <strong>same date range</strong> as the header above. The <strong>How we got it</strong> column is the system or formula (GHL, Meta, Sheets, derived). Use for standups, screenshots, or copy to Sheets. Revenue uses one value per Closed Won opp unless Sheet mode is on (see <code>README</code>). <strong>Payment plans:</strong> cash by month lives in your sales workbook (one row per payment); GHL can carry full contract at close.</p>
+        </div>
+        <div class="snapshot-actions">
+          <button type="button" id="snapshot-copy" class="btn-secondary">Copy table (TSV)</button>
+        </div>
+        <div class="table-wrap">
+          <table class="snapshot-table">
+            <thead><tr><th>Metric</th><th>Value</th><th>How we got it</th></tr></thead>
+            <tbody id="snapshot-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- === SUBMISSIONS (sheet view) === -->
+    <div id="tab-submissions" style="display:none">
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Submissions</h2>
+          <p>Every deal logged from the <strong>Sales</strong> tab. Same columns as your spreadsheet. Filtered by <strong>submitted</strong> time and the date range in the header. Stored in <strong>Redis</strong> (Vercel Marketplace <strong>Upstash Redis</strong> or legacy KV env: <code>UPSTASH_REDIS_REST_*</code> or <code>KV_REST_API_*</code>).</p>
+        </div>
+        <div id="submissions-kv-banner" class="kv-banner" style="display:none"></div>
+        <div class="submissions-toolbar">
+          <input type="text" id="submissions-search" class="submissions-search" placeholder="Search any column…">
+          <button type="button" id="submissions-export" class="btn-secondary">Export CSV</button>
+        </div>
+        <p class="submissions-meta" id="submissions-meta"></p>
+        <div class="table-wrap submissions-wrap">
+          <table class="submissions-table">
+            <thead>
+              <tr>
+                <th>Submitted</th>
+                <th>Fathom 1</th>
+                <th>Fathom 2</th>
+                <th>Date created</th>
+                <th>1st call</th>
+                <th>Payment date</th>
+                <th>EVENT/NAME</th>
+                <th>First</th>
+                <th>Last</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Product</th>
+                <th>Paid</th>
+                <th>Owed</th>
+                <th>Setter</th>
+                <th>Setter 5%</th>
+                <th>Closer</th>
+                <th>Closer $</th>
+                <th>Lead source</th>
+                <th>Campaign</th>
+                <th>Adset</th>
+                <th>Ad</th>
+                <th>Src tag</th>
+                <th>Stage</th>
+                <th>Plan</th>
+                <th>Notes</th>
+                <th>Contact</th>
+                <th>Opp</th>
+              </tr>
+            </thead>
+            <tbody id="submissions-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- === SALES BOARD (submissions-only KPIs) === -->
+    <div id="tab-salesboard" style="display:none">
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Sales board</h2>
+          <p><strong>Only</strong> data from logged submissions (Sales tab). No Meta, no full CRM funnel. Range matches the header selector.</p>
+        </div>
+        <div id="salesboard-kv-banner" class="kv-banner" style="display:none"></div>
+        <section class="kpi-row" id="salesboard-kpis"></section>
+        <div class="two-col salesboard-tables">
+          <article class="panel">
+            <div class="panel-head"><h2>By product</h2></div>
+            <div class="table-wrap">
+              <table><thead><tr><th>Product</th><th>Count</th><th>Paid</th><th>Owed</th></tr></thead>
+              <tbody id="salesboard-by-product"></tbody></table>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><h2>By stage</h2></div>
+            <div class="table-wrap">
+              <table><thead><tr><th>Stage</th><th>Count</th><th>Paid</th></tr></thead>
+              <tbody id="salesboard-by-stage"></tbody></table>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <!-- === SALES TAB (log deal in GHL) === -->
+    <div id="tab-sales" style="display:none">
+      <section class="panel deal-form-panel">
+        <div class="panel-head">
+          <h2>Sales · Log a new deal</h2>
+          <p>Creates or updates the contact in GHL, merges tags, and opens an opportunity on the <strong>Brian &amp; Diamond</strong> pipeline. Set <code>DEAL_UPLOAD_SECRET</code> on Vercel and share the team password only internally. Your API key must allow <strong>contacts</strong> and <strong>opportunities</strong> write.</p>
+        </div>
+        <form id="deal-form" class="deal-form">
+          <fieldset class="deal-fieldset">
+            <legend>Team password</legend>
+            <input type="password" id="deal-secret" name="secret" required autocomplete="off" placeholder="Same value as DEAL_UPLOAD_SECRET on Vercel">
+            <label class="deal-check"><input type="checkbox" id="deal-remember-secret"> Remember on this device</label>
+          </fieldset>
+          <fieldset class="deal-fieldset">
+            <legend>Fathom (same as sheet)</legend>
+            <div class="deal-grid">
+              <label class="deal-span-2">Fathom 1 <input type="url" id="deal-fathom1" name="fathom1" placeholder="https://fathom.video/share/…"></label>
+              <label class="deal-span-2">Fathom 2 <input type="url" id="deal-fathom2" name="fathom2" placeholder="Optional second link"></label>
+            </div>
+          </fieldset>
+          <fieldset class="deal-fieldset">
+            <legend>Dates</legend>
+            <div class="deal-grid">
+              <label>Date created <input type="date" id="deal-date-created" name="dateCreated"></label>
+              <label>1st sales call done <input type="date" id="deal-date-first-call" name="dateFirstCall"></label>
+              <label>Payment date <input type="date" id="deal-date-payment" name="datePayment"></label>
+            </div>
+          </fieldset>
+          <fieldset class="deal-fieldset">
+            <legend>Client &amp; contact</legend>
+            <div class="deal-grid">
+              <label class="deal-span-2">Event / name <small>(sheet: EVENT/NAME)</small> <input type="text" id="deal-client-event" name="clientOrEvent" required placeholder="e.g. Karl &amp; Jasmine Mehu"></label>
+              <label>First name <small>(optional if above is a person)</small> <input type="text" id="deal-first" name="firstName"></label>
+              <label>Last name <input type="text" id="deal-last" name="lastName"></label>
+              <label class="deal-span-2">Email <input type="email" id="deal-email" name="email" required></label>
+              <label class="deal-span-2">Phone <input type="tel" id="deal-phone" name="phone" placeholder="Optional"></label>
+            </div>
+          </fieldset>
+          <fieldset class="deal-fieldset">
+            <legend>Product &amp; money</legend>
+            <div class="deal-grid">
+              <label>Product <select id="deal-product" name="product">
+                <option value="">Select…</option>
+                <option>Event Autopilot</option>
+                <option>ESA Academy</option>
+                <option>Done For You Event</option>
+                <option>Brian Rand VIP Day</option>
+                <option value="__custom">Other (type below)</option>
+              </select></label>
+              <label>Product (custom) <input type="text" id="deal-product-custom" name="productCustom" placeholder="If Other"></label>
+              <label>Amount paid ($) <small>Amount Paid</small> <input type="number" id="deal-value" name="monetaryValue" min="0" step="1" required></label>
+              <label>Amount owed ($) <small>Amount Owed</small> <input type="number" id="deal-amount-owed" name="amountOwed" min="0" step="1" placeholder="0"></label>
+            </div>
+          </fieldset>
+          <fieldset class="deal-fieldset">
+            <legend>Setter &amp; closer</legend>
+            <div class="deal-grid">
+              <label>Setter <input type="text" id="deal-setter" name="setter" placeholder="e.g. Diamond, Brian"></label>
+              <label>Setter 5% <small>commission $</small> <input type="text" id="deal-setter-pct" name="setterPct" placeholder="e.g. 500"></label>
+              <label>Closer <input type="text" id="deal-closer" name="closer"></label>
+              <label>Closer commission ($) <input type="text" id="deal-closer-comm" name="closerComm" placeholder="e.g. 500"></label>
+            </div>
+          </fieldset>
+          <fieldset class="deal-fieldset">
+            <legend>Attribution <small>(sheet: Lead Source / Campaign / Adset / Ad)</small></legend>
+            <div class="deal-grid">
+              <label>Lead Source <small>free text</small> <input type="text" id="deal-lead-source" name="leadSource" placeholder="e.g. Referral, FB Lead Form"></label>
+              <label>Dashboard source tag <small>for reporting</small>
+                <select id="deal-source" name="sourceTag" required></select>
+              </label>
+              <label class="deal-span-2">Campaign <input type="text" id="deal-campaign" name="campaign" placeholder="Meta / GHL campaign"></label>
+              <label class="deal-span-2">Adset <input type="text" id="deal-adset" name="adset"></label>
+              <label class="deal-span-2">Ad <input type="text" id="deal-ad" name="ad"></label>
+            </div>
+          </fieldset>
+          <fieldset class="deal-fieldset">
+            <legend>Pipeline</legend>
+            <div class="deal-grid">
+              <label class="deal-span-2">Opportunity title override <input type="text" id="deal-title" name="dealTitle" placeholder="Leave blank to use Event / name"></label>
+              <label>Stage
+                <select id="deal-stage" name="pipelineStageId" required></select>
+              </label>
+              <label class="deal-check deal-span-2"><input type="checkbox" id="deal-payment-plan" name="paymentPlan"> Payment plan (adds <code>payment plan</code> tag; log each payment in your sales sheet too)</label>
+              <label class="deal-span-2">Notes <textarea id="deal-notes" name="notes" rows="3" placeholder="Extra context — also stored on the opportunity"></textarea></label>
+            </div>
+          </fieldset>
+          <div class="deal-actions">
+            <button type="submit" id="deal-submit" class="btn-primary">Create in GHL</button>
+            <span id="deal-status" class="deal-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </section>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>GHL + Meta Ads API. Data refreshes on load and caches for 2 minutes.</p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
