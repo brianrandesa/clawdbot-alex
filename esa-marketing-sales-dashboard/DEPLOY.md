@@ -4,7 +4,8 @@
 
 1. Open your live site → **View Page Source** (not Inspect).
 2. Search for **`esa-dashboard-build`** — you should see  
-   `<meta name="esa-dashboard-build" content="submissions-import-ui-20260321">`
+   `<meta name="esa-dashboard-build" content="clawdbot-984b9fd-submissions-import">`  
+   (Value updates with releases; **missing meta = wrong Git repo or root on Vercel.**)
 3. Search for **`submissions-import-file`** — the CSV `<input type="file" ...>` must be present on **Submissions**.
 
 If either is missing, Vercel is **not** deploying this folder from the commit you think (wrong repo, wrong root directory, wrong branch, or an old deployment pinned as production).
