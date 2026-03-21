@@ -28,6 +28,7 @@
       el('tab-sales').style.display = tab === 'sales' ? '' : 'none';
       if (tab === 'sales') initLogDealForm();
       if (tab === 'submissions' || tab === 'salesboard') refreshSalesTabs();
+      if (tab === 'snapshot' && currentData) renderSnapshot(currentData);
     });
   });
 
@@ -379,7 +380,7 @@
 
   function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-  var submissionsCache = { rows: [], kvEnabled: false };
+  var submissionsCache = { rows: [], kvEnabled: false, redisError: null, fetchError: null };
   var salesStatsCache = null;
 
   function getRangeMs() {
@@ -416,16 +417,36 @@
   }
 
   function fetchSubmissionsData() {
+    submissionsCache.fetchError = null;
     return fetch('/api/deal-submissions')
-      .then(function (res) { return res.json(); })
+      .then(function (res) {
+        return res.text().then(function (text) {
+          var data;
+          try {
+            data = text ? JSON.parse(text) : {};
+          } catch (e) {
+            throw new Error(
+              'Submissions API returned non-JSON (HTTP ' + res.status + '). ' + (text || '').slice(0, 160)
+            );
+          }
+          if (!res.ok) {
+            throw new Error((data && data.error) || 'HTTP ' + res.status);
+          }
+          return data;
+        });
+      })
       .then(function (data) {
         submissionsCache.rows = data.rows || [];
         submissionsCache.kvEnabled = !!data.kvEnabled;
+        submissionsCache.redisError = data.redisError || null;
+        submissionsCache.fetchError = null;
         renderSubmissionsView();
       })
-      .catch(function () {
+      .catch(function (err) {
         submissionsCache.rows = [];
         submissionsCache.kvEnabled = false;
+        submissionsCache.redisError = null;
+        submissionsCache.fetchError = err && err.message ? err.message : String(err);
         renderSubmissionsView();
       });
   }
@@ -437,13 +458,24 @@
       return Promise.resolve();
     }
     return fetch('/api/sales-stats?' + rangeQueryForStats())
-      .then(function (res) { return res.json(); })
+      .then(function (res) {
+        return res.text().then(function (text) {
+          var data;
+          try {
+            data = text ? JSON.parse(text) : {};
+          } catch (e) {
+            throw new Error('Sales stats non-JSON (HTTP ' + res.status + '). ' + (text || '').slice(0, 120));
+          }
+          if (!res.ok) throw new Error((data && data.error) || 'HTTP ' + res.status);
+          return data;
+        });
+      })
       .then(function (data) {
         salesStatsCache = data;
         renderSalesBoardView(data);
       })
-      .catch(function () {
-        salesStatsCache = null;
+      .catch(function (err) {
+        salesStatsCache = { fetchError: err && err.message ? err.message : String(err) };
         renderSalesBoardView(null);
       });
   }
@@ -455,12 +487,29 @@
 
   function renderSubmissionsView() {
     var banner = el('submissions-kv-banner');
-    if (!banner) return;
-    if (!submissionsCache.kvEnabled) {
+    var meta = el('submissions-meta');
+    var tbody = el('submissions-tbody');
+    if (!banner || !meta || !tbody) return;
+
+    if (submissionsCache.fetchError) {
+      banner.style.display = '';
+      banner.className = 'kv-banner kv-banner-err';
+      banner.innerHTML =
+        '<strong>Could not load submissions.</strong> ' +
+        esc(submissionsCache.fetchError) +
+        ' Check the browser Network tab for <code>/api/deal-submissions</code>. Redeploy after adding API routes.';
+    } else if (submissionsCache.redisError) {
+      banner.style.display = '';
+      banner.className = 'kv-banner kv-banner-err';
+      banner.innerHTML =
+        '<strong>Redis returned an error.</strong> Env vars are set but the list read failed: ' +
+        esc(submissionsCache.redisError) +
+        ' Fix URL/token in Vercel (use the <strong>REST</strong> URL and full token, not <code>redis://</code>).';
+    } else if (!submissionsCache.kvEnabled) {
       banner.style.display = '';
       banner.className = 'kv-banner kv-banner-warn';
       banner.innerHTML =
-        '<strong>Redis not connected.</strong> In Vercel → <strong>Storage</strong> (or Marketplace) add <strong>Upstash Redis</strong> and link it to this project (injects <code>UPSTASH_REDIS_REST_URL</code> + <code>UPSTASH_REDIS_REST_TOKEN</code>). Or set <code>KV_REST_API_URL</code> + <code>KV_REST_API_TOKEN</code>. Redeploy after env is set. Submissions only appear for deals logged <em>after</em> Redis is live.';
+        '<strong>Redis not connected.</strong> In Vercel → <strong>Storage</strong> link Redis (you should see <code>REDIS_URL</code>) or add REST vars <code>UPSTASH_REDIS_REST_*</code> / <code>KV_REST_API_*</code>. <strong>Redeploy</strong> after env changes so dependencies install. Submissions only appear for deals logged <em>after</em> Redis works.';
     } else {
       banner.style.display = 'none';
     }
@@ -471,7 +520,7 @@
       ? filtered.filter(function (r) { return JSON.stringify(r).toLowerCase().indexOf(q) !== -1; })
       : filtered;
 
-    el('submissions-meta').textContent =
+    meta.textContent =
       rows.length + ' in range · ' + submissionsCache.rows.length + ' total in KV';
 
     function d(v) {
@@ -479,7 +528,7 @@
       return esc(String(v));
     }
 
-    el('submissions-tbody').innerHTML =
+    tbody.innerHTML =
       rows
         .map(function (r) {
           return (
@@ -521,6 +570,25 @@
   function renderSalesBoardView(data) {
     var b = el('salesboard-kv-banner');
     if (!b) return;
+    if (salesStatsCache && salesStatsCache.fetchError) {
+      b.style.display = '';
+      b.className = 'kv-banner kv-banner-err';
+      b.innerHTML =
+        '<strong>Could not load sales board.</strong> ' + esc(salesStatsCache.fetchError);
+      el('salesboard-kpis').innerHTML = '';
+      el('salesboard-by-product').innerHTML = '';
+      el('salesboard-by-stage').innerHTML = '';
+      return;
+    }
+    if (data && data.redisError) {
+      b.style.display = '';
+      b.className = 'kv-banner kv-banner-err';
+      b.innerHTML = '<strong>Redis error.</strong> ' + esc(data.redisError);
+      el('salesboard-kpis').innerHTML = '';
+      el('salesboard-by-product').innerHTML = '';
+      el('salesboard-by-stage').innerHTML = '';
+      return;
+    }
     if (!data || !data.kvEnabled) {
       b.style.display = '';
       b.className = 'kv-banner kv-banner-warn';
@@ -839,7 +907,14 @@
     currentData = data;
     renderKPIs(data); renderBenchmarkTable(data); renderFunnel(data);
     renderSourceTable(data); renderCampaigns(data); renderTeamTable(data);
-    renderStageBars(data); renderActions(data); renderRawData(data); renderSnapshot(data);
+    renderStageBars(data); renderActions(data); renderRawData(data);
+    try {
+      renderSnapshot(data);
+    } catch (e) {
+      console.error('renderSnapshot', e);
+      var sb = el('snapshot-table-body');
+      if (sb) sb.innerHTML = '<tr><td colspan="3">Snapshot render error. Hard-refresh the page (Cmd+Shift+R). ' + esc(String(e && e.message ? e.message : e)) + '</td></tr>';
+    }
   }
 
   // ---- Custom date range toggle ----

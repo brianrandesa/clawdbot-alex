@@ -16,10 +16,20 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const rows = await listDealSubmissions();
-  return res.status(200).json({
-    kvEnabled: kvConfigured(),
-    count: rows.length,
-    rows
-  });
+  try {
+    const { rows, error: redisError } = await listDealSubmissions();
+    return res.status(200).json({
+      kvEnabled: kvConfigured(),
+      count: rows.length,
+      rows,
+      ...(redisError ? { redisError } : {})
+    });
+  } catch (e) {
+    return res.status(500).json({
+      error: e && e.message ? e.message : String(e),
+      kvEnabled: kvConfigured(),
+      rows: [],
+      count: 0
+    });
+  }
 };

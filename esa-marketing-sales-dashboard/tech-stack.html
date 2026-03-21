@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ESA Tech Stack · Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260323">
+  <style>
+    .tech-page { max-width: 900px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+    .tech-page h1 { font-size: 1.5rem; margin-bottom: 0.35rem; }
+    .tech-page .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.45; }
+    .tech-back { display: inline-block; margin-bottom: 1rem; color: var(--blue); font-size: 0.88rem; font-weight: 600; text-decoration: none; }
+    .tech-back:hover { text-decoration: underline; }
+    .tech-section { margin-bottom: 1.75rem; }
+    .tech-section h2 { font-size: 1.05rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.65rem; }
+    .tech-section ul { margin: 0; padding-left: 1.2rem; line-height: 1.55; font-size: 0.9rem; }
+    .tech-section li { margin-bottom: 0.35rem; }
+    .tech-section code { font-size: 0.82em; background: var(--panel-hover); padding: 0.12em 0.35em; border-radius: 4px; }
+    .tech-note { font-size: 0.85rem; color: var(--muted); border-left: 3px solid var(--border); padding-left: 0.85rem; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="tech-page">
+    <a class="tech-back" href="index.html">← Back to Sales Command Center</a>
+    <h1>ESA / OpenClaw tech stack</h1>
+    <p class="sub">Inventory of tech found across your <strong>OpenClaw workspace</strong> repos, plus this live Command Center. For the editable source list, see <code>TECH_STACK.md</code> in the workspace root.</p>
+
+    <div class="tech-section">
+      <h2>Platforms</h2>
+      <ul>
+        <li><strong>Vercel</strong> — hosting for this dashboard and other static/serverless apps</li>
+        <li><strong>Node.js</strong> — APIs, scripts, Vite-based tools</li>
+        <li><strong>Python 3</strong> — financial robot, Excel/sheet scripts, deploy helpers</li>
+        <li><strong>Git / GitHub</strong> — version control</li>
+        <li><strong>Cursor</strong> — development environment + AI agents</li>
+      </ul>
+    </div>
+
+    <div class="tech-section">
+      <h2>This site · Sales Command Center</h2>
+      <ul>
+        <li><strong>HTML / CSS / JavaScript</strong> (no React)</li>
+        <li><strong>Vercel serverless</strong> — <code>/api/data</code>, <code>/api/deal-upload</code>, <code>/api/deal-submissions</code>, <code>/api/sales-stats</code>, etc.</li>
+        <li><strong>GoHighLevel REST API</strong> — contacts, opportunities, pipelines</li>
+        <li><strong>Meta Marketing API</strong> — ad spend, campaigns, results</li>
+        <li><strong>Google Sheets API</strong> (optional) — sheet revenue mode</li>
+        <li><strong>Upstash Redis REST</strong> (optional) — Submissions + Sales board list</li>
+        <li><strong>Google Fonts</strong> — Inter</li>
+      </ul>
+    </div>
+
+    <div class="tech-section">
+      <h2>OpenClaw 3D Virtual Office</h2>
+      <ul>
+        <li><strong>Vite 8</strong> — dev server and build</li>
+        <li><strong>Three.js</strong> — 3D office scene + <code>OrbitControls</code></li>
+        <li><strong>WebSockets (<code>ws</code>)</strong> — presence server for multi-user</li>
+        <li><strong>OpenClaw / Clawbot HTTP API</strong> — agents, cron, skills, memory, projects</li>
+        <li>In-app <strong>ESA Command Center</strong> panel (same repo) with a <strong>Tech stack</strong> link here</li>
+      </ul>
+    </div>
+
+    <div class="tech-section">
+      <h2>Other workspace projects</h2>
+      <ul>
+        <li><strong>esa-memory</strong> — Express + <strong>Supabase</strong> + CORS</li>
+        <li><strong>mcp-servers/ghl-server</strong> — <strong>MCP SDK</strong>, Express, Playwright, node-fetch</li>
+        <li><strong>team-agent/scripts</strong> — <strong>@slack/web-api</strong></li>
+        <li><strong>Workspace root npm</strong> — axios, googleapis, dotenv, nodemailer, imap, mailparser, three</li>
+        <li><strong>financial-modeling-robot</strong> — Python: yfinance, pandas, numpy, typer, rich, tabulate</li>
+        <li><strong>financial demo UI</strong> — Chart.js (CDN), vanilla JS</li>
+        <li><strong>elite-sales-women</strong> — static HTML/CSS/JS</li>
+        <li><strong>will-sd-eos-empire</strong> — static HTML on Vercel</li>
+        <li><strong>Python sheet tools</strong> — openpyxl (<code>scripts/snapshot_dashboard_tab.py</code>, <code>clean_sales_sheet.py</code>)</li>
+      </ul>
+    </div>
+
+    <div class="tech-section">
+      <h2>External services you plug in</h2>
+      <ul>
+        <li>GoHighLevel, Meta Ads, Google Cloud / Sheets, Upstash</li>
+        <li>Slack, Notion, ClickUp, Telegram</li>
+        <li>ESA Builder (<code>esabuilder.com</code>)</li>
+        <li>LLM providers via OpenClaw (e.g. Anthropic Claude in agent configs)</li>
+        <li>Fathom (call recording links in forms / CRM)</li>
+      </ul>
+    </div>
+
+    <p class="tech-note">Virtual Office runs as its own Vite app (local or your deploy). This page is deployed with the Sales Command Center so one URL documents the whole picture.</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name": "esa-marketing-sales-dashboard",
+  "private": true,
+  "dependencies": {
+    "ioredis": "^5.4.2"
+  }
+}

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260323">
 </head>
 <body>
 
@@ -32,6 +32,7 @@
         <input type="date" id="date-end">
       </div>
       <button id="refresh-btn" type="button">Refresh</button>
+      <a href="tech-stack.html" class="btn-tech-stack" title="Full workspace tech inventory">Tech stack</a>
     </div>
   </header>
 
@@ -193,7 +194,8 @@
         <div class="snapshot-actions">
           <button type="button" id="snapshot-copy" class="btn-secondary">Copy table (TSV)</button>
         </div>
-        <div class="table-wrap">
+        <p class="snapshot-scroll-hint">Three columns: Metric, Value, <strong>How we got it</strong>. If the third column is missing, scroll the table horizontally.</p>
+        <div class="table-wrap snapshot-table-wrap">
           <table class="snapshot-table">
             <thead><tr><th>Metric</th><th>Value</th><th>How we got it</th></tr></thead>
             <tbody id="snapshot-table-body"></tbody>
@@ -383,6 +385,6 @@
     <p>GHL + Meta Ads API. Data refreshes on load and caches for 2 minutes.</p>
   </footer>
 
-  <script src="main.js"></script>
+  <script src="main.js?v=20260323"></script>
 </body>
 </html>

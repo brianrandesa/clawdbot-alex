@@ -1,6 +1,6 @@
 # ESA Marketing / Sales Dashboard
 
-Vercel-hosted **Sales Command Center**: GHL contacts + Meta ads. UI tabs: **Dashboard**, **Raw Data**, **Snapshot**, **Sales** (log deals to GHL).
+Vercel-hosted **Sales Command Center**: GHL contacts + Meta ads. UI tabs: **Dashboard**, **Raw Data**, **Snapshot**, **Sales** (log deals to GHL). **Tech stack** button in the header opens [`tech-stack.html`](./tech-stack.html) (workspace-wide inventory).
 
 **System spec (tags, stages, SOP):** [ESA_SALES_SYSTEM.md](./ESA_SALES_SYSTEM.md) — Meta lead form workflow tag is aligned with marketer **Sam Sauter** (exact GHL string in the spec).
 
@@ -8,7 +8,7 @@ Vercel-hosted **Sales Command Center**: GHL contacts + Meta ads. UI tabs: **Dash
 
 **Sales tab / deal form (optional):** `DEAL_UPLOAD_SECRET` — shared team password for the **Sales** tab. The form includes the same columns as the sales workbook (Fathom URLs, dates, client/event name, product, paid/owed, setter & closer, Meta attribution fields, etc.); submitted data is stored on the **opportunity** in GHL (notes block + tags). The same `GHL_API_KEY` must allow **contacts** and **opportunities** write. Without `DEAL_UPLOAD_SECRET`, the API returns 503.
 
-**Submissions + Sales board:** Add **Redis** via Vercel **Marketplace → Upstash Redis** (or legacy KV). Vercel usually injects `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`; this app also accepts `KV_REST_API_URL` + `KV_REST_API_TOKEN`. **Redeploy** after linking. Each successful **Sales** form post is appended to a list (newest first, max 500). Without Redis env vars, both tabs show a setup notice; GHL logging still works.
+**Submissions + Sales board:** Add **Redis** via Vercel **Storage**. Vercel often injects **`REDIS_URL`** only (`redis://` or `rediss://`). This app now uses **ioredis** for that. Alternatively use REST vars: `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` or `KV_REST_API_URL` + `KV_REST_API_TOKEN` (REST is tried first if both URL and token exist). **Redeploy** after linking so `npm install` runs (`package.json` includes `ioredis`). Each successful **Sales** form post is appended to a list (newest first, max 500). Without Redis, both tabs show a setup notice; GHL logging still works.
 
 ### Google Sheet revenue (optional)
 

@@ -44,6 +44,23 @@ main {
   flex-wrap: wrap;
 }
 
+.topbar .btn-tech-stack {
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+  background: var(--panel-hover);
+  color: var(--blue);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.topbar .btn-tech-stack:hover {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+}
+
 .eyebrow {
   font-size: .75rem;
   font-weight: 700;
@@ -408,6 +425,11 @@ td.val-bad { color: var(--red); font-weight: 600; }
   border: 1px solid rgba(251, 191, 36, 0.35);
   color: var(--text);
 }
+.kv-banner-err {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: var(--text);
+}
 
 .submissions-toolbar {
   display: flex;
@@ -462,6 +484,18 @@ td.val-bad { color: var(--red); font-weight: 600; }
 /* ---- Snapshot tab ---- */
 .snapshot-panel .panel-head p { max-width: 900px; }
 .snapshot-actions { margin-bottom: 1rem; }
+.snapshot-scroll-hint {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+  max-width: 900px;
+  line-height: 1.4;
+}
+.snapshot-table-wrap {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.25rem;
+}
 .btn-secondary {
   font-family: var(--font);
   font-size: .85rem;
@@ -474,7 +508,12 @@ td.val-bad { color: var(--red); font-weight: 600; }
   cursor: pointer;
 }
 .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
-.snapshot-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.snapshot-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: .88rem;
+}
 .snapshot-table th {
   text-align: left;
   padding: .65rem .75rem;

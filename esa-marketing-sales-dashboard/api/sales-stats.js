@@ -36,7 +36,15 @@ module.exports = async (req, res) => {
 
   const q = req.query || {};
   const { start, end, label } = rangeBounds(q);
-  const all = await listDealSubmissions();
+  let redisError = null;
+  let all = [];
+  try {
+    const out = await listDealSubmissions();
+    all = out.rows || [];
+    redisError = out.error || null;
+  } catch (e) {
+    redisError = e && e.message ? e.message : String(e);
+  }
   const rows = all.filter((r) => {
     const t = new Date(r.submittedAt || 0).getTime();
     return t >= start && t <= end;
@@ -80,6 +88,7 @@ module.exports = async (req, res) => {
     paymentPlanCount: planCount,
     byProduct,
     byStage,
-    inRangeRows: rows.slice(0, 200)
+    inRangeRows: rows.slice(0, 200),
+    ...(redisError ? { redisError } : {})
   });
 };
