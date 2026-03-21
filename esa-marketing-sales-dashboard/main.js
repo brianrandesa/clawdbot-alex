@@ -732,6 +732,23 @@
         '</td></tr>';
   }
 
+  function clearSalesBoardTables() {
+    [
+      'salesboard-by-product',
+      'salesboard-by-stage',
+      'salesboard-by-setter',
+      'salesboard-by-closer',
+      'salesboard-by-sourcetag',
+      'salesboard-by-leadsource',
+      'salesboard-by-campaign',
+      'salesboard-by-adset',
+      'salesboard-by-closing-month'
+    ].forEach(function (id) {
+      var n = el(id);
+      if (n) n.innerHTML = '';
+    });
+  }
+
   function renderSalesBoardView(data) {
     var b = el('salesboard-kv-banner');
     if (!b) return;
@@ -741,8 +758,7 @@
       b.innerHTML =
         '<strong>Could not load sales board.</strong> ' + esc(salesStatsCache.fetchError);
       el('salesboard-kpis').innerHTML = '';
-      el('salesboard-by-product').innerHTML = '';
-      el('salesboard-by-stage').innerHTML = '';
+      clearSalesBoardTables();
       return;
     }
     if (data && data.redisError) {
@@ -750,8 +766,7 @@
       b.className = 'kv-banner kv-banner-err';
       b.innerHTML = '<strong>Redis error.</strong> ' + esc(data.redisError);
       el('salesboard-kpis').innerHTML = '';
-      el('salesboard-by-product').innerHTML = '';
-      el('salesboard-by-stage').innerHTML = '';
+      clearSalesBoardTables();
       return;
     }
     if (!data || !data.kvEnabled) {
@@ -760,18 +775,37 @@
       b.innerHTML =
         '<strong>Redis not connected</strong> or no stats in range. Add <code>REDIS_URL</code> (Vercel Storage) or REST vars; <strong>redeploy</strong> so ioredis installs; then log a deal from the Sales tab.';
       el('salesboard-kpis').innerHTML = '';
-      el('salesboard-by-product').innerHTML = '';
-      el('salesboard-by-stage').innerHTML = '';
+      clearSalesBoardTables();
       return;
     }
     b.style.display = 'none';
 
+    function fmtLeadClose(x, labelShort) {
+      var o = x || {};
+      if (!o.count) {
+        return { value: '—', sub: 'Need Closed Won + dates on ' + labelShort };
+      }
+      return {
+        value: String(o.avgDays) + ' d',
+        sub: 'median ' + o.medianDays + ' d · ' + o.count + ' deal' + (o.count === 1 ? '' : 's')
+      };
+    }
+    var ltc = fmtLeadClose(data.leadToClose, 'Date created → Closing');
+    var ftc = fmtLeadClose(data.firstCallToClose, '1st call → Closing');
     var cards = [
       { label: 'Submissions', value: String(data.count), sub: data.dateRange || '' },
+      { label: 'Closed Won', value: String(data.closedWonCount || 0), sub: 'Deals in range' },
+      { label: 'Win rate', value: pct(data.winRatePct || 0), sub: 'Closed Won / submissions' },
       { label: 'Total paid', value: money(data.totalPaid || 0), sub: 'Amount paid sum' },
       { label: 'Total owed', value: money(data.totalOwed || 0), sub: 'Amount owed sum' },
+      { label: 'Won paid sum', value: money(data.closedWonPaid || 0), sub: 'Paid on Closed Won only' },
       { label: 'Avg paid', value: money(data.avgPaid || 0), sub: 'Per submission' },
-      { label: 'Payment plans', value: pct(data.paymentPlanPct || 0), sub: String(data.paymentPlanCount || 0) + ' deals' }
+      { label: 'Avg won deal', value: money(data.avgWonDeal || 0), sub: 'Paid ÷ Closed Won' },
+      { label: 'Payment plans', value: pct(data.paymentPlanPct || 0), sub: String(data.paymentPlanCount || 0) + ' deals' },
+      { label: 'Est setter $', value: money(data.setterCommEst || 0), sub: 'Paid × Setter 5% (numeric %)' },
+      { label: 'Closer comm sum', value: money(data.closerCommTotal || 0), sub: 'Closer $ column' },
+      { label: 'Avg lead → close', value: ltc.value, sub: ltc.sub + ' (Closed Won)' },
+      { label: 'Avg call → close', value: ftc.value, sub: ftc.sub + ' (Closed Won)' }
     ];
     el('salesboard-kpis').innerHTML = cards
       .map(function (c) {
@@ -827,6 +861,80 @@
           );
         })
         .join('') || '<tr><td colspan="3">No rows in range</td></tr>';
+
+    function renderFourCol(map, tbodyId, emptyCols) {
+      var m = map || {};
+      var keys = Object.keys(m).sort();
+      var html = keys
+        .map(function (k) {
+          var x = m[k];
+          return (
+            '<tr><td><strong>' +
+            esc(k) +
+            '</strong></td><td>' +
+            x.count +
+            '</td><td>' +
+            money(x.paid) +
+            '</td><td>' +
+            money(x.owed) +
+            '</td></tr>'
+          );
+        })
+        .join('');
+      el(tbodyId).innerHTML = html || '<tr><td colspan="' + (emptyCols || 4) + '">No rows in range</td></tr>';
+    }
+
+    function renderCloserTable() {
+      var m = data.byCloser || {};
+      var keys = Object.keys(m).sort();
+      var html = keys
+        .map(function (k) {
+          var x = m[k];
+          return (
+            '<tr><td><strong>' +
+            esc(k) +
+            '</strong></td><td>' +
+            x.count +
+            '</td><td>' +
+            money(x.paid) +
+            '</td><td>' +
+            money(x.owed) +
+            '</td><td>' +
+            money(x.comm || 0) +
+            '</td></tr>'
+          );
+        })
+        .join('');
+      el('salesboard-by-closer').innerHTML =
+        html || '<tr><td colspan="5">No rows in range</td></tr>';
+    }
+
+    renderFourCol(data.bySetter, 'salesboard-by-setter', 4);
+    renderCloserTable();
+    renderFourCol(data.bySourceTag, 'salesboard-by-sourcetag', 4);
+    renderFourCol(data.byLeadSource, 'salesboard-by-leadsource', 4);
+    renderFourCol(data.byCampaign, 'salesboard-by-campaign', 4);
+    renderFourCol(data.byAdset, 'salesboard-by-adset', 4);
+
+    var bcm = data.byClosingMonth || {};
+    var months = Object.keys(bcm).sort().reverse();
+    el('salesboard-by-closing-month').innerHTML =
+      months
+        .map(function (k) {
+          var x = bcm[k];
+          return (
+            '<tr><td><strong>' +
+            esc(k) +
+            '</strong></td><td>' +
+            x.count +
+            '</td><td>' +
+            money(x.paid) +
+            '</td><td>' +
+            money(x.owed) +
+            '</td></tr>'
+          );
+        })
+        .join('') || '<tr><td colspan="4">No Closed Won with closing date in range</td></tr>';
   }
 
   function exportSubmissionsCSV() {

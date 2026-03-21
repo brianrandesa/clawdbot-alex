@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=984b9fd">
+  <link rel="stylesheet" href="styles.css?v=20260322-salesboard">
 </head>
 <body>
 
@@ -300,11 +300,11 @@
       <section class="panel">
         <div class="panel-head">
           <h2>Sales board</h2>
-          <p><strong>Only</strong> rows in your sales log (Sales tab + CSV import on Submissions). No Meta, no full CRM funnel. Range matches the header selector.</p>
+          <p><strong>Only</strong> rows in your sales log (Sales tab + CSV import on Submissions). No Meta, no full CRM funnel. Range matches the header selector (by <strong>submitted</strong> time). Tables break down <strong>paid / owed</strong> by product, stage, setter, closer, source tag, lead source, campaign, and ad set. <strong>Closed Won by closing month</strong> uses <strong>Closing date</strong> on won deals only. <strong>Lead → close</strong> / <strong>call → close</strong> need <strong>Closed Won</strong> plus <strong>Date created</strong> or <strong>1st sales call</strong> and <strong>Closing date</strong>. <strong>Est setter $</strong> = sum of (Paid × numeric Setter 5%) when that field is a percent.</p>
         </div>
         <div id="salesboard-kv-banner" class="kv-banner" style="display:none"></div>
         <section class="kpi-row" id="salesboard-kpis"></section>
-        <div class="two-col salesboard-tables">
+        <div class="salesboard-grid">
           <article class="panel">
             <div class="panel-head"><h2>By product</h2></div>
             <div class="table-wrap">
@@ -317,6 +317,55 @@
             <div class="table-wrap">
               <table><thead><tr><th>Stage</th><th>Count</th><th>Paid</th></tr></thead>
               <tbody id="salesboard-by-stage"></tbody></table>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><h2>By setter</h2></div>
+            <div class="table-wrap">
+              <table><thead><tr><th>Setter</th><th>Count</th><th>Paid</th><th>Owed</th></tr></thead>
+              <tbody id="salesboard-by-setter"></tbody></table>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><h2>By closer</h2></div>
+            <div class="table-wrap">
+              <table><thead><tr><th>Closer</th><th>Count</th><th>Paid</th><th>Owed</th><th>Comm logged</th></tr></thead>
+              <tbody id="salesboard-by-closer"></tbody></table>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><h2>By source tag</h2></div>
+            <div class="table-wrap">
+              <table><thead><tr><th>Source tag</th><th>Count</th><th>Paid</th><th>Owed</th></tr></thead>
+              <tbody id="salesboard-by-sourcetag"></tbody></table>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><h2>By lead source</h2></div>
+            <div class="table-wrap">
+              <table><thead><tr><th>Lead source</th><th>Count</th><th>Paid</th><th>Owed</th></tr></thead>
+              <tbody id="salesboard-by-leadsource"></tbody></table>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><h2>By campaign</h2></div>
+            <div class="table-wrap">
+              <table><thead><tr><th>Campaign</th><th>Count</th><th>Paid</th><th>Owed</th></tr></thead>
+              <tbody id="salesboard-by-campaign"></tbody></table>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><h2>By ad set</h2></div>
+            <div class="table-wrap">
+              <table><thead><tr><th>Ad set</th><th>Count</th><th>Paid</th><th>Owed</th></tr></thead>
+              <tbody id="salesboard-by-adset"></tbody></table>
+            </div>
+          </article>
+          <article class="panel salesboard-panel-wide">
+            <div class="panel-head"><h2>Closed Won by closing month</h2><p>Uses <strong>Closing date</strong> on <strong>Closed Won</strong> rows only (paid in that calendar month).</p></div>
+            <div class="table-wrap">
+              <table><thead><tr><th>Month</th><th>Deals</th><th>Paid</th><th>Owed</th></tr></thead>
+              <tbody id="salesboard-by-closing-month"></tbody></table>
             </div>
           </article>
         </div>
@@ -427,6 +476,6 @@
     <p>GHL + Meta Ads API. Data refreshes on load and caches for 2 minutes.</p>
   </footer>
 
-  <script src="main.js?v=984b9fd"></script>
+  <script src="main.js?v=20260322-salesboard"></script>
 </body>
 </html>

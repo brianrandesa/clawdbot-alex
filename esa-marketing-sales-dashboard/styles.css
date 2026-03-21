@@ -518,6 +518,22 @@ td.val-bad { color: var(--red); font-weight: 600; }
   font-weight: 500;
 }
 
+.salesboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: start;
+}
+.salesboard-grid > .panel {
+  margin: 0;
+}
+@media (min-width: 960px) {
+  .salesboard-panel-wide {
+    grid-column: 1 / -1;
+  }
+}
+
 .submissions-meta {
   font-size: 0.8rem;
   color: var(--muted);

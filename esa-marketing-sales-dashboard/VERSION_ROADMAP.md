@@ -5,7 +5,7 @@
 Shipped scope:
 
 - **Submissions** as the spreadsheet on the site: Redis-backed rows, **Export CSV**, **Import CSV**, **Sales** form (**GHL** or **Dashboard only**).
-- **Sales board** KPIs from that same log: counts, paid/owed, by product/stage, payment-plan %, **lead → close** and **call → close** (Closed Won rows with **Date created** / **1st call** and **Closing date**). See [`api/sales-stats.js`](api/sales-stats.js).
+- **Sales board** KPIs from that same log: counts, paid/owed, win rate, Closed Won paid totals, est setter / closer commission sums, payment-plan %, **lead → close** and **call → close**, plus tables by product, stage, setter, closer, source tag, lead source, campaign, ad set, and **Closed Won by closing month**. See [`api/sales-stats.js`](api/sales-stats.js).
 - **Deploy**: monorepo folder [`esa-marketing-sales-dashboard/`](./), Vercel **Root Directory** = this folder; env includes `DEAL_UPLOAD_SECRET`, Redis, and GHL/Meta for the **Dashboard** tab. See [`DEPLOY.md`](DEPLOY.md), [`VERCEL_ESA_DASHBOARD.md`](../VERCEL_ESA_DASHBOARD.md) (repo root).
 
 The **Dashboard** tab (marketing view) uses **GHL + Meta** (+ optional Google Sheets). It does **not** read the Redis submissions list. That split is intentional for 1.0.

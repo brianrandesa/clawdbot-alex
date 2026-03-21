@@ -3,6 +3,74 @@
  */
 const { listDealSubmissions, kvConfigured } = require('./kvDeals');
 
+const CLOSED_WON_ID = '47a0b7ad-a4e5-42cf-9bc8-44c6981a6254';
+
+/** Parse sheet/form date (YYYY-MM-DD or ISO) to UTC midnight ms; invalid → null */
+function parseDateMs(s) {
+  if (s == null) return null;
+  const t = String(s).trim();
+  if (!t) return null;
+  const m = t.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (m) {
+    const y = +m[1];
+    const mo = +m[2] - 1;
+    const d = +m[3];
+    return Date.UTC(y, mo, d);
+  }
+  const x = new Date(t).getTime();
+  return Number.isNaN(x) ? null : x;
+}
+
+function isClosedWon(row) {
+  const id = String(row.pipelineStageId || '').toLowerCase();
+  if (id === CLOSED_WON_ID) return true;
+  return String(row.stageName || '').trim().toLowerCase() === 'closed won';
+}
+
+function bucketKey(s) {
+  const t = (s == null ? '' : String(s)).trim();
+  return t || '—';
+}
+
+/** @param {Record<string, { count: number, paid: number, owed: number }>} map */
+function bumpPayout(map, key, paid, owed) {
+  const k = bucketKey(key);
+  if (!map[k]) map[k] = { count: 0, paid: 0, owed: 0 };
+  map[k].count++;
+  map[k].paid += paid;
+  map[k].owed += owed;
+}
+
+/** YYYY-MM from closing date string, or null */
+function closingMonthKey(s) {
+  const t = String(s || '').trim();
+  const m = t.match(/^(\d{4}-\d{2})/);
+  return m ? m[1] : null;
+}
+
+function summarizeDaySpans(startField, endField, rows) {
+  const spans = [];
+  for (const row of rows) {
+    if (!isClosedWon(row)) continue;
+    const a = parseDateMs(row[startField]);
+    const b = parseDateMs(row[endField]);
+    if (a == null || b == null) continue;
+    if (b < a) continue;
+    const days = Math.round((b - a) / 86400000);
+    spans.push(days);
+  }
+  if (spans.length === 0) {
+    return { avgDays: null, medianDays: null, count: 0 };
+  }
+  spans.sort((x, y) => x - y);
+  const sum = spans.reduce((s, n) => s + n, 0);
+  const avg = Math.round((sum / spans.length) * 10) / 10;
+  const mid = Math.floor(spans.length / 2);
+  const median =
+    spans.length % 2 === 1 ? spans[mid] : Math.round(((spans[mid - 1] + spans[mid]) / 2) * 10) / 10;
+  return { avgDays: avg, medianDays: median, count: spans.length };
+}
+
 function rangeBounds(q) {
   const now = Date.now();
   const r = (q.range || '30d').toLowerCase();
@@ -53,8 +121,21 @@ module.exports = async (req, res) => {
   let totalPaid = 0;
   let totalOwed = 0;
   let planCount = 0;
+  let closedWonCount = 0;
+  let closedWonPaid = 0;
+  let closedWonOwed = 0;
+  let setterCommEst = 0;
+  let closerCommTotal = 0;
+
   const byProduct = {};
   const byStage = {};
+  const bySetter = {};
+  const byCloser = {};
+  const bySourceTag = {};
+  const byLeadSource = {};
+  const byCampaign = {};
+  const byAdset = {};
+  const byClosingMonth = {};
 
   for (const row of rows) {
     const paid = parseFloat(row.monetaryValue) || 0;
@@ -73,9 +154,47 @@ module.exports = async (req, res) => {
     if (!byStage[st]) byStage[st] = { count: 0, paid: 0 };
     byStage[st].count++;
     byStage[st].paid += paid;
+
+    bumpPayout(bySetter, row.setter, paid, owed);
+
+    const cl = bucketKey(row.closer);
+    const comm = parseFloat(row.closerComm) || 0;
+    closerCommTotal += comm;
+    if (!byCloser[cl]) byCloser[cl] = { count: 0, paid: 0, owed: 0, comm: 0 };
+    byCloser[cl].count++;
+    byCloser[cl].paid += paid;
+    byCloser[cl].owed += owed;
+    byCloser[cl].comm += comm;
+
+    const sp = parseFloat(String(row.setterPct || '').replace(/[^0-9.-]/g, '')) || 0;
+    if (sp > 0) setterCommEst += (paid * sp) / 100;
+
+    bumpPayout(bySourceTag, row.sourceTag, paid, owed);
+    bumpPayout(byLeadSource, row.leadSource, paid, owed);
+    bumpPayout(byCampaign, row.campaign, paid, owed);
+    bumpPayout(byAdset, row.adset, paid, owed);
+
+    if (isClosedWon(row)) {
+      closedWonCount++;
+      closedWonPaid += paid;
+      closedWonOwed += owed;
+      const ym = closingMonthKey(row.closingDate);
+      if (ym) {
+        if (!byClosingMonth[ym]) byClosingMonth[ym] = { count: 0, paid: 0, owed: 0 };
+        byClosingMonth[ym].count++;
+        byClosingMonth[ym].paid += paid;
+        byClosingMonth[ym].owed += owed;
+      }
+    }
   }
 
-  const n = rows.length || 1;
+  const leadToClose = summarizeDaySpans('dateCreated', 'closingDate', rows);
+  const firstCallToClose = summarizeDaySpans('dateFirstCall', 'closingDate', rows);
+
+  const avgWon =
+    closedWonCount > 0 ? Math.round((closedWonPaid / closedWonCount) * 100) / 100 : 0;
+  const winRatePct =
+    rows.length > 0 ? Math.round((closedWonCount / rows.length) * 1000) / 10 : 0;
 
   return res.status(200).json({
     kvEnabled: kvConfigured(),
@@ -86,8 +205,24 @@ module.exports = async (req, res) => {
     avgPaid: rows.length ? Math.round((totalPaid / rows.length) * 100) / 100 : 0,
     paymentPlanPct: rows.length ? Math.round((planCount / rows.length) * 1000) / 10 : 0,
     paymentPlanCount: planCount,
+    closedWonCount,
+    closedWonPaid,
+    closedWonOwed,
+    avgWonDeal: avgWon,
+    winRatePct,
+    setterCommEst: Math.round(setterCommEst * 100) / 100,
+    closerCommTotal: Math.round(closerCommTotal * 100) / 100,
+    leadToClose,
+    firstCallToClose,
     byProduct,
     byStage,
+    bySetter,
+    byCloser,
+    bySourceTag,
+    byLeadSource,
+    byCampaign,
+    byAdset,
+    byClosingMonth,
     inRangeRows: rows.slice(0, 200),
     ...(redisError ? { redisError } : {})
   });
