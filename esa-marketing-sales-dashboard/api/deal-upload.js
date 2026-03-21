@@ -128,6 +128,7 @@ function buildSheetNotes(b) {
     line('Date Created', b.dateCreated),
     line('1st Sales Call Done', b.dateFirstCall),
     line('Date of Payment', b.datePayment),
+    line('Closing date', b.closingDate),
     line('EVENT/NAME', b.clientOrEvent),
     line('Product', b.product),
     line('Email', b.email),
@@ -249,6 +250,7 @@ module.exports = async (req, res) => {
   const dateCreated = trimStr(body.dateCreated, 20);
   const dateFirstCall = trimStr(body.dateFirstCall, 20);
   const datePayment = trimStr(body.datePayment, 20);
+  const closingDate = trimStr(body.closingDate, 20);
   const setter = trimStr(body.setter, 80);
   const setterPct = trimStr(body.setterPct, 40);
   const closer = trimStr(body.closer, 80);
@@ -265,6 +267,7 @@ module.exports = async (req, res) => {
     dateCreated,
     dateFirstCall,
     datePayment,
+    closingDate,
     clientOrEvent,
     product,
     email,
@@ -376,6 +379,7 @@ module.exports = async (req, res) => {
     dateCreated,
     dateFirstCall,
     datePayment,
+    closingDate,
     clientOrEvent,
     firstName: first,
     lastName: last,

@@ -132,7 +132,7 @@ Do these **inside GHL** (and connected tools):
 ## Dashboard code
 
 - **File:** `api/data.js` – `SOURCES`, `LEGACY_SOURCE_MAP`, `LEGACY_STATUS_MAP`, `PIPELINE_STAGES`
-- **Sales tab:** Sales Command Center tab **Sales** (log deal form) → `POST /api/deal-upload` (requires `DEAL_UPLOAD_SECRET` on Vercel). Form fields mirror the sales spreadsheet columns (Fathom links, dates, EVENT/NAME, product, amounts paid/owed, setter/closer, Lead Source, Campaign/Adset/Ad, etc.). Full row is written to the **opportunity notes** in GHL; tags include `src-*`, `status-*` from stage, `deal-logged-command-center`, optional `payment plan`, `esa-product-*`, `esa-owed-*` when applicable. Pipeline stage IDs must match `api/ghlDealConstants.js` / `data.js`.  
+- **Sales tab:** Sales Command Center tab **Sales** (log deal form) → `POST /api/deal-upload` (requires `DEAL_UPLOAD_SECRET` on Vercel). Form fields mirror the sales spreadsheet columns (Fathom links, dates including **Closing date**, EVENT/NAME, product, amounts paid/owed, setter/closer, Lead Source, Campaign/Adset/Ad, etc.). Full row is written to the **opportunity notes** in GHL; tags include `src-*`, `status-*` from stage, `deal-logged-command-center`, optional `payment plan`, `esa-product-*`, `esa-owed-*` when applicable. Pipeline stage IDs must match `api/ghlDealConstants.js` / `data.js`. Add a **Closing date** column to **`Enter_Sales`** / master sheet if you track it in Excel so exports stay aligned.  
 - If you **reorder stages or change stage IDs** in GHL, update `PIPELINE_STAGES` IDs to match or the “Pipeline by Stage” bars will be wrong.
 
 ### Marketing QA row (FB Lead Form SS)

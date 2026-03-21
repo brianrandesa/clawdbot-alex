@@ -111,6 +111,7 @@
           dateCreated: el('deal-date-created').value,
           dateFirstCall: el('deal-date-first-call').value,
           datePayment: el('deal-date-payment').value,
+          closingDate: el('deal-date-closing').value,
           clientOrEvent: el('deal-client-event').value.trim(),
           firstName: el('deal-first').value.trim(),
           lastName: el('deal-last').value.trim(),
@@ -539,6 +540,7 @@
             '<td>' + d(r.dateCreated) + '</td>' +
             '<td>' + d(r.dateFirstCall) + '</td>' +
             '<td>' + d(r.datePayment) + '</td>' +
+            '<td>' + d(r.closingDate) + '</td>' +
             '<td>' + d(r.clientOrEvent) + '</td>' +
             '<td>' + d(r.firstName) + '</td>' +
             '<td>' + d(r.lastName) + '</td>' +
@@ -564,7 +566,7 @@
             '</tr>'
           );
         })
-        .join('') || '<tr><td colspan="28">No submissions in this range.</td></tr>';
+        .join('') || '<tr><td colspan="29">No submissions in this range.</td></tr>';
   }
 
   function renderSalesBoardView(data) {
@@ -677,6 +679,7 @@
       'Date created',
       '1st call',
       'Payment date',
+      'Closing date',
       'EVENT_NAME',
       'First',
       'Last',
@@ -715,6 +718,7 @@
           r.dateCreated,
           r.dateFirstCall,
           r.datePayment,
+          r.closingDate,
           r.clientOrEvent,
           r.firstName,
           r.lastName,

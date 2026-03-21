@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260325">
+  <link rel="stylesheet" href="styles.css?v=20260326">
 </head>
 <body>
 
@@ -227,6 +227,7 @@
                 <th>Date created</th>
                 <th>1st call</th>
                 <th>Payment date</th>
+                <th>Closing date</th>
                 <th>EVENT/NAME</th>
                 <th>First</th>
                 <th>Last</th>
@@ -310,7 +311,8 @@
             <div class="deal-grid">
               <label>Date created <input type="date" id="deal-date-created" name="dateCreated"></label>
               <label>1st sales call done <input type="date" id="deal-date-first-call" name="dateFirstCall"></label>
-              <label>Payment date <input type="date" id="deal-date-payment" name="datePayment"></label>
+              <label>Payment date <small>(sheet: Date of 1st Payment)</small> <input type="date" id="deal-date-payment" name="datePayment"></label>
+              <label>Closing date <small>(when the deal closed / signed)</small> <input type="date" id="deal-date-closing" name="closingDate"></label>
             </div>
           </fieldset>
           <fieldset class="deal-fieldset">
@@ -385,6 +387,6 @@
     <p>GHL + Meta Ads API. Data refreshes on load and caches for 2 minutes.</p>
   </footer>
 
-  <script src="main.js?v=20260325"></script>
+  <script src="main.js?v=20260326"></script>
 </body>
 </html>
