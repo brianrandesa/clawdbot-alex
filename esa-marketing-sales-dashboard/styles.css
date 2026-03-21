@@ -449,10 +449,82 @@ td.val-bad { color: var(--red); font-weight: 600; }
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
 }
+.submissions-import-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin: 0.75rem 0 0.5rem;
+}
+.submissions-import-bar input[type='file'] {
+  max-width: 220px;
+  font-size: 0.8rem;
+}
+.submissions-import-secret {
+  min-width: 200px;
+  flex: 1;
+  max-width: 320px;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.85rem;
+}
+.submissions-import-status {
+  font-size: 0.85rem;
+  flex: 1 1 100%;
+}
+.submissions-import-status.ok {
+  color: #22d68a;
+}
+.submissions-import-status.err {
+  color: #ff5c7c;
+}
+.submissions-import-help {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0.35rem 0 0.75rem;
+  max-width: 920px;
+}
+.submissions-import-help summary {
+  cursor: pointer;
+  color: var(--text);
+  font-weight: 500;
+}
+
 .submissions-meta {
   font-size: 0.8rem;
   color: var(--muted);
   margin-bottom: 0.5rem;
+  line-height: 1.45;
+  max-width: 920px;
+}
+.submissions-table td.submissions-empty {
+  padding: 1rem 0.75rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  white-space: normal;
+}
+.submissions-table td.submissions-empty strong {
+  color: var(--text);
+}
+
+.sheet-attribution-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.sheet-attribution-grid .sheet-attrib-card {
+  margin: 0;
+}
+.sheet-attribution-grid .sheet-attrib-card .panel-head {
+  padding-bottom: 0.35rem;
+}
+.sheet-attribution-grid .sheet-attrib-card .panel-head h3 {
+  font-size: 0.95rem;
+  margin: 0;
 }
 .submissions-wrap {
   max-height: 75vh;

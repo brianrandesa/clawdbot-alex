@@ -27,6 +27,9 @@
     "api/deal-submissions.js": {
       "maxDuration": 15
     },
+    "api/deal-import-csv.js": {
+      "maxDuration": 60
+    },
     "api/sales-stats.js": {
       "maxDuration": 15
     }

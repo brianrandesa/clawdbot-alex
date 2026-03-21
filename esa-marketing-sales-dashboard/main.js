@@ -35,10 +35,23 @@
   var DEAL_STAGE_CLOSED_WON = '47a0b7ad-a4e5-42cf-9bc8-44c6981a6254';
   var logDealOptsLoaded = false;
   var logDealSubmitBound = false;
+  var logDealDashboardCheckboxBound = false;
+
+  function updateDealSubmitButtonLabel() {
+    var dash = el('deal-dashboard-only') && el('deal-dashboard-only').checked;
+    var btn = el('deal-submit');
+    if (btn) btn.textContent = dash ? 'Save to dashboard only' : 'Create in GHL';
+  }
 
   function initLogDealForm() {
     var saved = localStorage.getItem('esa.dealUploadSecret');
     if (saved) el('deal-secret').value = saved;
+
+    if (!logDealDashboardCheckboxBound && el('deal-dashboard-only')) {
+      logDealDashboardCheckboxBound = true;
+      el('deal-dashboard-only').addEventListener('change', updateDealSubmitButtonLabel);
+    }
+    updateDealSubmitButtonLabel();
 
     if (!logDealOptsLoaded) {
       logDealOptsLoaded = true;
@@ -132,7 +145,8 @@
           pipelineStageId: el('deal-stage').value,
           sourceTag: el('deal-source').value,
           paymentPlan: el('deal-payment-plan').checked,
-          notes: el('deal-notes').value.trim()
+          notes: el('deal-notes').value.trim(),
+          dashboardOnly: !!(el('deal-dashboard-only') && el('deal-dashboard-only').checked)
         };
 
         fetch('/api/deal-upload', {
@@ -144,11 +158,22 @@
           .then(function (r) {
             if (r.ok && r.j.ok) {
               statusEl.className = 'deal-status ok';
-              statusEl.textContent = r.j.message + ' Contact: ' + (r.j.contactId || '') + ' · Opp: ' + (r.j.opportunityId || '(see GHL)');
+              if (r.j.dashboardOnly) {
+                statusEl.textContent = r.j.message || 'Saved.';
+              } else {
+                statusEl.textContent =
+                  r.j.message +
+                  ' Contact: ' +
+                  (r.j.contactId || '') +
+                  ' · Opp: ' +
+                  (r.j.opportunityId || '(see GHL)');
+              }
               el('deal-form').reset();
               el('deal-product').selectedIndex = 0;
               el('deal-product-custom').value = '';
               el('deal-payment-plan').checked = false;
+              if (el('deal-dashboard-only')) el('deal-dashboard-only').checked = false;
+              updateDealSubmitButtonLabel();
               el('deal-stage').value = DEAL_STAGE_CLOSED_WON;
               el('deal-source').value = 'src-organic';
               if (el('deal-remember-secret').checked && secret) el('deal-secret').value = secret;
@@ -157,7 +182,29 @@
               statusEl.className = 'deal-status err';
               statusEl.textContent = (r.j && r.j.error) ? r.j.error : ('HTTP ' + r.status);
               if (r.j && r.j.hint) statusEl.textContent += ' — ' + r.j.hint;
-              if (r.j && r.j.ghl && r.j.ghl.message) statusEl.textContent += ' · ' + r.j.ghl.message;
+              if (r.j && r.j.ghlStatus)
+                statusEl.textContent += ' (GHL HTTP ' + r.j.ghlStatus + ')';
+              if (r.j && r.j.ghl) {
+                var g = r.j.ghl;
+                var gmsg =
+                  (typeof g === 'string' && g) ||
+                  g.message ||
+                  g.error ||
+                  g.msg ||
+                  (g.meta && (g.meta.message || g.meta.error)) ||
+                  '';
+                if (!gmsg && Array.isArray(g.errors) && g.errors.length)
+                  gmsg = g.errors.map(function (e) { return e && (e.message || e.msg || JSON.stringify(e)); }).join('; ');
+                if (!gmsg) {
+                  try {
+                    gmsg = JSON.stringify(g);
+                  } catch (e2) {
+                    gmsg = '';
+                  }
+                  if (gmsg.length > 280) gmsg = gmsg.slice(0, 277) + '…';
+                }
+                if (gmsg) statusEl.textContent += ' · ' + gmsg;
+              }
             }
           })
           .catch(function (e) {
@@ -292,6 +339,84 @@
     }).join('');
   }
 
+  var SHEET_ATTR_TABLE_MAX = 12;
+
+  function renderSheetAttributionTable(title, rows) {
+    if (!rows || !rows.length) return '';
+    var slice = rows.slice(0, SHEET_ATTR_TABLE_MAX);
+    var body = slice.map(function (x) {
+      return (
+        '<tr><td><strong>' +
+        esc(x.key) +
+        '</strong></td><td>' +
+        money(x.revenue) +
+        '</td><td>' +
+        x.count +
+        '</td></tr>'
+      );
+    }).join('');
+    if (rows.length > SHEET_ATTR_TABLE_MAX) {
+      body +=
+        '<tr><td colspan="3" class="muted">+' +
+        (rows.length - SHEET_ATTR_TABLE_MAX) +
+        ' more</td></tr>';
+    }
+    return (
+      '<article class="panel sheet-attrib-card">' +
+      '<div class="panel-head"><h3>' +
+      esc(title) +
+      '</h3></div>' +
+      '<div class="table-wrap"><table><thead><tr><th>Value</th><th>Revenue</th><th>Rows</th></tr></thead><tbody>' +
+      body +
+      '</tbody></table></div></article>'
+    );
+  }
+
+  function renderSheetAttribution(data) {
+    var panel = el('sheet-attribution-panel');
+    var grid = el('sheet-attribution-grid');
+    var statusEl = el('sheet-attribution-status');
+    if (!panel || !grid) return;
+
+    var sa = data.sheetAttribution;
+    if (!sa || !sa.rowsInRange) {
+      panel.style.display = 'none';
+      return;
+    }
+
+    panel.style.display = '';
+    var sr = data.sheetRevenue || {};
+    var bits = [];
+    bits.push(sa.rowsInRange + ' paid rows in range from the sheet.');
+    if (sr.attributionOnlyNote) bits.push(sr.attributionOnlyNote);
+    if (data.revenueModel && data.revenueModel.source === 'google_sheets') bits.push('Revenue KPIs use this sheet.');
+    if (statusEl) statusEl.textContent = bits.join(' ');
+
+    var L = sa.columnLabels || {};
+    var det = sa.columnsDetected || {};
+    function wantDim(key, list) {
+      if (!det[key]) return false;
+      return list && list.length > 0;
+    }
+    var parts = [];
+    if (wantDim('leadSource', sa.byLeadSource))
+      parts.push(renderSheetAttributionTable(L.leadSource || 'Lead source', sa.byLeadSource));
+    if (wantDim('sourceTag', sa.bySourceTag))
+      parts.push(renderSheetAttributionTable(L.sourceTag || 'Dashboard source', sa.bySourceTag));
+    if (wantDim('campaign', sa.byCampaign))
+      parts.push(renderSheetAttributionTable(L.campaign || 'Campaign', sa.byCampaign));
+    if (wantDim('adset', sa.byAdset))
+      parts.push(renderSheetAttributionTable(L.adset || 'Ad set', sa.byAdset));
+    if (wantDim('ad', sa.byAd)) parts.push(renderSheetAttributionTable(L.ad || 'Ad', sa.byAd));
+    if (wantDim('product', sa.byProduct))
+      parts.push(renderSheetAttributionTable(L.product || 'Product', sa.byProduct));
+
+    var html = parts.filter(Boolean).join('');
+    grid.innerHTML =
+      html ||
+      '<p class="muted">No attribution columns matched the header row. Add columns named Lead Source, Campaign, Adset, Ad, or Product (see README).</p>';
+  }
+
   // ---- Campaigns ----
   function renderCampaigns(data) {
     var c = data.metaCampaigns || [];
@@ -413,6 +538,7 @@
     var b = getRangeMs();
     return rows.filter(function (row) {
       var t = new Date(row.submittedAt || 0).getTime();
+      if (Number.isNaN(t)) return false;
       return t >= b.start && t <= b.end;
     });
   }
@@ -521,8 +647,20 @@
       ? filtered.filter(function (r) { return JSON.stringify(r).toLowerCase().indexOf(q) !== -1; })
       : filtered;
 
+    var totalKv = submissionsCache.rows.length;
     meta.textContent =
-      rows.length + ' in range · ' + submissionsCache.rows.length + ' total in KV';
+      rows.length + ' in range · ' + totalKv + ' total in Redis';
+    if (submissionsCache.kvEnabled && !submissionsCache.fetchError && !submissionsCache.redisError) {
+      if (totalKv === 0) {
+        meta.textContent +=
+          ' · List is empty: use the Sales tab to create a deal (nothing is pulled from GHL or Excel).';
+      } else if (filtered.length === 0 && totalKv > 0 && !q) {
+        meta.textContent +=
+          ' · Try All Time or a wider range; filter uses submit time, not closing date.';
+      } else if (q && filtered.length > 0 && rows.length === 0) {
+        meta.textContent += ' · Search has no matches in this range.';
+      }
+    }
 
     function d(v) {
       if (v === null || v === undefined) return '';
@@ -566,7 +704,16 @@
             '</tr>'
           );
         })
-        .join('') || '<tr><td colspan="29">No submissions in this range.</td></tr>';
+        .join('') ||
+        '<tr><td colspan="29" class="submissions-empty">' +
+        (submissionsCache.kvEnabled && totalKv === 0
+          ? '<strong>No rows yet.</strong> Redis is connected but nobody has logged a deal from the <strong>Sales</strong> tab. <strong>All Time</strong> only shows those logs, not past Excel or GHL closes.'
+          : q && filtered.length > 0
+            ? '<strong>No matches.</strong> Clear the search box or try different keywords.'
+            : submissionsCache.kvEnabled && filtered.length === 0 && totalKv > 0
+              ? '<strong>None in this date range.</strong> Switch the header to <strong>All Time</strong> or widen dates (filter uses <em>submitted</em> time).'
+              : 'No submissions in this range.') +
+        '</td></tr>';
   }
 
   function renderSalesBoardView(data) {
@@ -872,6 +1019,16 @@
       if (sr.warning) add('Sheet warning', sr.warning, 'Sheet fetch or parse message · check Vercel env / sheet access');
     }
 
+    var sat = data.sheetAttribution;
+    if (sat && sat.rowsInRange) {
+      gap();
+      add('Sheet attribution · rows in range', snapStr(sat.rowsInRange), 'Google Sheets · paid rows in date window · summed by column headers');
+      add('GOOGLE_SHEETS_ATTRIBUTION', snapStr(sr.attributionFromSheet ? 'on' : ''), 'Env · when on, sheet is read even if revenue stays GHL');
+      var topC = (sat.byCampaign || [])[0];
+      if (topC && topC.key && topC.key !== '(blank)')
+        add('Top sheet campaign ($)', topC.key + ' · ' + money(topC.revenue), 'Amount column summed for that campaign value');
+    }
+
     return rows;
   }
 
@@ -910,7 +1067,7 @@
     renderLeadFormKPIs(data);
     currentData = data;
     renderKPIs(data); renderBenchmarkTable(data); renderFunnel(data);
-    renderSourceTable(data); renderCampaigns(data); renderTeamTable(data);
+    renderSourceTable(data); renderCampaigns(data); renderSheetAttribution(data); renderTeamTable(data);
     renderStageBars(data); renderActions(data); renderRawData(data);
     try {
       renderSnapshot(data);
@@ -974,6 +1131,64 @@
   }
   if (el('submissions-export')) {
     el('submissions-export').addEventListener('click', exportSubmissionsCSV);
+  }
+
+  if (el('submissions-import-btn')) {
+    el('submissions-import-btn').addEventListener('click', function () {
+      var fileInput = el('submissions-import-file');
+      var secretEl = el('submissions-import-secret');
+      var statusEl = el('submissions-import-status');
+      if (!statusEl) return;
+      statusEl.className = 'submissions-import-status';
+      if (!fileInput || !fileInput.files || !fileInput.files[0]) {
+        statusEl.textContent = 'Choose a CSV file first.';
+        statusEl.classList.add('err');
+        return;
+      }
+      var secret =
+        (secretEl && secretEl.value.trim()) || localStorage.getItem('esa.dealUploadSecret') || '';
+      if (!secret) {
+        statusEl.textContent = 'Enter the team password (same as Sales tab), or save it with Remember on Sales.';
+        statusEl.classList.add('err');
+        return;
+      }
+      statusEl.textContent = 'Importing…';
+      var reader = new FileReader();
+      reader.onerror = function () {
+        statusEl.textContent = 'Could not read file.';
+        statusEl.className = 'submissions-import-status err';
+      };
+      reader.onload = function () {
+        fetch('/api/deal-import-csv', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ secret: secret, csv: reader.result })
+        })
+          .then(function (res) {
+            return res.json().then(function (j) {
+              return { ok: res.ok, j: j };
+            });
+          })
+          .then(function (r) {
+            if (r.ok && r.j.ok) {
+              statusEl.className = 'submissions-import-status ok';
+              statusEl.textContent = r.j.message || 'Import complete.';
+              fileInput.value = '';
+              refreshSalesTabs();
+            } else {
+              statusEl.className = 'submissions-import-status err';
+              var msg = (r.j && r.j.error) ? r.j.error : 'Import failed';
+              if (r.j && r.j.hint) msg += ' — ' + r.j.hint;
+              statusEl.textContent = msg;
+            }
+          })
+          .catch(function (e) {
+            statusEl.className = 'submissions-import-status err';
+            statusEl.textContent = e.message || 'Network error';
+          });
+      };
+      reader.readAsText(fileInput.files[0], 'UTF-8');
+    });
   }
 
   el('snapshot-copy').addEventListener('click', function () {

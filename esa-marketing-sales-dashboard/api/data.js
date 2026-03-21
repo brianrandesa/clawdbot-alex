@@ -595,6 +595,10 @@ module.exports = async (req, res) => {
   const dateRange = getDateRange(range, q.start, q.end);
 
   const sheetsMode = String(process.env.SHEETS_REVENUE_MODE || 'off').toLowerCase();
+  const sheetsAttrOn = ['1', 'true', 'yes', 'on'].includes(
+    String(process.env.GOOGLE_SHEETS_ATTRIBUTION || '').toLowerCase()
+  );
+  const fetchSheet = sheetsMode === 'replace' || sheetsAttrOn;
 
   try {
     const [allContacts, userMap, metaData, allOpps, sheetSnap] = await Promise.all([
@@ -602,7 +606,7 @@ module.exports = async (req, res) => {
       getUsers(),
       getMetaAdSpend(dateRange),
       getAllPipelineOpportunities(),
-      sheetsMode === 'replace' ? fetchSheetsRevenueInRange(dateRange) : Promise.resolve(null)
+      fetchSheet ? fetchSheetsRevenueInRange(dateRange) : Promise.resolve(null)
     ]);
     const stageData = buildStageDataFromOpps(allOpps);
 
@@ -612,6 +616,7 @@ module.exports = async (req, res) => {
     metrics.sheetRevenue = {
       mode: sheetsMode,
       spreadsheetId: sheetId,
+      attributionFromSheet: sheetsAttrOn,
       ...(sheetSnap
         ? {
             totalRevenue: sheetSnap.totalRevenue,
@@ -620,8 +625,25 @@ module.exports = async (req, res) => {
             note: sheetSnap.note,
             error: sheetSnap.error
           }
-        : { enabled: false, hint: sheetsMode === 'replace' ? 'Add GOOGLE_SERVICE_ACCOUNT_JSON in Vercel' : null })
+        : {
+            enabled: false,
+            hint:
+              sheetsMode === 'replace' || sheetsAttrOn
+                ? 'Add GOOGLE_SERVICE_ACCOUNT_JSON in Vercel'
+                : null
+          })
     };
+
+    if (sheetSnap && sheetSnap.error == null && sheetSnap.attribution) {
+      metrics.sheetAttribution = {
+        ...sheetSnap.attribution,
+        columnLabels: sheetSnap.attributionColumnLabels || {},
+        columnsDetected: sheetSnap.attributionColumnsDetected || {},
+        rowsInRange: sheetSnap.attributionRowCount || 0
+      };
+    } else {
+      metrics.sheetAttribution = null;
+    }
 
     if (sheetsMode === 'replace' && sheetSnap && sheetSnap.error == null) {
       const AD_SPEND = metrics.adSpend > 0 ? metrics.adSpend : 0;
@@ -635,7 +657,8 @@ module.exports = async (req, res) => {
         source: 'google_sheets',
         spreadsheetId: sheetId,
         range: (process.env.GOOGLE_SHEETS_RANGE || 'Sheet1!A1:Z2000').trim(),
-        attribution: 'Rows in sheet whose date column falls in selected dashboard range; amount column summed.',
+        attribution:
+          'Rows in sheet whose date column falls in selected dashboard range; amount column summed. Sheet attribution tables use Lead Source, Campaign, Adset, Ad, Product, Dashboard source columns when headers match.',
         dealCount: sheetSnap.dealCount,
         dealsUsingFallback: 0,
         sheetsNote: sheetSnap.note,
@@ -650,6 +673,11 @@ module.exports = async (req, res) => {
 
     if (sheetsMode !== 'replace' && sheetSnap && sheetSnap.error && sheetSnap.error !== 'not_configured') {
       metrics.sheetRevenue.warning = sheetSnap.note || sheetSnap.error;
+    }
+
+    if (sheetsAttrOn && sheetsMode !== 'replace' && sheetSnap && sheetSnap.error == null) {
+      metrics.sheetRevenue.attributionOnlyNote =
+        'Revenue still from GHL; sheet was read for attribution breakdowns below.';
     }
 
     return res.status(200).json(metrics);

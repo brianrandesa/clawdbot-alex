@@ -122,6 +122,74 @@ function findHeaderCols(row) {
 }
 
 /**
+ * Map sheet header row to attribution column indices (ESA-style column names).
+ * @returns {{ leadSource: number, sourceTag: number, campaign: number, adset: number, ad: number, product: number, labels: Record<string,string> }}
+ */
+function findAttributionIndices(headerRow) {
+  const raw = (headerRow || []).map((c) => String(c || '').trim());
+  const lower = raw.map((c) => c.toLowerCase());
+  const out = {
+    leadSource: -1,
+    sourceTag: -1,
+    campaign: -1,
+    adset: -1,
+    ad: -1,
+    product: -1,
+    labels: {}
+  };
+
+  const set = (key, i) => {
+    if (out[key] < 0 && i >= 0) {
+      out[key] = i;
+      out.labels[key] = raw[i] || key;
+    }
+  };
+
+  for (let i = 0; i < lower.length; i++) {
+    const h = lower[i];
+    if (h.includes('lead source')) set('leadSource', i);
+    else if (h.includes('dashboard source') || h.includes('source tag') || h.includes('dashboard source tag'))
+      set('sourceTag', i);
+    else if (h.includes('adset') || h.includes('ad set')) set('adset', i);
+    else if (h === 'ad' || (h.startsWith('ad ') && !h.includes('adset'))) set('ad', i);
+    else if (h.includes('campaign') && !h.includes('adset')) set('campaign', i);
+    else if (h.includes('product') && !h.includes('production')) set('product', i);
+  }
+
+  for (let i = 0; i < lower.length; i++) {
+    const h = lower[i];
+    if (out.leadSource < 0 && (h === 'source' || h === 'utm source')) set('leadSource', i);
+  }
+
+  return out;
+}
+
+function aggregateAttribution(rows) {
+  /** @param {string} dim */
+  function byDim(dim) {
+    const map = new Map();
+    for (const r of rows) {
+      const raw = r[dim] == null ? '' : String(r[dim]).trim();
+      const k = raw || '(blank)';
+      const cur = map.get(k) || { key: k, revenue: 0, count: 0 };
+      cur.revenue += r.amount;
+      cur.count += 1;
+      map.set(k, cur);
+    }
+    return Array.from(map.values()).sort((a, b) => b.revenue - a.revenue);
+  }
+
+  return {
+    byLeadSource: byDim('leadSource'),
+    bySourceTag: byDim('sourceTag'),
+    byCampaign: byDim('campaign'),
+    byAdset: byDim('adset'),
+    byAd: byDim('ad'),
+    byProduct: byDim('product')
+  };
+}
+
+/**
  * @param {{ start: Date, end: Date }} dateRange
  * @returns {Promise<{ totalRevenue: number, dealCount: number, rows: Array<{date:string,amount:number}>, note: string, error?: string }>}
  */
@@ -196,11 +264,32 @@ async function fetchSheetsRevenueInRange(dateRange) {
     }
   }
 
+  const headerLooks = values[0] ? findHeaderCols(values[0]).looksLikeHeader : false;
+  const attrHeader =
+    startRow === 1 || headerLooks
+      ? findAttributionIndices(values[0] || [])
+      : {
+          leadSource: -1,
+          sourceTag: -1,
+          campaign: -1,
+          adset: -1,
+          ad: -1,
+          product: -1,
+          labels: {}
+        };
+
+  function cellAt(row, idx) {
+    if (idx < 0) return '';
+    const v = row[idx];
+    return v == null ? '' : String(v).trim();
+  }
+
   const startMs = dateRange.start.getTime();
   const endMs = dateRange.end ? dateRange.end.getTime() : Date.now();
 
   let totalRevenue = 0;
   const rows = [];
+  const attributionDetail = [];
   for (let r = startRow; r < values.length; r++) {
     const row = values[r] || [];
     const d = parseDateCell(row[dateIdx]);
@@ -210,7 +299,26 @@ async function fetchSheetsRevenueInRange(dateRange) {
     if (t < startMs || t > endMs) continue;
     totalRevenue += amt;
     rows.push({ date: d.toISOString().slice(0, 10), amount: amt });
+    attributionDetail.push({
+      amount: amt,
+      leadSource: cellAt(row, attrHeader.leadSource),
+      sourceTag: cellAt(row, attrHeader.sourceTag),
+      campaign: cellAt(row, attrHeader.campaign),
+      adset: cellAt(row, attrHeader.adset),
+      ad: cellAt(row, attrHeader.ad),
+      product: cellAt(row, attrHeader.product)
+    });
   }
+
+  const attribution = aggregateAttribution(attributionDetail);
+  const attributionColumnsDetected = {
+    leadSource: attrHeader.leadSource >= 0,
+    sourceTag: attrHeader.sourceTag >= 0,
+    campaign: attrHeader.campaign >= 0,
+    adset: attrHeader.adset >= 0,
+    ad: attrHeader.ad >= 0,
+    product: attrHeader.product >= 0
+  };
 
   const note =
     fixedDateIdx != null || fixedAmtIdx != null
@@ -221,6 +329,10 @@ async function fetchSheetsRevenueInRange(dateRange) {
     totalRevenue,
     dealCount: rows.length,
     rows,
+    attribution,
+    attributionColumnLabels: attrHeader.labels,
+    attributionColumnsDetected,
+    attributionRowCount: attributionDetail.length,
     note,
     error: null
   };

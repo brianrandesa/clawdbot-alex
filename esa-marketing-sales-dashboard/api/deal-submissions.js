@@ -1,5 +1,5 @@
 /**
- * GET — all logged deal rows from KV (newest first).
+ * GET — all logged deal rows from KV (sorted by submittedAt, newest first).
  */
 const { listDealSubmissions, kvConfigured } = require('./kvDeals');
 

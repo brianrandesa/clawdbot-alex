@@ -179,6 +179,11 @@ async function listDealSubmissions() {
         }
       })
       .filter(Boolean);
+    rows.sort(function (a, b) {
+      const ta = new Date(a.submittedAt || 0).getTime();
+      const tb = new Date(b.submittedAt || 0).getTime();
+      return tb - ta;
+    });
     return { rows, error: null };
   } catch (e) {
     return { rows: [], error: e && e.message ? e.message : String(e) };

@@ -1,7 +1,7 @@
 /**
  * POST — find/create GHL contact + create opportunity (Brian & Diamond pipeline).
  * Body includes all Sales sheet-style fields; full row is stored on the opportunity notes/description.
- * Env: GHL_API_KEY (write), DEAL_UPLOAD_SECRET.
+ * Env: DEAL_UPLOAD_SECRET (required). GHL_API_KEY only when not using dashboardOnly.
  */
 const https = require('https');
 const { appendDealSubmission } = require('./kvDeals');
@@ -14,6 +14,7 @@ const {
 } = require('./ghlDealConstants');
 
 const GHL_KEY = (process.env.GHL_API_KEY || '').trim();
+const GHL_LOCATION_ID = (process.env.GHL_LOCATION_ID || '').trim();
 const UPLOAD_SECRET = (process.env.DEAL_UPLOAD_SECRET || '').trim();
 
 const ALLOWED_STAGE = new Set(PIPELINE_STAGES.map((s) => s.id));
@@ -152,18 +153,20 @@ function buildSheetNotes(b) {
 
 async function createOpportunityTry(baseOpp, title, noteBlock) {
   const tries = [
-    { ...baseOpp, title, notes: noteBlock },
     { ...baseOpp, name: title, notes: noteBlock },
-    { ...baseOpp, title, description: noteBlock },
+    { ...baseOpp, title, notes: noteBlock },
     { ...baseOpp, name: title, description: noteBlock },
-    { ...baseOpp, title },
-    { ...baseOpp, name: title }
+    { ...baseOpp, title, description: noteBlock },
+    { ...baseOpp, name: title },
+    { ...baseOpp, title }
   ];
+  let last = { status: 0, json: {} };
   for (const p of tries) {
     const r = await ghlRequest('POST', '/opportunities/', p);
+    last = r;
     if (r.status === 200 || r.status === 201) return r;
   }
-  return { status: 400, json: { error: 'all opportunity payloads failed' } };
+  return last.status ? last : { status: 400, json: { error: 'all opportunity payloads failed' } };
 }
 
 module.exports = async (req, res) => {
@@ -179,9 +182,6 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  if (!GHL_KEY) {
-    return res.status(500).json({ error: 'GHL_API_KEY not configured' });
-  }
   if (!UPLOAD_SECRET) {
     return res.status(503).json({
       error: 'Deal upload disabled',
@@ -198,6 +198,18 @@ module.exports = async (req, res) => {
 
   if (body.secret !== UPLOAD_SECRET) {
     return res.status(401).json({ error: 'Invalid team password' });
+  }
+
+  const dashboardOnly =
+    body.dashboardOnly === true ||
+    body.dashboardOnly === 'true' ||
+    String(body.dashboardOnly || '').toLowerCase() === 'true';
+
+  if (!dashboardOnly && !GHL_KEY) {
+    return res.status(500).json({
+      error: 'GHL_API_KEY not configured',
+      hint: 'Uncheck dashboard-only mode to require GHL, or add GHL_API_KEY on Vercel.'
+    });
   }
 
   const email = normalizeEmail(body.email);
@@ -260,6 +272,53 @@ module.exports = async (req, res) => {
   const adset = trimStr(body.adset, 300);
   const ad = trimStr(body.ad, 300);
   const notes = trimStr(body.notes, 2000);
+
+  const stageName = (PIPELINE_STAGES.find((s) => s.id === stageId) || {}).name || '';
+
+  if (dashboardOnly) {
+    const kvRow = {
+      submittedAt: new Date().toISOString(),
+      contactId: '',
+      opportunityId: '',
+      fathom1,
+      fathom2,
+      dateCreated,
+      dateFirstCall,
+      datePayment,
+      closingDate,
+      clientOrEvent,
+      firstName: first,
+      lastName: last,
+      email,
+      phone,
+      product,
+      monetaryValue: valueNum,
+      amountOwed: owedNum,
+      setter,
+      setterPct,
+      closer,
+      closerComm,
+      leadSource,
+      campaign,
+      adset,
+      ad,
+      sourceTag,
+      pipelineStageId: stageId,
+      stageName,
+      paymentPlan: !!body.paymentPlan,
+      notes,
+      dealTitle: title
+    };
+    const kvSaved = await appendDealSubmission(kvRow);
+    return res.status(201).json({
+      ok: true,
+      dashboardOnly: true,
+      kvSaved,
+      message: kvSaved
+        ? 'Saved to Submissions / Sales board only. No GHL contact or opportunity was created.'
+        : 'Redis is not configured; row was not stored. Add REDIS_URL or REST KV env and redeploy.'
+    });
+  }
 
   const noteBlock = buildSheetNotes({
     fathom1,
@@ -353,12 +412,18 @@ module.exports = async (req, res) => {
     pipelineStageId: stageId,
     monetaryValue: valueNum
   };
+  if (GHL_LOCATION_ID) baseOpp.locationId = GHL_LOCATION_ID;
 
   const or = await createOpportunityTry(baseOpp, title, noteBlock);
 
   if (or.status !== 200 && or.status !== 201) {
+    const hint =
+      !GHL_LOCATION_ID && (or.status === 400 || or.status === 422)
+        ? 'Try adding GHL_LOCATION_ID on Vercel (sub-account Location ID from GHL Settings). Many tokens need it for POST /opportunities/.'
+        : 'Confirm pipeline and stage IDs in api/ghlDealConstants.js match GHL (Brian & Diamond pipeline). Or use Dashboard only to skip GHL.';
     return res.status(502).json({
       error: 'GHL opportunity create failed',
+      hint,
       ghlStatus: or.status,
       ghl: or.json,
       contactId
@@ -367,8 +432,6 @@ module.exports = async (req, res) => {
 
   const oppId =
     (or.json.opportunity && or.json.opportunity.id) || or.json.id || or.json._id || null;
-
-  const stageName = (PIPELINE_STAGES.find((s) => s.id === stageId) || {}).name || '';
 
   const kvRow = {
     submittedAt: new Date().toISOString(),

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260326">
+  <link rel="stylesheet" href="styles.css?v=20260331">
 </head>
 <body>
 
@@ -119,6 +119,14 @@
         </div>
       </section>
 
+      <section class="panel" id="sheet-attribution-panel" style="display:none">
+        <div class="panel-head">
+          <h2>Google Sheet · cash by attribution</h2>
+          <p><span id="sheet-attribution-status" class="muted"></span> Same sheet rows as revenue when <code>SHEETS_REVENUE_MODE=replace</code>. Or set <code>GOOGLE_SHEETS_ATTRIBUTION=1</code> to load attribution while keeping GHL revenue. Headers we match include <strong>Lead Source</strong>, <strong>Campaign</strong>, <strong>Adset</strong> / <strong>Ad set</strong>, <strong>Ad</strong>, <strong>Product</strong>, <strong>Dashboard source</strong> / <strong>Source tag</strong>.</p>
+        </div>
+        <div class="sheet-attribution-grid" id="sheet-attribution-grid"></div>
+      </section>
+
       <section class="two-col">
         <article class="panel">
           <div class="panel-head">
@@ -208,14 +216,37 @@
     <div id="tab-submissions" style="display:none">
       <section class="panel">
         <div class="panel-head">
-          <h2>Submissions</h2>
-          <p>Every deal logged from the <strong>Sales</strong> tab. Same columns as your spreadsheet. Filtered by <strong>submitted</strong> time and the date range in the header. Stored in <strong>Redis</strong> (Vercel Marketplace <strong>Upstash Redis</strong> or legacy KV env: <code>UPSTASH_REDIS_REST_*</code> or <code>KV_REST_API_*</code>).</p>
+          <h2>Submissions · your sales log</h2>
+          <p>
+            This is your <strong>spreadsheet on the site</strong>: every row saved from the <strong>Sales</strong> tab or <strong>Import CSV</strong> below. Data lives in <strong>Redis</strong> (not Google Sheets). Use <strong>Export CSV</strong> anytime. The header date range filters by <strong>submitted</strong> time; <strong>All Time</strong> shows everything stored. Google Sheet integration elsewhere is <em>optional</em> for dashboard revenue math only, not for this table.
+          </p>
         </div>
         <div id="submissions-kv-banner" class="kv-banner" style="display:none"></div>
         <div class="submissions-toolbar">
           <input type="text" id="submissions-search" class="submissions-search" placeholder="Search any column…">
           <button type="button" id="submissions-export" class="btn-secondary">Export CSV</button>
         </div>
+        <div class="submissions-import-bar">
+          <input type="file" id="submissions-import-file" accept=".csv,text/csv" />
+          <input
+            type="password"
+            id="submissions-import-secret"
+            class="submissions-import-secret"
+            autocomplete="off"
+            placeholder="Team password (same as Sales tab)"
+          />
+          <button type="button" id="submissions-import-btn" class="btn-secondary">Import CSV</button>
+          <span id="submissions-import-status" class="submissions-import-status" aria-live="polite"></span>
+        </div>
+        <details class="submissions-import-help">
+          <summary>CSV import: required columns &amp; limits</summary>
+          <p>
+            <strong>Required headers:</strong> Email, EVENT_NAME, Product, Paid, Stage (stage name e.g. Closed Won, or UUID).
+            Easiest template: <strong>Export CSV</strong> from this tab once, then add your historical rows under that header row.
+            Max <strong>500</strong> rows total in storage; large imports are rejected if they would exceed the limit.
+            Uses the same <code>DEAL_UPLOAD_SECRET</code> as the Sales tab. Repo doc: <code>SUBMISSIONS_IMPORT_CSV.md</code>.
+          </p>
+        </details>
         <p class="submissions-meta" id="submissions-meta"></p>
         <div class="table-wrap submissions-wrap">
           <table class="submissions-table">
@@ -263,7 +294,7 @@
       <section class="panel">
         <div class="panel-head">
           <h2>Sales board</h2>
-          <p><strong>Only</strong> data from logged submissions (Sales tab). No Meta, no full CRM funnel. Range matches the header selector.</p>
+          <p><strong>Only</strong> rows in your sales log (Sales tab + CSV import on Submissions). No Meta, no full CRM funnel. Range matches the header selector.</p>
         </div>
         <div id="salesboard-kv-banner" class="kv-banner" style="display:none"></div>
         <section class="kpi-row" id="salesboard-kpis"></section>
@@ -290,8 +321,10 @@
     <div id="tab-sales" style="display:none">
       <section class="panel deal-form-panel">
         <div class="panel-head">
-          <h2>Sales · Log a new deal</h2>
-          <p>Creates or updates the contact in GHL, merges tags, and opens an opportunity on the <strong>Brian &amp; Diamond</strong> pipeline. Set <code>DEAL_UPLOAD_SECRET</code> on Vercel and share the team password only internally. Your API key must allow <strong>contacts</strong> and <strong>opportunities</strong> write.</p>
+          <h2>Sales · log a deal</h2>
+          <p>
+            <strong>Primary job:</strong> type the sale here and save it to your <strong>Submissions</strong> log (Redis). That is your running spreadsheet view and CSV export. <strong>Optional:</strong> also push to GHL with <strong>Create in GHL</strong>, or skip CRM with <strong>Dashboard only</strong> (same log, no GHL call). The main <strong>Dashboard</strong> tab still pulls GHL + Meta for funnel KPIs; it does not use this form. Set <code>DEAL_UPLOAD_SECRET</code> on Vercel for the team password; GHL needs <code>GHL_API_KEY</code> only when not using Dashboard only.
+          </p>
         </div>
         <form id="deal-form" class="deal-form">
           <fieldset class="deal-fieldset">
@@ -370,7 +403,8 @@
                 <select id="deal-stage" name="pipelineStageId" required></select>
               </label>
               <label class="deal-check deal-span-2"><input type="checkbox" id="deal-payment-plan" name="paymentPlan"> Payment plan (adds <code>payment plan</code> tag; log each payment in your sales sheet too)</label>
-              <label class="deal-span-2">Notes <textarea id="deal-notes" name="notes" rows="3" placeholder="Extra context — also stored on the opportunity"></textarea></label>
+              <label class="deal-check deal-span-2"><input type="checkbox" id="deal-dashboard-only" name="dashboardOnly"> <strong>Dashboard only</strong> (save to Submissions / Sales board in Redis; do not create or update anything in GHL)</label>
+              <label class="deal-span-2">Notes <textarea id="deal-notes" name="notes" rows="3" placeholder="Extra context (GHL opportunity notes when not dashboard-only)"></textarea></label>
             </div>
           </fieldset>
           <div class="deal-actions">
@@ -387,6 +421,6 @@
     <p>GHL + Meta Ads API. Data refreshes on load and caches for 2 minutes.</p>
   </footer>
 
-  <script src="main.js?v=20260326"></script>
+  <script src="main.js?v=20260331"></script>
 </body>
 </html>
