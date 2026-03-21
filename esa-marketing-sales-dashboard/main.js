@@ -29,8 +29,24 @@
       if (tab === 'sales') initLogDealForm();
       if (tab === 'submissions' || tab === 'salesboard') refreshSalesTabs();
       if (tab === 'snapshot' && currentData) renderSnapshot(currentData);
+      try {
+        if (tab === 'dashboard') {
+          history.replaceState(null, '', location.pathname + location.search || '.');
+        } else {
+          history.replaceState(null, '', '#' + tab);
+        }
+      } catch (e) { /* ignore */ }
     });
   });
+
+  function applyHashTab() {
+    var h = (location.hash || '').replace(/^#/, '').split('?')[0];
+    if (!h) return;
+    var btn = document.querySelector('.tab[data-tab="' + h + '"]');
+    if (btn) btn.click();
+  }
+  applyHashTab();
+  window.addEventListener('hashchange', applyHashTab);
 
   var DEAL_STAGE_CLOSED_WON = '47a0b7ad-a4e5-42cf-9bc8-44c6981a6254';
   var logDealOptsLoaded = false;

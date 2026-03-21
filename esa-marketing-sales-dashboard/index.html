@@ -3,11 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- If this meta is missing in View Source on Vercel, production is not this build. -->
+  <meta name="esa-dashboard-build" content="submissions-import-ui-20260321">
   <title>ESA Sales Command Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260331">
+  <link rel="stylesheet" href="styles.css?v=20260321">
 </head>
 <body>
 
@@ -218,35 +220,39 @@
         <div class="panel-head">
           <h2>Submissions · your sales log</h2>
           <p>
-            This is your <strong>spreadsheet on the site</strong>: every row saved from the <strong>Sales</strong> tab or <strong>Import CSV</strong> below. Data lives in <strong>Redis</strong> (not Google Sheets). Use <strong>Export CSV</strong> anytime. The header date range filters by <strong>submitted</strong> time; <strong>All Time</strong> shows everything stored. Google Sheet integration elsewhere is <em>optional</em> for dashboard revenue math only, not for this table.
+            This is your <strong>spreadsheet on the site</strong>: every row saved from the <strong>Sales</strong> tab or <strong>Import CSV</strong> (box at the top of this tab). Data lives in <strong>Redis</strong> (not Google Sheets). Use <strong>Export CSV</strong> anytime. The header date range filters by <strong>submitted</strong> time; <strong>All Time</strong> shows everything stored. Google Sheet integration elsewhere is <em>optional</em> for dashboard revenue math only, not for this table.
           </p>
         </div>
         <div id="submissions-kv-banner" class="kv-banner" style="display:none"></div>
+        <div id="submissions-import" class="submissions-import-card" aria-label="Import CSV into submissions log">
+          <h3 class="submissions-import-title">Upload · import CSV</h3>
+          <p class="submissions-import-lead">Choose a <code>.csv</code> file, enter the team password, then <strong>Import CSV</strong>. Same secret as the Sales tab (<code>DEAL_UPLOAD_SECRET</code> on Vercel).</p>
+          <div class="submissions-import-bar">
+            <input type="file" id="submissions-import-file" accept=".csv,text/csv" />
+            <input
+              type="password"
+              id="submissions-import-secret"
+              class="submissions-import-secret"
+              autocomplete="off"
+              placeholder="Team password (same as Sales tab)"
+            />
+            <button type="button" id="submissions-import-btn" class="btn-primary">Import CSV</button>
+            <span id="submissions-import-status" class="submissions-import-status" aria-live="polite"></span>
+          </div>
+          <details class="submissions-import-help">
+            <summary>Required columns &amp; limits</summary>
+            <p>
+              <strong>Required headers:</strong> Email, EVENT_NAME, Product, Paid, Stage (stage name e.g. Closed Won, or UUID).
+              Easiest template: <strong>Export CSV</strong> from this tab once, then add your historical rows under that header row.
+              Max <strong>500</strong> rows total in storage; large imports are rejected if they would exceed the limit.
+              Repo doc: <code>SUBMISSIONS_IMPORT_CSV.md</code>.
+            </p>
+          </details>
+        </div>
         <div class="submissions-toolbar">
           <input type="text" id="submissions-search" class="submissions-search" placeholder="Search any column…">
           <button type="button" id="submissions-export" class="btn-secondary">Export CSV</button>
         </div>
-        <div class="submissions-import-bar">
-          <input type="file" id="submissions-import-file" accept=".csv,text/csv" />
-          <input
-            type="password"
-            id="submissions-import-secret"
-            class="submissions-import-secret"
-            autocomplete="off"
-            placeholder="Team password (same as Sales tab)"
-          />
-          <button type="button" id="submissions-import-btn" class="btn-secondary">Import CSV</button>
-          <span id="submissions-import-status" class="submissions-import-status" aria-live="polite"></span>
-        </div>
-        <details class="submissions-import-help">
-          <summary>CSV import: required columns &amp; limits</summary>
-          <p>
-            <strong>Required headers:</strong> Email, EVENT_NAME, Product, Paid, Stage (stage name e.g. Closed Won, or UUID).
-            Easiest template: <strong>Export CSV</strong> from this tab once, then add your historical rows under that header row.
-            Max <strong>500</strong> rows total in storage; large imports are rejected if they would exceed the limit.
-            Uses the same <code>DEAL_UPLOAD_SECRET</code> as the Sales tab. Repo doc: <code>SUBMISSIONS_IMPORT_CSV.md</code>.
-          </p>
-        </details>
         <p class="submissions-meta" id="submissions-meta"></p>
         <div class="table-wrap submissions-wrap">
           <table class="submissions-table">
@@ -421,6 +427,6 @@
     <p>GHL + Meta Ads API. Data refreshes on load and caches for 2 minutes.</p>
   </footer>
 
-  <script src="main.js?v=20260331"></script>
+  <script src="main.js?v=20260321"></script>
 </body>
 </html>

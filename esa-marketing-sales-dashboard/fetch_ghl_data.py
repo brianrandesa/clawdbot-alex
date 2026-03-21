@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """Fetch all GHL data via curl and output analysis."""
 import json
+import os
 import subprocess
 import sys
 import time
 
-API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6Imw3SjZ5aEtPSGlVVlBFdGVUY3NxIiwidmVyc2lvbiI6MSwiaWF0IjoxNzczNjk3ODIzMzQ2LCJzdWIiOiJ0NXpPeVhFNU5QSXZZWEZxenVSYiJ9.yjPcwMchtjsxZnusy-Pp8gdopQUy0HDAX8ta-YiTAy8"
+API_KEY = os.environ.get("GHL_API_KEY", "").strip()
+if not API_KEY:
+    print("Set GHL_API_KEY in the environment.", file=sys.stderr)
+    sys.exit(1)
 
 def curl_get(url):
     url = url.replace("http://rest.gohighlevel.com", "https://rest.gohighlevel.com")

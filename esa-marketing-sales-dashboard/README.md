@@ -45,3 +45,15 @@ Use a venv with `openpyxl`, e.g. `python3 -m venv .venv-sheet && .venv-sheet/bin
 |--------|----------------|
 | `scripts/clean_sales_sheet.py` | Rebuilds **`Clean_All`** from **`Sheet1`**, ensures **`Enter_Sales`** tab for manual entries. |
 | `scripts/snapshot_dashboard_tab.py` | Optional: pushes the same flat KPI list into an Excel tab **`Dashboard_Snapshot`**. The **Sales Command Center** site also has an in-app **Snapshot** tab (no Excel needed). |
+
+### Match event names to GHL contacts (CSV)
+
+From the dashboard folder, with the same **`GHL_API_KEY`** (private integration token) you use for the API:
+
+```bash
+export GHL_API_KEY="…"
+# Save your one-name-per-line list as names.txt, then:
+node scripts/match_names_to_ghl_contacts.js names.txt > enriched.csv
+```
+
+Output columns: input line, First, Last, Email, Phone, match score, GHL contact id. Lines with score `0` need a manual lookup. Suffixes like ` - 2nd payment` or ` - Summit At Sea` are stripped **only** for matching, not in the first column.
