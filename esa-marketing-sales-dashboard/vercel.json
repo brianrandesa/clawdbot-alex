@@ -32,6 +32,9 @@
     },
     "api/sales-stats.js": {
       "maxDuration": 15
+    },
+    "api/sales-stats-v2.js": {
+      "maxDuration": 60
     }
   }
 }

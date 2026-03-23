@@ -58,9 +58,11 @@
       el('tab-snapshot').style.display = tab === 'snapshot' ? '' : 'none';
       el('tab-submissions').style.display = tab === 'submissions' ? '' : 'none';
       el('tab-salesboard').style.display = tab === 'salesboard' ? '' : 'none';
+      el('tab-salesboard-v2').style.display = tab === 'salesboard-v2' ? '' : 'none';
       el('tab-sales').style.display = tab === 'sales' ? '' : 'none';
       if (tab === 'sales') initLogDealForm();
       if (tab === 'submissions' || tab === 'salesboard') refreshSalesTabs();
+      if (tab === 'salesboard-v2') renderSalesBoardV2();
       if (tab === 'snapshot' && currentData) renderSnapshot(currentData);
       try {
         if (tab === 'dashboard') {
@@ -1692,6 +1694,198 @@
       });
     }
   });
+
+  // ---- SALES BOARD V2 (GHL Opportunities) ----
+
+  var sb2Cache = null;
+
+  function renderSalesBoardV2() {
+    fetch('/api/sales-stats-v2?' + rangeQueryForStats())
+      .then(function (res) {
+        return res.text().then(function (text) {
+          var data;
+          try {
+            data = text ? JSON.parse(text) : {};
+          } catch (e) {
+            throw new Error('sales-stats-v2 non-JSON (HTTP ' + res.status + '). ' + (text || '').slice(0, 120));
+          }
+          if (!res.ok) throw new Error((data && data.error) || 'HTTP ' + res.status);
+          return data;
+        });
+      })
+      .then(function (data) {
+        sb2Cache = data;
+        paintSalesBoardV2(data);
+      })
+      .catch(function (err) {
+        sb2Cache = null;
+        var kpis = el('sb2-kpis');
+        if (kpis) kpis.innerHTML = '<div class="kpi"><div class="kpi-label">Error</div><div class="kpi-value">--</div><div class="kpi-sub">' + esc(err.message || String(err)) + '</div></div>';
+      });
+  }
+
+  function paintSalesBoardV2(data) {
+    if (!data) return;
+
+    // -- Top KPIs --
+    var totalTcv = data.totalTcv || 0;
+    var totalCash = data.totalCash || 0;
+    var totalOwed = data.totalOwed || 0;
+    var dealCount = data.dealCount || 0;
+    var aov = dealCount ? totalTcv / dealCount : 0;
+    var collectionRate = totalTcv ? (totalCash / totalTcv) * 100 : 0;
+
+    el('sb2-kpis').innerHTML = [
+      { label: 'Total TCV', value: money(totalTcv), sub: 'Total contract value' },
+      { label: 'Total Cash', value: money(totalCash), sub: 'Cash collected' },
+      { label: 'Total Owed', value: money(totalOwed), sub: 'Remaining balance' },
+      { label: 'Deal Count', value: String(dealCount), sub: 'Closed won deals' },
+      { label: 'AOV', value: money(aov), sub: 'Avg order value' },
+      { label: 'Collection Rate', value: pct(collectionRate), sub: 'Cash / TCV' }
+    ].map(function (c) { return kpiHTML(c); }).join('');
+
+    // -- Commission KPIs --
+    var totalSetterComm = data.totalSetterComm || 0;
+    var totalCloserComm = data.totalCloserComm || 0;
+    var totalComm = totalSetterComm + totalCloserComm;
+    var avgCommPerDeal = dealCount ? totalComm / dealCount : 0;
+
+    el('sb2-commissions').innerHTML = [
+      { label: 'Setter Commission', value: money(totalSetterComm), sub: 'Total setter comm' },
+      { label: 'Closer Commission', value: money(totalCloserComm), sub: 'Total closer comm' },
+      { label: 'Total Commission', value: money(totalComm), sub: 'Setter + Closer' },
+      { label: 'Avg Comm / Deal', value: money(avgCommPerDeal), sub: 'Per closed deal' }
+    ].map(function (c) { return kpiHTML(c); }).join('');
+
+    // -- Helper: render a breakdown table --
+    function breakdownTable(headers, rows, emptyMsg) {
+      if (!rows || rows.length === 0) {
+        return '<table><thead><tr>' +
+          headers.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') +
+          '</tr></thead><tbody><tr><td colspan="' + headers.length + '">' + (emptyMsg || 'No data') + '</td></tr></tbody></table>';
+      }
+      return '<table><thead><tr>' +
+        headers.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') +
+        '</tr></thead><tbody>' +
+        rows.map(function (r) {
+          return '<tr>' + r.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>';
+        }).join('') +
+        '</tbody></table>';
+    }
+
+    // -- By Source --
+    var bySource = data.bySource || {};
+    var sourceKeys = Object.keys(bySource).sort();
+    var sourceRows = sourceKeys.map(function (k) {
+      var x = bySource[k];
+      return ['<strong>' + esc(k) + '</strong>', String(x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
+    });
+    el('sb2-source-table').innerHTML = breakdownTable(['Source', 'Deals', 'TCV', 'Cash', 'Owed'], sourceRows, 'No source data in range');
+
+    // -- By Product --
+    var byProduct = data.byProduct || {};
+    var productKeys = Object.keys(byProduct).sort();
+    var productRows = productKeys.map(function (k) {
+      var x = byProduct[k];
+      return ['<strong>' + esc(k) + '</strong>', String(x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
+    });
+    el('sb2-product-table').innerHTML = breakdownTable(['Product', 'Deals', 'TCV', 'Cash', 'Owed'], productRows, 'No product data in range');
+
+    // -- By Closer --
+    var byCloser = data.byCloser || {};
+    var closerKeys = Object.keys(byCloser).sort();
+    var closerRows = closerKeys.map(function (k) {
+      var x = byCloser[k];
+      return ['<strong>' + esc(k) + '</strong>', String(x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.comm || 0)];
+    });
+    el('sb2-closer-table').innerHTML = breakdownTable(['Closer', 'Deals', 'TCV', 'Cash', 'Commission'], closerRows, 'No closer data in range');
+
+    // -- By Setter --
+    var bySetter = data.bySetter || {};
+    var setterKeys = Object.keys(bySetter).sort();
+    var setterRows = setterKeys.map(function (k) {
+      var x = bySetter[k];
+      return ['<strong>' + esc(k) + '</strong>', String(x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.comm || 0)];
+    });
+    el('sb2-setter-table').innerHTML = breakdownTable(['Setter', 'Deals', 'TCV', 'Cash', 'Commission'], setterRows, 'No setter data in range');
+
+    // -- By Month --
+    var byMonth = data.byMonth || {};
+    var monthKeys = Object.keys(byMonth).sort().reverse();
+    var monthRows = monthKeys.map(function (k) {
+      var x = byMonth[k];
+      return ['<strong>' + esc(k) + '</strong>', String(x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
+    });
+    el('sb2-month-table').innerHTML = breakdownTable(['Month', 'Deals', 'TCV', 'Cash', 'Owed'], monthRows, 'No monthly data in range');
+
+    // -- Deals table --
+    var deals = data.deals || [];
+    var dealHeaders = ['Close Date', 'Client', 'Product', 'TCV', 'Cash', 'Owed', 'Status', 'Source', 'Setter', 'Closer', 'Setter Comm', 'Closer Comm', 'Fathom', 'Notes'];
+    var dealRows = deals.map(function (d) {
+      return [
+        esc(d.closeDate || ''),
+        esc(d.client || ''),
+        esc(d.product || ''),
+        money(d.tcv || 0),
+        money(d.cash || 0),
+        money(d.owed || 0),
+        esc(d.status || ''),
+        esc(d.source || ''),
+        esc(d.setter || ''),
+        esc(d.closer || ''),
+        money(d.setterComm || 0),
+        money(d.closerComm || 0),
+        d.fathom ? '<a href="' + esc(d.fathom) + '" target="_blank" rel="noopener">Link</a>' : '',
+        esc(d.notes || '')
+      ];
+    });
+    el('sb2-deals-table').innerHTML = breakdownTable(dealHeaders, dealRows, 'No deals in range');
+  }
+
+  // -- CSV export for Sales Board v2 --
+  (function () {
+    var btn = el('sb2-export-csv');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      if (!sb2Cache || !sb2Cache.deals || sb2Cache.deals.length === 0) {
+        alert('No deals to export.');
+        return;
+      }
+      var headers = ['Close Date', 'Client', 'Product', 'TCV', 'Cash', 'Owed', 'Status', 'Source', 'Setter', 'Closer', 'Setter Comm', 'Closer Comm', 'Fathom', 'Notes'];
+      var csvRows = [headers.join(',')];
+      sb2Cache.deals.forEach(function (d) {
+        var row = [
+          d.closeDate || '',
+          d.client || '',
+          d.product || '',
+          d.tcv || 0,
+          d.cash || 0,
+          d.owed || 0,
+          d.status || '',
+          d.source || '',
+          d.setter || '',
+          d.closer || '',
+          d.setterComm || 0,
+          d.closerComm || 0,
+          d.fathom || '',
+          d.notes || ''
+        ].map(function (v) {
+          var s = String(v).replace(/"/g, '""');
+          return '"' + s + '"';
+        });
+        csvRows.push(row.join(','));
+      });
+      var blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'sales-board-v2-export.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  })();
 
   load();
 })();

@@ -47,6 +47,7 @@
     <button class="tab" data-tab="snapshot">Snapshot</button>
     <button class="tab" data-tab="submissions">Submissions</button>
     <button class="tab" data-tab="salesboard">Sales board</button>
+    <button class="tab" data-tab="salesboard-v2">Sales Board v2</button>
     <button class="tab" data-tab="sales">Sales</button>
   </nav>
 
@@ -437,6 +438,54 @@
             </div>
           </article>
         </div>
+      </section>
+    </div>
+
+    <!-- === SALES BOARD V2 (GHL Opportunities) === -->
+    <div id="tab-salesboard-v2" style="display:none">
+      <h2 style="margin-bottom:.5rem">Sales Board v2 <span style="font-size:.7em;color:var(--muted)">(GHL Opportunities)</span></h2>
+
+      <!-- Top KPIs row -->
+      <section class="kpi-row" id="sb2-kpis" style="grid-template-columns:repeat(6,minmax(0,1fr));margin-bottom:1rem"></section>
+
+      <!-- Commission summary -->
+      <section class="kpi-row" id="sb2-commissions" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:1rem"></section>
+
+      <!-- By Source table -->
+      <section class="panel" id="sb2-by-source" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:.5rem">Revenue by Source</h3>
+        <div id="sb2-source-table"></div>
+      </section>
+
+      <!-- By Product table -->
+      <section class="panel" id="sb2-by-product" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:.5rem">Revenue by Product</h3>
+        <div id="sb2-product-table"></div>
+      </section>
+
+      <!-- By Closer table -->
+      <section class="panel" id="sb2-by-closer" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:.5rem">By Closer</h3>
+        <div id="sb2-closer-table"></div>
+      </section>
+
+      <!-- By Setter table -->
+      <section class="panel" id="sb2-by-setter" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:.5rem">By Setter</h3>
+        <div id="sb2-setter-table"></div>
+      </section>
+
+      <!-- By Month table -->
+      <section class="panel" id="sb2-by-month" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:.5rem">By Month</h3>
+        <div id="sb2-month-table"></div>
+      </section>
+
+      <!-- Deals table (submissions replacement) -->
+      <section class="panel" id="sb2-deals" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:.5rem">All Closed Won Deals</h3>
+        <button id="sb2-export-csv" type="button" class="btn-sm" style="margin-bottom:.5rem">Export CSV</button>
+        <div id="sb2-deals-table" style="overflow-x:auto"></div>
       </section>
     </div>
 
