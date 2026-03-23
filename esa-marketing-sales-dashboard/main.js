@@ -298,35 +298,35 @@
     var selfN = lf.selfBookTagged || 0;
     var metaR = lf.metaSSLeadFormResults || 0;
     var metaSp = lf.metaSSLeadFormSpend || 0;
-    var metaCpr = metaR > 0 && metaSp > 0 ? money(metaSp / metaR) + ‘ / result’ : ‘—‘;
+    var metaCpr = metaR > 0 && metaSp > 0 ? money(metaSp / metaR) + ' / result' : '—';
     var useMeta = metaR > 0;
     var primaryCount = useMeta ? metaR : total;
     var unbookedVsMeta = useMeta ? Math.max(0, metaR - booked) : unbookedGhl;
     var bookPctOfSs = useMeta && metaR ? (booked / metaR) * 100 : (total ? lf.bookRatePct || 0 : 0);
     var deals = data.closedWonDeals || [];
-    var fb = sumDealsBySource(deals, ‘src-fb-lead-form-ss’);
-    var fbSrc = getBySource(data, ‘src-fb-lead-form-ss’);
+    var fb = sumDealsBySource(deals, 'src-fb-lead-form-ss');
+    var fbSrc = getBySource(data, 'src-fb-lead-form-ss');
     var showed = fbSrc.showed || 0;
     var cards = [
-      { label: ‘Leads’, value: primaryCount.toLocaleString(), sub: useMeta ? money(metaSp) + ‘ spend · ‘ + metaCpr : total + ‘ GHL SS tags’, marketing: true },
-      { label: ‘Booked’, value: booked.toLocaleString(), sub: pct(bookPctOfSs) + ‘ book rate’ + (selfN ? ‘ · ‘ + selfN + ‘ self-book’ : ‘’), marketing: true },
-      { label: ‘Diamond Sets’, value: diamond.toLocaleString(), sub: booked ? pct(lf.diamondShareOfBookedPct || 0) + ‘ of booked’ : ‘—‘, marketing: true },
-      { label: ‘Showed’, value: showed.toLocaleString(), sub: booked > 0 ? pct(Math.round(showed / booked * 10000) / 100) + ‘ show rate’ : ‘—‘, marketing: true },
-      { label: ‘Unbooked’, value: unbookedVsMeta.toLocaleString(), sub: ‘Leads not yet booked’, marketing: true },
-      { label: ‘Closed Deals’, value: fb.closed.toLocaleString(), sub: showed > 0 ? pct(Math.round(fb.closed / showed * 10000) / 100) + ‘ close rate’ : ‘—‘, marketing: true },
-      { label: ‘TCV’, value: money(fb.tcv), sub: fb.closed + ‘ deal’ + (fb.closed !== 1 ? ‘s’ : ‘’) + ‘ closed’, marketing: true },
-      { label: ‘Cash Collected’, value: money(fb.cash), sub: fb.tcv > 0 ? pct(Math.round(fb.cash / fb.tcv * 10000) / 100) + ‘ collected’ : ‘—‘, marketing: true }
+      { label: 'Leads', value: primaryCount.toLocaleString(), sub: useMeta ? money(metaSp) + ' spend · ' + metaCpr : total + ' GHL SS tags', marketing: true },
+      { label: 'Booked', value: booked.toLocaleString(), sub: pct(bookPctOfSs) + ' book rate' + (selfN ? ' · ' + selfN + ' self-book' : ''), marketing: true },
+      { label: 'Diamond Sets', value: diamond.toLocaleString(), sub: booked ? pct(lf.diamondShareOfBookedPct || 0) + ' of booked' : '—', marketing: true },
+      { label: 'Showed', value: showed.toLocaleString(), sub: booked > 0 ? pct(Math.round(showed / booked * 10000) / 100) + ' show rate' : '—', marketing: true },
+      { label: 'Unbooked', value: unbookedVsMeta.toLocaleString(), sub: 'Leads not yet booked', marketing: true },
+      { label: 'Closed Deals', value: fb.closed.toLocaleString(), sub: showed > 0 ? pct(Math.round(fb.closed / showed * 10000) / 100) + ' close rate' : '—', marketing: true },
+      { label: 'TCV', value: money(fb.tcv), sub: fb.closed + ' deal' + (fb.closed !== 1 ? 's' : '') + ' closed', marketing: true },
+      { label: 'Cash Collected', value: money(fb.cash), sub: fb.tcv > 0 ? pct(Math.round(fb.cash / fb.tcv * 10000) / 100) + ' collected' : '—', marketing: true }
     ];
-    var wrap = el(‘kpi-lead-forms’);
+    var wrap = el('kpi-lead-forms');
     if (!wrap) return;
-    wrap.innerHTML = cards.map(kpiHTML).join(‘’);
+    wrap.innerHTML = cards.map(kpiHTML).join('');
   }
 
   // ---- VSL Funnel (row below SS) ----
   function renderVslKPIs(data) {
     var deals = data.closedWonDeals || [];
-    var vsl = sumDealsBySource(deals, ‘src-vsl’);
-    var vslSrc = getBySource(data, ‘src-vsl’);
+    var vsl = sumDealsBySource(deals, 'src-vsl');
+    var vslSrc = getBySource(data, 'src-vsl');
     var leads = vslSrc.leads || 0;
     var booked = vslSrc.booked || 0;
     var showed = vslSrc.showed || 0;
@@ -335,18 +335,18 @@
     var showRate = booked > 0 ? Math.round(showed / booked * 10000) / 100 : 0;
     var closeRate = showed > 0 ? Math.round(vsl.closed / showed * 10000) / 100 : 0;
     var cards = [
-      { label: ‘Leads’, value: leads.toLocaleString(), sub: ‘VSL / quiz opt-ins’, marketing: true },
-      { label: ‘Booked’, value: booked.toLocaleString(), sub: pct(bookRate) + ‘ book rate’, marketing: true },
-      { label: ‘Showed’, value: showed.toLocaleString(), sub: pct(showRate) + ‘ show rate’, marketing: true },
-      { label: ‘Offers Made’, value: offered.toLocaleString(), sub: showed > 0 ? pct(Math.round(offered / showed * 10000) / 100) + ‘ offer rate’ : ‘—‘, marketing: true },
-      { label: ‘Unbooked’, value: Math.max(0, leads - booked).toLocaleString(), sub: ‘Leads not yet booked’, marketing: true },
-      { label: ‘Closed Deals’, value: vsl.closed.toLocaleString(), sub: showed > 0 ? pct(closeRate) + ‘ close rate’ : ‘—‘, marketing: true },
-      { label: ‘TCV’, value: money(vsl.tcv), sub: vsl.closed + ‘ deal’ + (vsl.closed !== 1 ? ‘s’ : ‘’) + ‘ closed’, marketing: true },
-      { label: ‘Cash Collected’, value: money(vsl.cash), sub: vsl.tcv > 0 ? pct(Math.round(vsl.cash / vsl.tcv * 10000) / 100) + ‘ collected’ : ‘—‘, marketing: true }
+      { label: 'Leads', value: leads.toLocaleString(), sub: 'VSL / quiz opt-ins', marketing: true },
+      { label: 'Booked', value: booked.toLocaleString(), sub: pct(bookRate) + ' book rate', marketing: true },
+      { label: 'Showed', value: showed.toLocaleString(), sub: pct(showRate) + ' show rate', marketing: true },
+      { label: 'Offers Made', value: offered.toLocaleString(), sub: showed > 0 ? pct(Math.round(offered / showed * 10000) / 100) + ' offer rate' : '—', marketing: true },
+      { label: 'Unbooked', value: Math.max(0, leads - booked).toLocaleString(), sub: 'Leads not yet booked', marketing: true },
+      { label: 'Closed Deals', value: vsl.closed.toLocaleString(), sub: showed > 0 ? pct(closeRate) + ' close rate' : '—', marketing: true },
+      { label: 'TCV', value: money(vsl.tcv), sub: vsl.closed + ' deal' + (vsl.closed !== 1 ? 's' : '') + ' closed', marketing: true },
+      { label: 'Cash Collected', value: money(vsl.cash), sub: vsl.tcv > 0 ? pct(Math.round(vsl.cash / vsl.tcv * 10000) / 100) + ' collected' : '—', marketing: true }
     ];
-    var wrap = el(‘kpi-vsl-funnel’);
+    var wrap = el('kpi-vsl-funnel');
     if (!wrap) return;
-    wrap.innerHTML = cards.map(kpiHTML).join(‘’);
+    wrap.innerHTML = cards.map(kpiHTML).join('');
   }
 
   // ---- KPIs ----
