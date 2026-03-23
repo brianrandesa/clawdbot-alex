@@ -107,16 +107,41 @@ module.exports = async function handler(req, res) {
   var totalSpend = 0, totalLeads = 0, totalClicks = 0, totalImpressions = 0;
 
   if (META_TOKEN && META_ACCT) {
-    var metaUrl = 'https://graph.facebook.com/v21.0/act_' + META_ACCT +
-      '/campaigns?fields=name,insights.time_range({"since":"' + since + '","until":"' + until + '"}).time_increment(monthly){spend,impressions,clicks,actions}&limit=200&access_token=' + META_TOKEN;
-    var metaData = await httpsGet(metaUrl);
-    var campaigns = metaData.data || [];
-    for (var ci = 0; ci < campaigns.length; ci++) {
-      var camp = campaigns[ci];
-      var insights = (camp.insights && camp.insights.data) || [];
-      var campSpend = 0, campLeads = 0, campClicks = 0, campImpr = 0;
-      for (var ii = 0; ii < insights.length; ii++) {
-        var ins = insights[ii];
+    var acct = META_ACCT.replace(/^act_/, '');
+
+    // Monthly breakdown at account level
+    var monthlyUrl = 'https://graph.facebook.com/v19.0/act_' + acct +
+      '/insights?fields=spend,impressions,clicks,actions&time_range={"since":"' + since + '","until":"' + until + '"}&time_increment=monthly&limit=500&access_token=' + META_TOKEN;
+    var monthlyData = await httpsGet(monthlyUrl);
+    (monthlyData.data || []).forEach(function (ins) {
+      var sp = parseFloat(ins.spend) || 0;
+      var cl = parseInt(ins.clicks) || 0;
+      var im = parseInt(ins.impressions) || 0;
+      var ld = 0;
+      (ins.actions || []).forEach(function (a) {
+        if (a.action_type === 'lead' || a.action_type === 'offsite_conversion.fb_pixel_lead') ld += parseInt(a.value) || 0;
+      });
+      totalSpend += sp;
+      totalLeads += ld;
+      totalClicks += cl;
+      totalImpressions += im;
+      var ym = (ins.date_start || '').slice(0, 7);
+      if (ym) {
+        if (!metaMonthly[ym]) metaMonthly[ym] = { spend: 0, leads: 0, clicks: 0, impressions: 0 };
+        metaMonthly[ym].spend += sp;
+        metaMonthly[ym].leads += ld;
+        metaMonthly[ym].clicks += cl;
+        metaMonthly[ym].impressions += im;
+      }
+    });
+
+    // Campaign breakdown (same date range, level=campaign)
+    var campUrl = 'https://graph.facebook.com/v19.0/act_' + acct +
+      '/insights?fields=campaign_name,spend,impressions,clicks,actions&level=campaign&time_range={"since":"' + since + '","until":"' + until + '"}&limit=500&access_token=' + META_TOKEN;
+    var campPages = 0;
+    while (campUrl && campPages < 10) {
+      var campData = await httpsGet(campUrl);
+      (campData.data || []).forEach(function (ins) {
         var sp = parseFloat(ins.spend) || 0;
         var cl = parseInt(ins.clicks) || 0;
         var im = parseInt(ins.impressions) || 0;
@@ -124,34 +149,19 @@ module.exports = async function handler(req, res) {
         (ins.actions || []).forEach(function (a) {
           if (a.action_type === 'lead' || a.action_type === 'offsite_conversion.fb_pixel_lead') ld += parseInt(a.value) || 0;
         });
-        campSpend += sp;
-        campLeads += ld;
-        campClicks += cl;
-        campImpr += im;
-        // Monthly bucket
-        var ym = (ins.date_start || '').slice(0, 7);
-        if (ym) {
-          if (!metaMonthly[ym]) metaMonthly[ym] = { spend: 0, leads: 0, clicks: 0, impressions: 0 };
-          metaMonthly[ym].spend += sp;
-          metaMonthly[ym].leads += ld;
-          metaMonthly[ym].clicks += cl;
-          metaMonthly[ym].impressions += im;
+        if (sp > 0) {
+          metaCampaigns.push({
+            name: ins.campaign_name || 'Unknown',
+            spend: round2(sp),
+            leads: ld,
+            clicks: cl,
+            impressions: im,
+            cpl: ld > 0 ? round2(sp / ld) : 0
+          });
         }
-      }
-      if (campSpend > 0) {
-        metaCampaigns.push({
-          name: camp.name,
-          spend: round2(campSpend),
-          leads: campLeads,
-          clicks: campClicks,
-          impressions: campImpr,
-          cpl: campLeads > 0 ? round2(campSpend / campLeads) : 0
-        });
-      }
-      totalSpend += campSpend;
-      totalLeads += campLeads;
-      totalClicks += campClicks;
-      totalImpressions += campImpr;
+      });
+      campUrl = (campData.paging && campData.paging.next) || null;
+      campPages++;
     }
     metaCampaigns.sort(function (a, b) { return b.spend - a.spend; });
   }
