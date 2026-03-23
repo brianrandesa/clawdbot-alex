@@ -1983,6 +1983,37 @@
     var mEl = el('meta-monthly-table');
     if (mEl) mEl.innerHTML = breakdownTable(['Month', 'Ad Spend', 'Leads', 'Deals Closed', 'TCV', 'Cash', 'ROAS (TCV)', 'ROAS (Cash)'], monthRows, 'No monthly data');
 
+    // Leads by campaign per month (drill-down)
+    var campByMonth = data.campaignsByMonth || {};
+    var monthSelect = el('meta-month-select');
+    var campMonthEl = el('meta-camp-month-table');
+    if (monthSelect && campMonthEl) {
+      var months = Object.keys(campByMonth).sort().reverse();
+      monthSelect.innerHTML = months.map(function (ym) {
+        return '<option value="' + ym + '">' + ym + '</option>';
+      }).join('');
+
+      function renderCampMonth() {
+        var ym = monthSelect.value;
+        var camps = campByMonth[ym] || [];
+        var totalLeadsMonth = 0;
+        camps.forEach(function (c) { totalLeadsMonth += c.leads; });
+        var rows = camps.filter(function (c) { return c.leads > 0 || c.spend > 5; }).map(function (c) {
+          return [
+            '<strong>' + esc(c.name) + '</strong>',
+            money(c.spend),
+            '<strong>' + String(c.leads) + '</strong>',
+            c.leads > 0 ? money(c.spend / c.leads) : '--',
+            totalLeadsMonth > 0 ? pct(c.leads / totalLeadsMonth * 100) : '--'
+          ];
+        });
+        campMonthEl.innerHTML = breakdownTable(['Campaign', 'Spend', 'Leads', 'CPL', '% of Month'], rows, 'No data for ' + ym);
+      }
+
+      monthSelect.onchange = renderCampMonth;
+      if (months.length) renderCampMonth();
+    }
+
     // Campaign table
     var camps = data.campaigns || [];
     var campRows = camps.map(function (c) {

@@ -164,6 +164,42 @@ module.exports = async function handler(req, res) {
       campPages++;
     }
     metaCampaigns.sort(function (a, b) { return b.spend - a.spend; });
+
+    // Campaign x month breakdown (for "leads by campaign per month" drill-down)
+    var campMonthUrl = 'https://graph.facebook.com/v19.0/act_' + acct +
+      '/insights?fields=campaign_name,spend,actions&level=campaign&time_range={"since":"' + since + '","until":"' + until + '"}&time_increment=monthly&limit=500&access_token=' + META_TOKEN;
+    var campByMonth = {}; // { "2026-03": { "Campaign Name": { spend, leads } } }
+    var cmpPages = 0;
+    while (campMonthUrl && cmpPages < 10) {
+      var cmpData = await httpsGet(campMonthUrl);
+      (cmpData.data || []).forEach(function (ins) {
+        var ym = (ins.date_start || '').slice(0, 7);
+        var name = ins.campaign_name || 'Unknown';
+        var sp = parseFloat(ins.spend) || 0;
+        var ld = 0;
+        (ins.actions || []).forEach(function (a) {
+          if (a.action_type === 'lead' || a.action_type === 'offsite_conversion.fb_pixel_lead') ld += parseInt(a.value) || 0;
+        });
+        if (ym && (sp > 0 || ld > 0)) {
+          if (!campByMonth[ym]) campByMonth[ym] = {};
+          if (!campByMonth[ym][name]) campByMonth[ym][name] = { spend: 0, leads: 0 };
+          campByMonth[ym][name].spend += sp;
+          campByMonth[ym][name].leads += ld;
+        }
+      });
+      campMonthUrl = (cmpData.paging && cmpData.paging.next) || null;
+      cmpPages++;
+    }
+    // Convert to array format per month
+    Object.keys(campByMonth).forEach(function (ym) {
+      var arr = [];
+      Object.keys(campByMonth[ym]).forEach(function (name) {
+        var c = campByMonth[ym][name];
+        arr.push({ name: name, spend: round2(c.spend), leads: c.leads });
+      });
+      arr.sort(function (a, b) { return b.leads - a.leads || b.spend - a.spend; });
+      campByMonth[ym] = arr;
+    });
   }
 
   // Round monthly
@@ -283,6 +319,7 @@ module.exports = async function handler(req, res) {
     overallROAS: overallROAS,
     cashROAS: cashROAS,
     campaigns: metaCampaigns,
+    campaignsByMonth: campByMonth || {},
     monthlyROAS: monthlyROAS,
     metaDeals: metaDeals,
     fetchedAt: new Date().toISOString()
