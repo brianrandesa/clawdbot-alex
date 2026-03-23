@@ -1752,11 +1752,20 @@
     var totalComm = totalSetterComm + totalCloserComm;
     var avgCommPerDeal = dealCount ? totalComm / dealCount : 0;
 
+    // -- Refund metrics --
+    var ref = data.refunds || {};
+    var refCount = ref.count || 0;
+    var refTCV = ref.totalTCV || 0;
+    var refBack = ref.totalRefundedBack || 0;
+    var netRevenue = totalTcv - refTCV;
+
     el('sb2-commissions').innerHTML = [
       { label: 'Setter Commission', value: money(totalSetterComm), sub: 'Total setter comm' },
       { label: 'Closer Commission', value: money(totalCloserComm), sub: 'Total closer comm' },
       { label: 'Total Commission', value: money(totalComm), sub: 'Setter + Closer' },
-      { label: 'Avg Comm / Deal', value: money(avgCommPerDeal), sub: 'Per closed deal' }
+      { label: 'Net Revenue', value: money(netRevenue), sub: 'TCV minus refunds' },
+      { label: 'Refunds', value: String(refCount), sub: money(refBack) + ' returned' },
+      { label: 'Refund TCV', value: money(refTCV), sub: refCount + ' deal' + (refCount !== 1 ? 's' : '') + ' refunded' }
     ].map(function (c) { return kpiHTML(c); }).join('');
 
     // -- Helper: render a breakdown table --
@@ -1819,6 +1828,20 @@
       return ['<strong>' + esc(k) + '</strong>', String(x.deals || x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
     });
     el('sb2-month-table').innerHTML = breakdownTable(['Month', 'Deals', 'TCV', 'Cash', 'Owed'], monthRows, 'No monthly data in range');
+
+    // -- Refund table --
+    var refDeals = ref.deals || [];
+    var refRows = refDeals.map(function (d) {
+      return [
+        '<strong>' + esc(d.name) + '</strong>',
+        money(d.tcv || 0),
+        money(d.refundAmount || 0),
+        money(d.netCash || 0),
+        esc(d.notes || '')
+      ];
+    });
+    var refEl = el('sb2-refund-table');
+    if (refEl) refEl.innerHTML = breakdownTable(['Client', 'Original TCV', 'Refunded', 'Net Cash', 'Notes'], refRows, 'No refunds in range');
 
     // -- Deals table --
     var deals = data.closedWonDeals || data.deals || [];
