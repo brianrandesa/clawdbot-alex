@@ -8,9 +8,13 @@ const https = require('https');
 const GHL_KEY_V2 = (process.env.GHL_API_KEY_V2 || '').trim();
 const GHL_LOCATION_ID = (process.env.GHL_LOCATION_ID || '').trim();
 const GHL_V2_BASE = 'https://services.leadconnectorhq.com';
-const PIPELINE_ID = 'LlthtHqW8V4PA9AWN8g7';
-const CLOSED_WON_STAGE = '47a0b7ad-a4e5-42cf-9bc8-44c6981a6254';
-const CLOSED_LOST_STAGE = '6670681d-724b-4457-a38b-c7998939f3da';
+// Read from both active and historical pipelines
+var PIPELINES = [
+  { id: 'LlthtHqW8V4PA9AWN8g7', wonStage: '47a0b7ad-a4e5-42cf-9bc8-44c6981a6254', lostStage: '6670681d-724b-4457-a38b-c7998939f3da' },
+  { id: 'I22qa1FMKo20yxY3Vcws', wonStage: '5504b3fa-59c2-4eec-b299-1e38820c8de4', lostStage: '0f0ed104-3f07-46c9-a892-9829f68c511a' }
+];
+var ALL_WON_STAGES = PIPELINES.map(function(p) { return p.wonStage; });
+var ALL_LOST_STAGES = PIPELINES.map(function(p) { return p.lostStage; });
 
 // Opportunity custom field IDs
 const CF = {
@@ -105,15 +109,14 @@ function sourceLabel(tag) {
   return SOURCE_LABELS[tag] || 'Untagged / Other';
 }
 
-// Fetch ALL opps from pipeline via v2 search with pagination + dedup
-async function fetchAllOpps() {
+// Fetch ALL opps from a single pipeline via v2 search with pagination + dedup
+async function fetchPipelineOpps(pipelineId, seen) {
   var all = [];
-  var seen = {};
   var startAfterId = '';
   var page = 0;
   while (page < 80) {
     var qs = '?location_id=' + encodeURIComponent(GHL_LOCATION_ID) +
-      '&pipeline_id=' + encodeURIComponent(PIPELINE_ID) +
+      '&pipeline_id=' + encodeURIComponent(pipelineId) +
       '&limit=100' +
       (startAfterId ? '&startAfterId=' + encodeURIComponent(startAfterId) : '');
     var data = await v2Get('/opportunities/search' + qs);
@@ -135,12 +138,23 @@ async function fetchAllOpps() {
   return all;
 }
 
+// Fetch from ALL pipelines
+async function fetchAllOpps() {
+  var seen = {};
+  var all = [];
+  for (var p = 0; p < PIPELINES.length; p++) {
+    var opps = await fetchPipelineOpps(PIPELINES[p].id, seen);
+    all = all.concat(opps);
+  }
+  return all;
+}
+
 // v2 search strips numeric custom fields. Enrich Closed Won opps with detail fetch.
 async function enrichClosedWonWithDetail(opps) {
   var out = [];
   for (var i = 0; i < opps.length; i++) {
     var o = opps[i];
-    if (o.pipelineStageId === CLOSED_WON_STAGE && o.id) {
+    if (ALL_WON_STAGES.indexOf(o.pipelineStageId) !== -1 && o.id) {
       var detail = await v2Get('/opportunities/' + encodeURIComponent(o.id));
       if (detail._httpStatus === 200 && detail.opportunity) {
         // Merge detail custom fields over search results
@@ -206,10 +220,10 @@ module.exports = async function handler(req, res) {
     var changedAt = new Date(o.lastStatusChangeAt || o.updatedAt || 0).getTime();
     var inRange = changedAt >= bounds.start && changedAt <= bounds.end;
 
-    if (stageId === CLOSED_WON_STAGE && inRange) {
+    if (ALL_WON_STAGES.indexOf(stageId) !== -1 && inRange) {
       wonInRange.push(o);
       allTerminal.push(o);
-    } else if (stageId === CLOSED_LOST_STAGE && inRange) {
+    } else if (ALL_LOST_STAGES.indexOf(stageId) !== -1 && inRange) {
       lostInRange.push(o);
       allTerminal.push(o);
     }
