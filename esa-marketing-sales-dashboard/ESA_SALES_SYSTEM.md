@@ -1,6 +1,6 @@
 # ESA Sales System (canonical reference)
 
-**Last updated:** 2026-03-21  
+**Last updated:** 2026-03-23  
 **Pipeline (GHL):** BRIAN AND DIAMOND PIPELINE (ID in dashboard: `LlthtHqW8V4PA9AWN8g7` – confirm in GHL if renamed)
 
 This doc is the single source of truth for tags, stages, and process. The live dashboard (`api/data.js`) maps **legacy/human tags** to the canonical `src-*` and `status-*` tags below.
@@ -40,12 +40,13 @@ This is **not** “stale junk.” It is the **intentional queue** between Meta f
 
 ---
 
-## Six source tags (never change after set)
+## Seven source tags (never change after set)
 
 | Source | How they enter | GHL tag |
 |--------|----------------|---------|
 | FB Lead Form | Meta lead ad → Diamond books OR self-book | `src-fb-lead-form-ss` **or** tag contains **`meta ss`**, **or** same tag contains both **`meta`** and **`lead form`** (e.g. `new lead - meta - lead form (sam)`) |
 | VSL Funnel | Meta → VSL → quiz → books on page | `src-vsl` |
+| Returning client | Past client re-engages; winback / reactivation (not a net-new inbound channel) | **`src-returning`** (preferred). Legacy phrases on the contact also map: `returning client`, `reactivation`, `winback`, `past client`, `old client`, `client comeback` (see `LEGACY_SOURCE_MAP` in `api/data.js`). |
 | Outbound Dialer | Tier lists dialed by team | `src-outbound` |
 | Cold Call Events | Diamond cold calls promoters | `src-coldcall` |
 | Organic | Content, referrals, DMs, site (non-paid) | `src-organic` |
@@ -63,6 +64,7 @@ This is **not** “stale junk.” It is the **intentional queue** between Meta f
 - FB Lead Form → Self-booked  
 - FB Lead Form → Diamond manually booked  
 - FB Ad → VSL → Booked  
+- Returning client / reactivation (tag **`src-returning`** so revenue splits from net-new VSL)  
 - Outbound Dialer / Cold Call Events / Organic / Brian’s Network  
 
 **Attribution tags (examples):** `Booked by Diamond`, `Lead Form Self Book`, `Diamond Appt Sets` – use alongside `status-booked` / pipeline stage so dashboards stay consistent.
@@ -131,7 +133,7 @@ Do these **inside GHL** (and connected tools):
 
 ## Dashboard code
 
-- **File:** `api/data.js` – `SOURCES`, `LEGACY_SOURCE_MAP`, `LEGACY_STATUS_MAP`, `PIPELINE_STAGES`
+- **Files:** `api/data.js` – `SOURCES`, `LEGACY_SOURCE_MAP`, `LEGACY_STATUS_MAP`, `PIPELINE_STAGES`. **`api/ghlDealConstants.js`** – same `SOURCES` for Sales form / deal upload (keep in sync).
 - **Sales tab:** Sales Command Center tab **Sales** (log deal form) → `POST /api/deal-upload` (requires `DEAL_UPLOAD_SECRET` on Vercel). Every successful save also appends the same row shape to **Redis** for **Submissions** / **Sales board** (your on-site spreadsheet; optional **Dashboard only** skips GHL). **Bulk history:** `POST /api/deal-import-csv` or **Submissions → Import CSV** — see `SUBMISSIONS_IMPORT_CSV.md` (max 500 rows). Form fields mirror the sales workbook (Fathom links, dates including **Closing date**, EVENT/NAME, product, paid/owed, setter/closer, Lead Source, Campaign/Adset/Ad, etc.). **Create in GHL:** full row in **opportunity notes**; tags include `src-*`, `status-*` from stage, `deal-logged-command-center`, optional `payment plan`, `esa-product-*`, `esa-owed-*` when applicable. Pipeline stage IDs must match `api/ghlDealConstants.js` / `data.js`. Add a **Closing date** column to **`Enter_Sales`** / master sheet if you track it in Excel so exports stay aligned.  
 - If you **reorder stages or change stage IDs** in GHL, update `PIPELINE_STAGES` IDs to match or the “Pipeline by Stage” bars will be wrong.
 
@@ -162,6 +164,19 @@ Subtext **self-book tag** counts booked contacts that also have **`lead form sel
 - **Time rule:** Deal counts toward the selected range when **`lastStatusChangeAt`** (fallback `updatedAt`) is inside that range. Same window as Meta spend → **ROAS = revenue / ad spend** is comparable.  
 - **Per source:** Revenue and “Won (deals)” use the **contact’s `src-*` tag** on that opportunity’s contact.  
 - **If value is blank:** Set dollar amount on the opp in GHL, or set env **`GHL_DEAL_VALUE_FALLBACK`** on Vercel (optional). With no fallback and `$0`, that win is **excluded** from revenue so ROAS stays honest.
+
+#### Where “VSL vs returning vs total TCV” shows on the Command Center
+
+Use this when ops asks *“where do we put that story?”*
+
+| What you mean | Where it lives in product | What to do in GHL |
+|---------------|---------------------------|-------------------|
+| **Total contract value (TCV)** in the date range | **TCV** KPI card, **Closed Won** subtitle, benchmark **AOV**, **Upfront ROAS** | Sum of **Closed Won** opps in range (`monetaryValue` or sheet replace). One number for the whole business in that window. |
+| **$ attributed to VSL path** | **Lead Source Breakdown** row **VSL Funnel**, **Wins driving revenue** source column, **Cash · …** KPIs (if cash env set) | Contact on that deal must carry **`src-vsl`** (or a legacy VSL phrase that maps to it). |
+| **$ from a comeback client** | Same tables, row **Returning client** | Contact must carry **`src-returning`** (or a legacy phrase like `returning client`). Do **not** leave only `src-vsl` on a winback if you want it out of VSL. |
+| **Example (real numbers, one range)** | Illustration only | TCV **$22,500** = all Closed Won in scope. Two deals called out: **$5,000** VSL + **$5,000** returning; the other **$12,500** is other sources/deals in the same window. |
+
+**Sales tab / CSV:** **`src-returning`** is a normal option in the source dropdown (same list as `api/ghlDealConstants.js`).
 
 ### Payment plans (close vs cash; dashboard limits)
 
