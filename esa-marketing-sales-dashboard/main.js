@@ -359,23 +359,22 @@
     ];
     var tcvSub =
       strip.tcvSource === 'google_sheet'
-        ? 'Google Sheet total (replace mode)'
-        : 'GHL Closed Won · contract value sum';
+        ? 'From Google Sheet'
+        : 'All Closed Won deals';
     var cashSub =
       mode === 'custom_field'
-        ? 'Opp field (GHL_OPP_CASH_CUSTOM_FIELD_ID)'
+        ? 'Payments received to date'
         : mode === 'matches_contract'
-          ? 'Cash = contract (GHL_CASH_MATCHES_CONTRACT=1)'
-          : 'Configure cash field or GHL_CASH_MATCHES_CONTRACT=1';
+          ? 'Full contract value at close'
+          : 'Not configured';
     var topTcvSrc = strip.topTcvBySource || [];
     var tr1 = topTcvSrc[0] || { label: '—', tcv: 0, cash: 0 };
     var tr2 = topTcvSrc[1] || { label: '—', tcv: 0, cash: 0 };
     function rowCsourceSub(rank, r) {
-      var cashLine =
-        mode === 'none'
-          ? 'Per-source cash needs GHL_OPP_CASH_CUSTOM_FIELD_ID (or GHL_CASH_MATCHES_CONTRACT=1)'
-          : 'Cash collected this source: ' + money(r.cash);
-      return '#' + rank + ' by TCV (Closed Won) · ' + cashLine;
+      var cashLine = mode === 'none'
+        ? ''
+        : 'Cash in: ' + money(r.cash);
+      return '#' + rank + ' lead source' + (cashLine ? ' · ' + cashLine : '');
     }
     var rowC = [
       {
