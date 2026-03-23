@@ -418,69 +418,49 @@
       { label: 'Revenue / Live Call', value: revenuePerLive > 0 ? money(revenuePerLive) : '--', sub: liveCalls + ' showed · ' + money(tcv) + ' TCV', delta: null }
     ];
 
-    var all24 = topCards.concat(bottomCards).concat(rowC).concat(rowD);
+    // ---- SS Lead Form (Sam) row ----
+    var lf = data.leadFormMarketing || {};
+    var lfTotal = lf.total || 0, lfBooked = lf.booked || 0, lfDiamond = lf.bookedByDiamond || 0;
+    var lfMetaR = lf.metaSSLeadFormResults || 0, lfMetaSp = lf.metaSSLeadFormSpend || 0;
+    var lfUseMeta = lfMetaR > 0;
+    var lfPrimary = lfUseMeta ? lfMetaR : lfTotal;
+    var lfUnbooked = lfUseMeta ? Math.max(0, lfMetaR - lfBooked) : Math.max(0, lfTotal - lfBooked);
+    var lfBookPct = lfUseMeta && lfMetaR ? (lfBooked / lfMetaR) * 100 : (lfTotal ? lf.bookRatePct || 0 : 0);
+    var lfClosed = 0, lfTcv2 = 0, lfCash2 = 0;
+    for (var li = 0; li < deals.length; li++) { if (deals[li].sourceTag === 'src-fb-lead-form-ss') { lfClosed++; lfTcv2 += Number(deals[li].amount) || 0; lfCash2 += Number(deals[li].cashCollected) || 0; } }
+    var lfShowed = 0;
+    for (var lk = 0; lk < bySrc.length; lk++) { if (bySrc[lk].tag === 'src-fb-lead-form-ss') { lfShowed = bySrc[lk].showed || 0; break; } }
+    var rowSS = [
+      { label: 'SS Leads', value: lfPrimary.toLocaleString(), sub: lfUseMeta ? money(lfMetaSp) + ' spend' : lfTotal + ' GHL tags', marketing: true },
+      { label: 'SS Booked', value: lfBooked.toLocaleString(), sub: pct(lfBookPct) + ' book rate', marketing: true },
+      { label: 'SS Diamond', value: lfDiamond.toLocaleString(), sub: lfBooked ? pct(lf.diamondShareOfBookedPct || 0) + ' of booked' : '--', marketing: true },
+      { label: 'SS Showed', value: lfShowed.toLocaleString(), sub: lfBooked > 0 ? pct(Math.round(lfShowed / lfBooked * 10000) / 100) + ' show rate' : '--', marketing: true },
+      { label: 'SS Closed', value: lfClosed.toLocaleString(), sub: lfShowed > 0 ? pct(Math.round(lfClosed / lfShowed * 10000) / 100) + ' close rate' : '--', marketing: true },
+      { label: 'SS Cash', value: money(lfCash2), sub: money(lfTcv2) + ' TCV', marketing: true }
+    ];
+
+    // ---- VSL Funnel row ----
+    var vC = 0, vTT = 0, vCa = 0;
+    for (var vi = 0; vi < deals.length; vi++) { if (deals[vi].sourceTag === 'src-vsl') { vC++; vTT += Number(deals[vi].amount) || 0; vCa += Number(deals[vi].cashCollected) || 0; } }
+    var vL = 0, vB = 0, vSh = 0, vO = 0;
+    for (var vj = 0; vj < bySrc.length; vj++) { if (bySrc[vj].tag === 'src-vsl') { vL = bySrc[vj].leads || 0; vB = bySrc[vj].booked || 0; vSh = bySrc[vj].showed || 0; vO = bySrc[vj].offered || 0; break; } }
+    var rowVSL = [
+      { label: 'VSL Leads', value: vL.toLocaleString(), sub: 'Quiz / landing page', marketing: true },
+      { label: 'VSL Booked', value: vB.toLocaleString(), sub: pct(vL > 0 ? Math.round(vB / vL * 10000) / 100 : 0) + ' book rate', marketing: true },
+      { label: 'VSL Showed', value: vSh.toLocaleString(), sub: pct(vB > 0 ? Math.round(vSh / vB * 10000) / 100 : 0) + ' show rate', marketing: true },
+      { label: 'VSL Offers', value: vO.toLocaleString(), sub: vSh > 0 ? pct(Math.round(vO / vSh * 10000) / 100) + ' offer rate' : '--', marketing: true },
+      { label: 'VSL Closed', value: vC.toLocaleString(), sub: vSh > 0 ? pct(Math.round(vC / vSh * 10000) / 100) + ' close rate' : '--', marketing: true },
+      { label: 'VSL Cash', value: money(vCa), sub: money(vTT) + ' TCV', marketing: true }
+    ];
+
+    var all36 = rowSS.concat(rowVSL).concat(topCards).concat(bottomCards).concat(rowC).concat(rowD);
     var main18 = ensureKpiMain18Host();
     if (main18) {
       main18.className = 'kpi-row kpi-grid-18';
       main18.style.display = '';
-      main18.setAttribute('data-kpi-count', String(all24.length));
-      main18.innerHTML = all24.map(kpiHTML).join('');
-      if (all24.length !== 24) {
-        console.warn('[ESA dashboard] KPI card count is', all24.length, '(expected 24)');
-      }
-    } else {
-      console.error('[ESA dashboard] No #kpi-main-18 host; KPIs not rendered.');
+      main18.setAttribute('data-kpi-count', String(all36.length));
+      main18.innerHTML = all36.map(kpiHTML).join('');
     }
-
-    // ---- SS + VSL cards (injected here because renderKPIs is confirmed working) ----
-    try {
-      var lf = data.leadFormMarketing || {};
-      var lfTotal = lf.total || 0, lfBooked = lf.booked || 0, lfDiamond = lf.bookedByDiamond || 0;
-      var lfMetaR = lf.metaSSLeadFormResults || 0, lfMetaSp = lf.metaSSLeadFormSpend || 0;
-      var lfUseMeta = lfMetaR > 0;
-      var lfPrimary = lfUseMeta ? lfMetaR : lfTotal;
-      var lfUnbooked = lfUseMeta ? Math.max(0, lfMetaR - lfBooked) : Math.max(0, lfTotal - lfBooked);
-      var lfBookPct = lfUseMeta && lfMetaR ? (lfBooked / lfMetaR) * 100 : (lfTotal ? lf.bookRatePct || 0 : 0);
-      var lfDeals = data.closedWonDeals || [];
-      var lfClosed = 0, lfTcv2 = 0, lfCash2 = 0;
-      for (var li = 0; li < lfDeals.length; li++) { if (lfDeals[li].sourceTag === 'src-fb-lead-form-ss') { lfClosed++; lfTcv2 += Number(lfDeals[li].amount) || 0; lfCash2 += Number(lfDeals[li].cashCollected) || 0; } }
-      var lfBySrc = data.bySource || [], lfShowed = 0;
-      for (var lk = 0; lk < lfBySrc.length; lk++) { if (lfBySrc[lk].tag === 'src-fb-lead-form-ss') { lfShowed = lfBySrc[lk].showed || 0; break; } }
-      var ssWrap = document.getElementById('kpi-lead-forms');
-      if (ssWrap) {
-        ssWrap.innerHTML = [
-          { label: 'Leads', value: lfPrimary.toLocaleString(), sub: lfUseMeta ? money(lfMetaSp) + ' spend' : lfTotal + ' GHL tags', marketing: true },
-          { label: 'Booked', value: lfBooked.toLocaleString(), sub: pct(lfBookPct) + ' book rate', marketing: true },
-          { label: 'Diamond Sets', value: lfDiamond.toLocaleString(), sub: lfBooked ? pct(lf.diamondShareOfBookedPct || 0) + ' of booked' : '--', marketing: true },
-          { label: 'Showed', value: lfShowed.toLocaleString(), sub: lfBooked > 0 ? pct(Math.round(lfShowed / lfBooked * 10000) / 100) + ' show rate' : '--', marketing: true },
-          { label: 'Unbooked', value: lfUnbooked.toLocaleString(), sub: 'Leads not yet booked', marketing: true },
-          { label: 'Closed Deals', value: lfClosed.toLocaleString(), sub: lfShowed > 0 ? pct(Math.round(lfClosed / lfShowed * 10000) / 100) + ' close rate' : '--', marketing: true },
-          { label: 'TCV', value: money(lfTcv2), sub: lfClosed + ' deal' + (lfClosed !== 1 ? 's' : '') + ' closed', marketing: true },
-          { label: 'Cash Collected', value: money(lfCash2), sub: lfTcv2 > 0 ? pct(Math.round(lfCash2 / lfTcv2 * 10000) / 100) + ' collected' : '--', marketing: true }
-        ].map(kpiHTML).join('');
-      }
-    } catch (ssErr) { console.error('[ESA] SS cards error:', ssErr); }
-
-    try {
-      var vDeals = data.closedWonDeals || [];
-      var vC = 0, vT = 0, vCa = 0;
-      for (var vi = 0; vi < vDeals.length; vi++) { if (vDeals[vi].sourceTag === 'src-vsl') { vC++; vT += Number(vDeals[vi].amount) || 0; vCa += Number(vDeals[vi].cashCollected) || 0; } }
-      var vSrc = data.bySource || [], vL = 0, vB = 0, vS = 0, vO = 0;
-      for (var vj = 0; vj < vSrc.length; vj++) { if (vSrc[vj].tag === 'src-vsl') { vL = vSrc[vj].leads || 0; vB = vSrc[vj].booked || 0; vS = vSrc[vj].showed || 0; vO = vSrc[vj].offered || 0; break; } }
-      var vslWrap = document.getElementById('kpi-vsl-funnel');
-      if (vslWrap) {
-        vslWrap.innerHTML = [
-          { label: 'Leads', value: vL.toLocaleString(), sub: 'VSL / quiz opt-ins', marketing: true },
-          { label: 'Booked', value: vB.toLocaleString(), sub: pct(vL > 0 ? Math.round(vB / vL * 10000) / 100 : 0) + ' book rate', marketing: true },
-          { label: 'Showed', value: vS.toLocaleString(), sub: pct(vB > 0 ? Math.round(vS / vB * 10000) / 100 : 0) + ' show rate', marketing: true },
-          { label: 'Offers Made', value: vO.toLocaleString(), sub: vS > 0 ? pct(Math.round(vO / vS * 10000) / 100) + ' offer rate' : '--', marketing: true },
-          { label: 'Unbooked', value: Math.max(0, vL - vB).toLocaleString(), sub: 'Leads not yet booked', marketing: true },
-          { label: 'Closed Deals', value: vC.toLocaleString(), sub: vS > 0 ? pct(Math.round(vC / vS * 10000) / 100) + ' close rate' : '--', marketing: true },
-          { label: 'TCV', value: money(vT), sub: vC + ' deal' + (vC !== 1 ? 's' : '') + ' closed', marketing: true },
-          { label: 'Cash Collected', value: money(vCa), sub: vT > 0 ? pct(Math.round(vCa / vT * 10000) / 100) + ' collected' : '--', marketing: true }
-        ].map(kpiHTML).join('');
-      }
-    } catch (vslErr) { console.error('[ESA] VSL cards error:', vslErr); }
   }
 
   function kpiHTML(c) {
