@@ -120,6 +120,9 @@ const joinModal = new JoinModal({
     await presenceClient.join(opts.roomCode, opts.displayName);
     setupCollabUI();
   },
+  onSkip: () => {
+    /* Continue without collab - no presence panel, app runs normally */
+  },
 });
 
 const commandCenterPanel = new CommandCenterPanel({

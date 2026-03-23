@@ -6,8 +6,9 @@
 const DISPLAY_NAME_KEY = "esa.office.collab.displayName";
 
 export class JoinModal {
-  constructor({ parent = document.body, onSubmit } = {}) {
+  constructor({ parent = document.body, onSubmit, onSkip } = {}) {
     this.onSubmit = onSubmit;
+    this.onSkip = onSkip;
     this.parent = parent;
     this.root = null;
     this.mode = "create"; // "create" | "join"
@@ -42,6 +43,7 @@ export class JoinModal {
         <div class="join-modal-error" data-role="error"></div>
         <div class="join-modal-actions">
           <button type="button" data-action="submit" class="join-modal-primary">Enter</button>
+          <button type="button" data-action="skip" class="join-modal-skip">Continue without collab</button>
         </div>
       </div>
     `;
@@ -115,6 +117,13 @@ export class JoinModal {
     };
 
     submitBtn.addEventListener("click", runSubmit);
+
+    const skipBtn = this.root.querySelector("[data-action='skip']");
+    skipBtn?.addEventListener("click", () => {
+      this.onSkip?.();
+      this.close();
+    });
+
     this.root.addEventListener("keydown", (e) => {
       if (e.key === "Enter") runSubmit();
     });

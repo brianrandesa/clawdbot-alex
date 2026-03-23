@@ -1349,6 +1349,9 @@ body {
 
 .join-modal-actions {
   margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .join-modal-primary {
@@ -1369,6 +1372,21 @@ body {
 .join-modal-primary:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.join-modal-skip {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: #9fc2ff;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.join-modal-skip:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* Presence panel - flows in left panel below HUD */

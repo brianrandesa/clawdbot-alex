@@ -11,7 +11,25 @@ npm run dev
 
 Open: `http://localhost:5173`
 
-### Human collaboration
+## Deploy to Vercel
+
+1. Push the repo to GitHub.
+2. In [Vercel](https://vercel.com): New Project → Import your repo.
+3. Set **Root Directory** to `openclaw-3d-office` if the app lives in a subfolder.
+4. Build command: `npm run build` (default). Output: `dist` (default).
+5. Deploy.
+
+On the live site, use **Continue without collab** to view the office when the presence server is not available. The 3D office and AI agents work fully; human presence/avatars require a separately deployed presence server.
+
+### Production presence (optional)
+
+To enable human collab on the live site:
+
+1. Deploy the presence server (`server/presenceServer.js`) to Railway, Render, Fly.io, or similar.
+2. In Vercel: Project Settings → Environment Variables → add `VITE_PRESENCE_WS_URL` = `wss://your-presence-host.example.com`.
+3. Redeploy so the client uses the production WebSocket URL.
+
+### Human collaboration (local)
 
 To see other humans in the office (avatars and presence):
 
