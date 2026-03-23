@@ -1728,7 +1728,7 @@
     if (!data) return;
 
     // -- Top KPIs --
-    var totalTcv = data.totalTcv || 0;
+    var totalTcv = data.totalTCV || data.totalTcv || 0;
     var totalCash = data.totalCash || 0;
     var totalOwed = data.totalOwed || 0;
     var dealCount = data.dealCount || 0;
@@ -1745,8 +1745,9 @@
     ].map(function (c) { return kpiHTML(c); }).join('');
 
     // -- Commission KPIs --
-    var totalSetterComm = data.totalSetterComm || 0;
-    var totalCloserComm = data.totalCloserComm || 0;
+    var comm = data.commissions || {};
+    var totalSetterComm = comm.totalSetterComm || 0;
+    var totalCloserComm = comm.totalCloserComm || 0;
     var totalComm = totalSetterComm + totalCloserComm;
     var avgCommPerDeal = dealCount ? totalComm / dealCount : 0;
 
@@ -1778,7 +1779,7 @@
     var sourceKeys = Object.keys(bySource).sort();
     var sourceRows = sourceKeys.map(function (k) {
       var x = bySource[k];
-      return ['<strong>' + esc(k) + '</strong>', String(x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
+      return ['<strong>' + esc(k) + '</strong>', String(x.deals || x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
     });
     el('sb2-source-table').innerHTML = breakdownTable(['Source', 'Deals', 'TCV', 'Cash', 'Owed'], sourceRows, 'No source data in range');
 
@@ -1787,7 +1788,7 @@
     var productKeys = Object.keys(byProduct).sort();
     var productRows = productKeys.map(function (k) {
       var x = byProduct[k];
-      return ['<strong>' + esc(k) + '</strong>', String(x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
+      return ['<strong>' + esc(k) + '</strong>', String(x.deals || x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
     });
     el('sb2-product-table').innerHTML = breakdownTable(['Product', 'Deals', 'TCV', 'Cash', 'Owed'], productRows, 'No product data in range');
 
@@ -1796,7 +1797,7 @@
     var closerKeys = Object.keys(byCloser).sort();
     var closerRows = closerKeys.map(function (k) {
       var x = byCloser[k];
-      return ['<strong>' + esc(k) + '</strong>', String(x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.comm || 0)];
+      return ['<strong>' + esc(k) + '</strong>', String(x.deals || x.sets || x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.commission || x.comm || 0)];
     });
     el('sb2-closer-table').innerHTML = breakdownTable(['Closer', 'Deals', 'TCV', 'Cash', 'Commission'], closerRows, 'No closer data in range');
 
@@ -1805,7 +1806,7 @@
     var setterKeys = Object.keys(bySetter).sort();
     var setterRows = setterKeys.map(function (k) {
       var x = bySetter[k];
-      return ['<strong>' + esc(k) + '</strong>', String(x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.comm || 0)];
+      return ['<strong>' + esc(k) + '</strong>', String(x.deals || x.sets || x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.commission || x.comm || 0)];
     });
     el('sb2-setter-table').innerHTML = breakdownTable(['Setter', 'Deals', 'TCV', 'Cash', 'Commission'], setterRows, 'No setter data in range');
 
@@ -1814,28 +1815,28 @@
     var monthKeys = Object.keys(byMonth).sort().reverse();
     var monthRows = monthKeys.map(function (k) {
       var x = byMonth[k];
-      return ['<strong>' + esc(k) + '</strong>', String(x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
+      return ['<strong>' + esc(k) + '</strong>', String(x.deals || x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
     });
     el('sb2-month-table').innerHTML = breakdownTable(['Month', 'Deals', 'TCV', 'Cash', 'Owed'], monthRows, 'No monthly data in range');
 
     // -- Deals table --
-    var deals = data.deals || [];
+    var deals = data.closedWonDeals || data.deals || [];
     var dealHeaders = ['Close Date', 'Client', 'Product', 'TCV', 'Cash', 'Owed', 'Status', 'Source', 'Setter', 'Closer', 'Setter Comm', 'Closer Comm', 'Fathom', 'Notes'];
     var dealRows = deals.map(function (d) {
       return [
         esc(d.closeDate || ''),
-        esc(d.client || ''),
+        esc(d.name || d.client || ''),
         esc(d.product || ''),
         money(d.tcv || 0),
-        money(d.cash || 0),
+        money(d.cashCollected || d.cash || 0),
         money(d.owed || 0),
-        esc(d.status || ''),
+        esc(d.paymentStatus || d.status || ''),
         esc(d.source || ''),
         esc(d.setter || ''),
         esc(d.closer || ''),
-        money(d.setterComm || 0),
-        money(d.closerComm || 0),
-        d.fathom ? '<a href="' + esc(d.fathom) + '" target="_blank" rel="noopener">Link</a>' : '',
+        money(d.setterCommAmt || d.setterComm || 0),
+        money(d.closerCommAmt || d.closerComm || 0),
+        d.fathomUrl || d.fathom ? '<a href="' + esc(d.fathomUrl || d.fathom) + '" target="_blank" rel="noopener">Link</a>' : '',
         esc(d.notes || '')
       ];
     });
@@ -1847,27 +1848,28 @@
     var btn = el('sb2-export-csv');
     if (!btn) return;
     btn.addEventListener('click', function () {
-      if (!sb2Cache || !sb2Cache.deals || sb2Cache.deals.length === 0) {
+      var cachedDeals = sb2Cache && (sb2Cache.closedWonDeals || sb2Cache.deals) || [];
+      if (cachedDeals.length === 0) {
         alert('No deals to export.');
         return;
       }
       var headers = ['Close Date', 'Client', 'Product', 'TCV', 'Cash', 'Owed', 'Status', 'Source', 'Setter', 'Closer', 'Setter Comm', 'Closer Comm', 'Fathom', 'Notes'];
       var csvRows = [headers.join(',')];
-      sb2Cache.deals.forEach(function (d) {
+      cachedDeals.forEach(function (d) {
         var row = [
           d.closeDate || '',
-          d.client || '',
+          d.name || d.client || '',
           d.product || '',
           d.tcv || 0,
-          d.cash || 0,
+          d.cashCollected || d.cash || 0,
           d.owed || 0,
-          d.status || '',
+          d.paymentStatus || d.status || '',
           d.source || '',
           d.setter || '',
           d.closer || '',
-          d.setterComm || 0,
-          d.closerComm || 0,
-          d.fathom || '',
+          d.setterCommAmt || d.setterComm || 0,
+          d.closerCommAmt || d.closerComm || 0,
+          d.fathomUrl || d.fathom || '',
           d.notes || ''
         ].map(function (v) {
           var s = String(v).replace(/"/g, '""');
