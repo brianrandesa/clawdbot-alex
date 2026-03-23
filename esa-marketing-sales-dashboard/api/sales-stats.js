@@ -195,7 +195,8 @@ module.exports = async (req, res) => {
         campaign: String(row.campaign || '').trim() || '—',
         adset: String(row.adset || '').trim() || '—',
         ad: String(row.ad || '').trim() || '—',
-        product: String(row.product || '').trim() || '—'
+        product: String(row.product || '').trim() || '—',
+        notes: String(row.notes || '').trim()
       });
       const ym = closingMonthKey(row.closingDate);
       if (ym) {

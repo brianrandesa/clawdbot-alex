@@ -2,7 +2,7 @@
   'use strict';
 
   /** Bump when KPI layout changes; footer shows this so you know the browser loaded THIS file (not a cached old main.js). */
-  var ESA_UI_BUILD = 'rowc-tcv-by-source-20260323';
+  var ESA_UI_BUILD = 'no-banner-20260324';
 
   var BENCHMARKS = {
     conservative: { adSpend:10000, leads:200, bookedCalls:67, leadBookPct:33.33, liveCalls:33, cpl:50, costPerBooking:150, costPerLive:300, showRate:40, offerRate:50, closeRate:15, cpa:2000, aov:9800, cashCollectedPct:40, avgUpfrontCash:3920, upfrontRoas:1.96 },
@@ -49,26 +49,6 @@
     if (bottom && bottom.parentNode) bottom.parentNode.removeChild(bottom);
     return m;
   }
-
-  (function initSiteUpdateBanner() {
-    var b = el('site-update-banner');
-    var btn = el('site-update-banner-dismiss');
-    if (!b) return;
-    try {
-      if (localStorage.getItem('esa_site_update_banner_20260323') === 'dismissed') {
-        b.style.display = 'none';
-        return;
-      }
-    } catch (e) { /* private mode */ }
-    if (btn) {
-      btn.addEventListener('click', function () {
-        try {
-          localStorage.setItem('esa_site_update_banner_20260323', 'dismissed');
-        } catch (e2) { /* ignore */ }
-        b.style.display = 'none';
-      });
-    }
-  })();
 
   // ---- TABS ----
   document.querySelectorAll('.tab').forEach(function (btn) {
@@ -330,22 +310,57 @@
     ];
     var revSrc = (data.revenueModel && data.revenueModel.source === 'google_sheets') ? 'Google Sheet (in range)' : 'GHL opp $ (in range)';
     var sheetWarn = (data.sheetRevenue && data.sheetRevenue.warning) ? ' · ' + data.sheetRevenue.warning : '';
+    var strip = data.marketingKpiStrip || {};
+    var deals = data.closedWonDeals || [];
+    function sumDealField(rows, key) {
+      var t = 0;
+      for (var i = 0; i < rows.length; i++) t += Number(rows[i][key]) || 0;
+      return Math.round(t * 100) / 100;
+    }
+    var tcvFromDeals = sumDealField(deals, 'amount');
+    var cashFromDeals = sumDealField(deals, 'cashCollected');
+    var useSheetTcv = strip.tcvSource === 'google_sheet';
+    var revNum = Number(data.revenue) || 0;
+    var rawStripTcv =
+      strip.totalContractValue != null && strip.totalContractValue !== ''
+        ? Number(strip.totalContractValue)
+        : null;
+    var tcvSheetHeadline =
+      rawStripTcv != null ? rawStripTcv : revNum;
+    var tcvStripOrRevFallback =
+      rawStripTcv != null && rawStripTcv > 0
+        ? rawStripTcv
+        : revNum > 0
+          ? revNum
+          : rawStripTcv === 0
+            ? 0
+            : revNum;
+    var tcv =
+      useSheetTcv
+        ? tcvSheetHeadline
+        : deals.length > 0
+          ? tcvFromDeals
+          : tcvStripOrRevFallback;
+    var mode = strip.cashMode || 'none';
+    var cash =
+      mode === 'none'
+        ? 0
+        : deals.length > 0
+          ? cashFromDeals
+          : Number(strip.totalCashCollected != null ? strip.totalCashCollected : 0) || 0;
+    var closedWonSubMoney = useSheetTcv ? Number(data.revenue) || 0 : tcv;
     var bottomCards = [
-      { label: 'Closed Won', value: sc.closedWonDeals != null ? sc.closedWonDeals : sc.closedWon, sub: money(data.revenue) + ' · ' + revSrc + sheetWarn, delta: null },
+      { label: 'Closed Won', value: sc.closedWonDeals != null ? sc.closedWonDeals : sc.closedWon, sub: money(closedWonSubMoney) + ' · ' + revSrc + sheetWarn, delta: null },
       { label: 'Closed Lost', value: sc.closedLost || 0, sub: 'Dead deals', delta: null },
       { label: 'No Show', value: sc.noShow || 0, sub: 'Calendar no-show / cancelled', delta: null },
       { label: 'Ad Spend', value: data.adSpend > 0 ? money(data.adSpend) : '--', sub: (data.adSource || 'No data') + (data.metaImpressions ? ' | ' + data.metaImpressions.toLocaleString() + ' impr' : ''), delta: null },
       { label: 'CPL', value: data.cpl > 0 ? money(data.cpl) : '--', sub: 'Cost per lead', delta: data.cpl > 0 ? benchmarkDelta('cpl', data.cpl, true) : null },
       { label: 'Cost / Booking', value: data.costPerBooking > 0 ? money(data.costPerBooking) : '--', sub: 'Cost per booked call', delta: data.costPerBooking > 0 ? benchmarkDelta('costPerBooking', data.costPerBooking, true) : null }
     ];
-    var strip = data.marketingKpiStrip || {};
-    var tcv = strip.totalContractValue != null ? strip.totalContractValue : data.revenue || 0;
-    var cash = strip.totalCashCollected != null ? strip.totalCashCollected : 0;
     var tcvSub =
       strip.tcvSource === 'google_sheet'
         ? 'Google Sheet total (replace mode)'
         : 'GHL Closed Won · contract value sum';
-    var mode = strip.cashMode || 'none';
     var cashSub =
       mode === 'custom_field'
         ? 'Opp field (GHL_OPP_CASH_CUSTOM_FIELD_ID)'
@@ -984,7 +999,7 @@
         tagBody.innerHTML =
           '<tr><td colspan="4">No <strong>Closed Won</strong> in this range (or widen to <strong>All Time</strong>).</td></tr>';
         leadBody.innerHTML = '<tr><td colspan="4">—</td></tr>';
-        detBody.innerHTML = '<tr><td colspan="9">—</td></tr>';
+        detBody.innerHTML = '<tr><td colspan="11">—</td></tr>';
         return;
       }
       var stcw = d.bySourceTagClosedWon || {};
@@ -1035,6 +1050,8 @@
               '</td><td>' +
               money(r.paid) +
               '</td><td>' +
+              money(r.owed || 0) +
+              '</td><td>' +
               esc(r.closingDate || '—') +
               '</td><td>' +
               esc(r.sourceTag) +
@@ -1048,10 +1065,12 @@
               esc(r.ad) +
               '</td><td>' +
               esc(r.product) +
+              '</td><td class="salesboard-cw-notes">' +
+              esc(r.notes || '') +
               '</td></tr>'
             );
           })
-          .join('') || '<tr><td colspan="9">—</td></tr>';
+          .join('') || '<tr><td colspan="11">—</td></tr>';
     }
 
     var ltc = fmtLeadClose(data.leadToClose, 'Date created → Closing');

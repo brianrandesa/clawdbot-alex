@@ -4,25 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- If this meta is missing in View Source on Vercel, production is not this build. -->
-  <meta name="esa-dashboard-build" content="rowc-tcv-by-source-20260323">
+  <meta name="esa-dashboard-build" content="no-banner-20260324">
   <title>ESA Sales Command Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260323-rowc-tcv-source">
+  <link rel="stylesheet" href="styles.css?v=20260324-no-banner">
 </head>
 <body>
-
-  <div id="site-update-banner" class="site-update-banner" role="status" aria-live="polite">
-    <div class="site-update-banner-inner">
-      <p class="site-update-banner-text">
-        <strong>We updated this dashboard.</strong>
-        You now have <strong>18</strong> main KPI cards (including TCV, cash collected, and top lead sources next to ROAS).
-        Check the footer for the build label so you know you are on the latest version. Hard refresh (Cmd+Shift+R) if anything looks off.
-      </p>
-      <button type="button" class="site-update-banner-dismiss" id="site-update-banner-dismiss">Dismiss</button>
-    </div>
-  </div>
 
   <header class="topbar">
     <div class="topbar-left">
@@ -345,7 +334,7 @@
         <article class="panel salesboard-panel-wide salesboard-closed-won-attrib">
           <div class="panel-head">
             <h2>Closed Won · where they came from</h2>
-            <p><strong>Closed Won</strong> rows in this date range only. Summary = attribution on wins; detail = each deal. Fill <strong>Source tag</strong>, <strong>Lead source</strong>, <strong>Campaign</strong> / <strong>Ad set</strong> / <strong>Ad</strong> on the Sales form or CSV to see them here.</p>
+            <p><strong>Closed Won</strong> rows in this date range only. Summary = attribution on wins; detail = each deal. <strong>Owed</strong> and <strong>Notes</strong> come from the Sales form / CSV (<strong>Amount owed</strong> field), not from GHL. Fill <strong>Source tag</strong>, <strong>Lead source</strong>, <strong>Campaign</strong> / <strong>Ad set</strong> / <strong>Ad</strong> on the Sales form or CSV to see them here.</p>
           </div>
           <div class="salesboard-cw-split">
             <div class="salesboard-cw-mini">
@@ -374,6 +363,7 @@
                 <tr>
                   <th>EVENT/NAME</th>
                   <th>Paid</th>
+                  <th>Owed</th>
                   <th>Closing date</th>
                   <th>Source tag</th>
                   <th>Lead source</th>
@@ -381,6 +371,7 @@
                   <th>Ad set</th>
                   <th>Ad</th>
                   <th>Product</th>
+                  <th>Notes</th>
                 </tr>
               </thead>
               <tbody id="salesboard-cw-detail"></tbody>
@@ -560,6 +551,6 @@
     <p id="ui-build-fingerprint" class="ui-build-fingerprint" aria-live="polite"></p>
   </footer>
 
-  <script src="main.js?v=20260323-rowc-tcv-source"></script>
+  <script src="main.js?v=20260324-no-banner"></script>
 </body>
 </html>

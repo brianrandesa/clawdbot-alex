@@ -32,49 +32,6 @@ main {
   padding: 0 1.25rem 2rem;
 }
 
-/* ---- Site update notice (green banner) ---- */
-.site-update-banner {
-  background: linear-gradient(180deg, rgba(34, 214, 138, 0.22) 0%, rgba(34, 214, 138, 0.1) 100%);
-  border-bottom: 1px solid rgba(34, 214, 138, 0.45);
-  color: var(--text);
-  padding: 0.65rem 1.25rem;
-  font-size: 0.88rem;
-  line-height: 1.45;
-}
-.site-update-banner-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-.site-update-banner-text {
-  margin: 0;
-  flex: 1;
-  min-width: min(100%, 280px);
-}
-.site-update-banner-text strong:first-of-type {
-  color: var(--green);
-}
-.site-update-banner-dismiss {
-  flex-shrink: 0;
-  font-family: var(--font);
-  font-size: 0.82rem;
-  font-weight: 600;
-  padding: 0.4rem 0.85rem;
-  border-radius: 8px;
-  border: 1px solid rgba(34, 214, 138, 0.5);
-  background: var(--panel);
-  color: var(--green);
-  cursor: pointer;
-}
-.site-update-banner-dismiss:hover {
-  background: var(--green-bg);
-  border-color: var(--green);
-}
-
 /* ---- Topbar ---- */
 .topbar {
   max-width: 1280px;
@@ -626,6 +583,13 @@ td.val-bad { color: var(--red); font-weight: 600; }
 }
 .salesboard-cw-detail-wrap {
   overflow-x: auto;
+}
+.salesboard-cw-detail-wrap .salesboard-cw-notes {
+  max-width: 18rem;
+  white-space: normal;
+  word-break: break-word;
+  font-size: 0.78rem;
+  color: var(--muted);
 }
 
 .closed-won-ghl-wrap {
