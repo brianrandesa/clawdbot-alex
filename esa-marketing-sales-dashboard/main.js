@@ -406,15 +406,56 @@
         delta: data.aov > 0 ? benchmarkDelta('aov', data.aov) : null
       }
     ];
-    var all18 = topCards.concat(bottomCards).concat(rowC);
+    // Row D — per-source TCV + cash + efficiency metrics
+    var bySrc = data.bySource || [];
+    function srcObj(tag) {
+      for (var i = 0; i < bySrc.length; i++) { if (bySrc[i].tag === tag) return bySrc[i]; }
+      return { label: '—', leads: 0, booked: 0, showed: 0, offered: 0, closed: 0, revenue: 0 };
+    }
+    function srcCash(tag) {
+      for (var i = 0; i < deals.length; i++) { if (deals[i].sourceTag === tag) return Number(deals[i].cashCollected) || 0; }
+      return 0;
+    }
+    function sumSrcCash(tag) {
+      var t = 0;
+      for (var i = 0; i < deals.length; i++) { if (deals[i].sourceTag === tag) t += Number(deals[i].cashCollected) || 0; }
+      return t;
+    }
+    function sumSrcTcv(tag) {
+      var t = 0;
+      for (var i = 0; i < deals.length; i++) { if (deals[i].sourceTag === tag) t += Number(deals[i].amount) || 0; }
+      return t;
+    }
+    var fbSrc = srcObj('src-fb-lead-form-ss');
+    var fbTcv = sumSrcTcv('src-fb-lead-form-ss');
+    var fbCash = sumSrcCash('src-fb-lead-form-ss');
+    var brianSrc = srcObj('src-brian-direct');
+    var brianTcv = sumSrcTcv('src-brian-direct');
+    var brianCash = sumSrcCash('src-brian-direct');
+    var collectionRate = tcv > 0 ? Math.round((cash / tcv) * 10000) / 100 : 0;
+    var liveCalls = sc.showed || data.liveCalls || 0;
+    var revenuePerLive = liveCalls > 0 ? Math.round(tcv / liveCalls) : 0;
+    var closedWonCount = sc.closedWonDeals != null ? sc.closedWonDeals : (sc.closedWon || 0);
+    var dealsInPipeline = (sc.offered || 0) + (sc.contractSent || 0);
+    var pipelineVal = dealsInPipeline * (data.aov > 0 ? data.aov : 15000);
+    var rowD = [
+      { label: 'TCV · FB Lead Forms', value: fbTcv > 0 ? money(fbTcv) : '$0', sub: fbSrc.closed + ' deal' + (fbSrc.closed !== 1 ? 's' : '') + ' from Meta leads', revenue: true, delta: null },
+      { label: 'Cash · FB Lead Forms', value: fbCash > 0 ? money(fbCash) : '$0', sub: fbTcv > 0 ? pct(Math.round(fbCash / fbTcv * 10000) / 100) + ' collected' : 'No closed deals yet', revenue: true, delta: null },
+      { label: "TCV · Brian's Network", value: brianTcv > 0 ? money(brianTcv) : '$0', sub: brianSrc.closed + ' deal' + (brianSrc.closed !== 1 ? 's' : '') + ' from direct/referral', revenue: true, delta: null },
+      { label: "Cash · Brian's Network", value: brianCash > 0 ? money(brianCash) : '$0', sub: brianTcv > 0 ? pct(Math.round(brianCash / brianTcv * 10000) / 100) + ' collected' : 'No closed deals yet', revenue: true, delta: null },
+      { label: 'Collection Rate', value: pct(collectionRate), sub: money(cash) + ' of ' + money(tcv) + ' collected', delta: null },
+      { label: 'Revenue / Live Call', value: revenuePerLive > 0 ? money(revenuePerLive) : '--', sub: liveCalls + ' showed · ' + money(tcv) + ' TCV', delta: null }
+    ];
+
+    var all24 = topCards.concat(bottomCards).concat(rowC).concat(rowD);
     var main18 = ensureKpiMain18Host();
     if (main18) {
       main18.className = 'kpi-row kpi-grid-18';
       main18.style.display = '';
-      main18.setAttribute('data-kpi-count', String(all18.length));
-      main18.innerHTML = all18.map(kpiHTML).join('');
-      if (all18.length !== 18) {
-        console.warn('[ESA dashboard] KPI card count is', all18.length, '(expected 18)');
+      main18.setAttribute('data-kpi-count', String(all24.length));
+      main18.innerHTML = all24.map(kpiHTML).join('');
+      if (all24.length !== 24) {
+        console.warn('[ESA dashboard] KPI card count is', all24.length, '(expected 24)');
       }
     } else {
       console.error('[ESA dashboard] No #kpi-main-18 host; KPIs not rendered.');
