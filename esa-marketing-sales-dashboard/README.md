@@ -42,8 +42,15 @@ Use your **[sales sheet](https://docs.google.com/spreadsheets/d/1PpmjfmolXIkrSht
 **Optional:** `GHL_DEAL_VALUE_FALLBACK` – if an opportunity has **Closed Won** but `monetaryValue` is empty, count it as this dollar amount for revenue/ROAS (omit or set `0` to only count deals with real values entered in GHL).
 
 **Cash collected (Row C + benchmarks):** By default cash is **$0** until you set one of:
-- **`GHL_OPP_CASH_CUSTOM_FIELD_ID`** – opportunity custom field id (numeric). Fills **Total cash collected**, **Cash collected %**, **Avg upfront cash**, and **“Cash collected this source”** under each **TCV · [source]** card on Row C. Without it, **TCV by source** on Row C still works from `monetaryValue`; per-source cash lines show **$0**.
+- **`GHL_OPP_CASH_CUSTOM_FIELD_ID`** – opportunity custom field from GHL (**Settings → Custom fields → Opportunities**). Value can be the field’s **API id (UUID)** or the **field key** used in merge tags, e.g. `cash_collected_to_date` for `{{ opportunity.cash_collected_to_date }}`. You can paste the whole merge tag; it is normalized. **Comma-separated** entries try in order. **`monetaryValue`** stays **full contract (TCV)**; this field is **cash in so far** only.
 - **`GHL_CASH_MATCHES_CONTRACT=1`** – cash per deal = contract value (`monetaryValue` / fallback). Use when you do not track partial payments in GHL.
+
+**Pipeline list vs detail:** GHL’s **pipeline opportunities** list often **does not include** custom fields. With `GHL_OPP_CASH_CUSTOM_FIELD_ID` set, `/api/data` **GETs each Closed Won** opportunity by id when cash is still **0** and the list did not include your field (default **on**). Tune with:
+- **`GHL_OPP_FETCH_CASH_DETAILS=0`** – disable extra GETs (only list payload is used).
+- **`GHL_OPP_CASH_ENRICH_MAX`** – max detail fetches per request (default **50**; set **0** for unlimited).
+- **`GHL_OPP_DETAIL_DELAY_MS`** – delay between detail calls in ms (default **120**).
+
+**Troubleshooting cash still $0:** Open `/api/data?range=30d&ghlCashDebug=1` once. Check `ghlCashDiagnostic`: `lastOppDetailHttpStatus` should be **200**; `fieldShapePreview` shows which **id** / **fieldKey** GHL returns (set env to the **id** if the key does not match `cash_collected_to_date`). `parsedCashOnFirstInRangeDeal` is what the server computed for the first Closed Won in range.
 
 After changing GHL pipeline stage IDs, update `PIPELINE_STAGES` and `CLOSED_WON_STAGE_ID` in `api/data.js`.
 

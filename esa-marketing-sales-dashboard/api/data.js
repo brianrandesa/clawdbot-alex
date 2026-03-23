@@ -91,36 +91,238 @@ const PIPELINE_STAGES = [
 
 const CLOSED_WON_STAGE_ID = '47a0b7ad-a4e5-42cf-9bc8-44c6981a6254';
 
-/** Optional GHL opportunity custom field ID (Settings → Custom fields → copy ID) for $ cash collected on the deal. */
-const GHL_OPP_CASH_CUSTOM_FIELD_ID = (process.env.GHL_OPP_CASH_CUSTOM_FIELD_ID || '').trim();
+/** Strip merge tags so `{{ opportunity.cash_collected_to_date }}` works in env. */
+function normalizeOppCashFieldToken(s) {
+  let t = String(s || '').trim();
+  const merge = t.match(/\{\{\s*opportunity\.([^}]+?)\s*\}\}/i);
+  if (merge) return merge[1].trim();
+  if (/^\{\{/.test(t)) t = t.replace(/^\{\{\s*|\s*\}\}$/g, '').trim();
+  if (t.toLowerCase().startsWith('opportunity.')) t = t.slice('opportunity.'.length).trim();
+  return t;
+}
 
 /**
- * Read numeric cash collected from opportunity custom fields (GHL v1 shape varies).
+ * Comma-separated opportunity custom field **IDs or field keys** (Settings → Custom fields → Opportunities).
+ * Keys match merge tags: e.g. `cash_collected_to_date` for `{{ opportunity.cash_collected_to_date }}`.
+ * First matching field with a numeric value wins.
  */
-function getCashCollectedFromOpp(o) {
-  if (!GHL_OPP_CASH_CUSTOM_FIELD_ID) return 0;
-  const want = GHL_OPP_CASH_CUSTOM_FIELD_ID;
-  const lists = [o.customField, o.customFields].filter(Boolean);
-  for (const list of lists) {
-    if (!Array.isArray(list)) continue;
-    for (const cf of list) {
-      const id =
-        cf.id != null
-          ? String(cf.id)
-          : cf.customFieldId != null
-            ? String(cf.customFieldId)
-            : '';
-      if (id !== want) continue;
-      const raw = cf.value ?? cf.fieldValue ?? cf.answer ?? '';
-      const n = parseFloat(String(raw).replace(/[$,]/g, ''));
-      return Number.isFinite(n) && n >= 0 ? n : 0;
+const GHL_OPP_CASH_CUSTOM_FIELD_IDS = (process.env.GHL_OPP_CASH_CUSTOM_FIELD_ID || '')
+  .split(',')
+  .map((s) => normalizeOppCashFieldToken(s))
+  .filter(Boolean);
+
+function customFieldEntryMatchesToken(cf, w) {
+  if (!cf || typeof cf !== 'object') return false;
+  const want = String(w).trim();
+  if (!want) return false;
+  const id = String(cf.id ?? cf.customFieldId ?? cf.fieldId ?? '').trim();
+  if (id && id === want) return true;
+  const rawKeys = [
+    cf.fieldKey,
+    cf.key,
+    cf.name,
+    cf.field_name,
+    cf.slug,
+    cf.label
+  ].filter((x) => x != null && String(x).trim());
+  const keyCandidates = [];
+  for (const x of rawKeys) {
+    const k = String(x).trim();
+    keyCandidates.push(k);
+    if (k.includes('.')) keyCandidates.push(k.split('.').pop());
+  }
+  return keyCandidates.some(
+    (k) =>
+      k === want ||
+      k.toLowerCase() === want.toLowerCase() ||
+      k.replace(/^.*\./, '').toLowerCase() === want.toLowerCase()
+  );
+}
+
+/** Pipeline list responses often omit custom fields; fetch GET /opportunities/:id for Closed Won when cash still 0. Set 0 to disable. */
+const GHL_OPP_FETCH_CASH_DETAILS = !['0', 'false', 'no', 'off'].includes(
+  String(process.env.GHL_OPP_FETCH_CASH_DETAILS || '1').toLowerCase()
+);
+
+const GHL_OPP_CASH_ENRICH_MAX = (() => {
+  const v = parseInt(process.env.GHL_OPP_CASH_ENRICH_MAX || '50', 10);
+  return Number.isFinite(v) && v >= 0 ? v : 50;
+})();
+
+const GHL_OPP_DETAIL_DELAY_MS = (() => {
+  const v = parseInt(process.env.GHL_OPP_DETAIL_DELAY_MS || '120', 10);
+  return Number.isFinite(v) && v >= 0 ? v : 120;
+})();
+
+function parseMoneyish(raw) {
+  if (raw == null || raw === '') return null;
+  const n = parseFloat(String(raw).replace(/[$,]/g, ''));
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+function snakeToCamel(s) {
+  return String(s).replace(/_([a-z])/g, (_, c) => c.toUpperCase());
+}
+
+function tryJsonArray(s) {
+  if (typeof s !== 'string') return null;
+  const t = s.trim();
+  if (!t.startsWith('[')) return null;
+  try {
+    const j = JSON.parse(t);
+    return Array.isArray(j) ? j : null;
+  } catch {
+    return null;
+  }
+}
+
+function keyVariants(want) {
+  const w = String(want).trim();
+  return [...new Set([w, w.toLowerCase(), snakeToCamel(w), snakeToCamel(w).toLowerCase()])];
+}
+
+function collectCustomFieldArrays(o) {
+  if (!o || typeof o !== 'object') return [];
+  const lists = [];
+  const push = (x) => {
+    if (Array.isArray(x)) lists.push(x);
+  };
+  push(o.customField);
+  push(o.customFields);
+  push(o.customData);
+  const p1 = tryJsonArray(o.customField);
+  if (p1) lists.push(p1);
+  const p2 = tryJsonArray(o.customFields);
+  if (p2) lists.push(p2);
+  return lists;
+}
+
+function rootKeyCash(o, want) {
+  for (const v of keyVariants(want)) {
+    if (Object.prototype.hasOwnProperty.call(o, v)) {
+      const n = parseMoneyish(o[v]);
+      if (n !== null) return n;
     }
   }
+  const wl = String(want).trim().toLowerCase();
+  const wc = snakeToCamel(want).toLowerCase();
+  for (const k of Object.keys(o)) {
+    const kl = String(k).toLowerCase();
+    if (kl === wl || kl === wc || kl.replace(/.*\./, '') === wl) {
+      const n = parseMoneyish(o[k]);
+      if (n !== null) return n;
+    }
+  }
+  return null;
+}
+
+function findCashInCustomFieldArray(list, wantId) {
+  if (!Array.isArray(list)) return null;
+  const w = String(wantId).trim();
+  for (const cf of list) {
+    if (!customFieldEntryMatchesToken(cf, w)) continue;
+    const raw =
+      cf.value ??
+      cf.fieldValue ??
+      cf.answer ??
+      cf.text ??
+      cf.content ??
+      cf.selectedValue ??
+      '';
+    const n = parseMoneyish(raw);
+    if (n !== null) return n;
+  }
+  return null;
+}
+
+/** Last resort: bounded walk for nested custom field shapes GHL returns on some accounts. */
+function deepScanCashCollected(o) {
+  const tokens = GHL_OPP_CASH_CUSTOM_FIELD_IDS;
+  let nodes = 0;
+  const MAX_NODES = 120;
+
+  function walk(node, depth) {
+    if (node == null || depth > 14) return null;
+    if (++nodes > MAX_NODES) return null;
+
+    if (Array.isArray(node)) {
+      for (const el of node) {
+        const r = walk(el, depth + 1);
+        if (r !== null) return r;
+      }
+      return null;
+    }
+
+    if (typeof node === 'object') {
+      const valRaw =
+        node.value ??
+        node.fieldValue ??
+        node.answer ??
+        node.text ??
+        node.content ??
+        node.selectedValue ??
+        '';
+      const n = parseMoneyish(valRaw);
+      if (n !== null) {
+        for (const w of tokens) {
+          if (customFieldEntryMatchesToken(node, w)) return n;
+        }
+      }
+      for (const v of Object.values(node)) {
+        const r = walk(v, depth + 1);
+        if (r !== null) return r;
+      }
+    }
+    return null;
+  }
+
+  return walk(o, 0);
+}
+
+/**
+ * Read numeric cash collected from opportunity custom fields (GHL v1 shapes vary; pipeline list may omit these).
+ */
+function getCashCollectedFromOpp(o) {
+  if (!GHL_OPP_CASH_CUSTOM_FIELD_IDS.length || !o || typeof o !== 'object') return 0;
+
+  for (const want of GHL_OPP_CASH_CUSTOM_FIELD_IDS) {
+    const rk = rootKeyCash(o, want);
+    if (rk !== null) return rk;
+  }
+
+  for (const want of GHL_OPP_CASH_CUSTOM_FIELD_IDS) {
+    const w = String(want).trim();
+    const lists = collectCustomFieldArrays(o);
+    for (const list of lists) {
+      const hit = findCashInCustomFieldArray(list, w);
+      if (hit !== null) return hit;
+    }
+    const cfObj = o.customFields;
+    if (cfObj && typeof cfObj === 'object' && !Array.isArray(cfObj)) {
+      for (const kv of keyVariants(want)) {
+        const n = parseMoneyish(cfObj[kv]);
+        if (n !== null) return n;
+      }
+      const wl = w.toLowerCase();
+      for (const [k, val] of Object.entries(cfObj)) {
+        const kl = String(k).toLowerCase();
+        const short = kl.replace(/.*\./, '');
+        if (kl === wl || short === wl || kl.endsWith(`.${wl}`)) {
+          const nn = parseMoneyish(val);
+          if (nn !== null) return nn;
+        }
+      }
+    }
+  }
+
+  const deep = deepScanCashCollected(o);
+  if (deep !== null) return deep;
+
   return 0;
 }
 
 function cashCollectionMode() {
-  if (GHL_OPP_CASH_CUSTOM_FIELD_ID) return 'custom_field';
+  if (GHL_OPP_CASH_CUSTOM_FIELD_IDS.length) return 'custom_field';
   const v = String(process.env.GHL_CASH_MATCHES_CONTRACT || '').toLowerCase();
   if (v === '1' || v === 'true' || v === 'yes') return 'matches_contract';
   return 'none';
@@ -253,6 +455,62 @@ async function getAllPipelineOpportunities() {
     await new Promise(r => setTimeout(r, 150));
   }
   return all;
+}
+
+function opportunityDetailUrl(oppId) {
+  const q = GHL_LOCATION_ID ? '?locationId=' + encodeURIComponent(GHL_LOCATION_ID) : '';
+  return `${GHL_BASE}/opportunities/${encodeURIComponent(oppId)}${q}`;
+}
+
+function opportunityDetailUrlPlain(oppId) {
+  return `${GHL_BASE}/opportunities/${encodeURIComponent(oppId)}`;
+}
+
+async function ghlGetOpportunityDetailBestEffort(oppId) {
+  let raw = await ghlGet(opportunityDetailUrl(oppId));
+  if (raw._httpStatus === 200 && !raw._nonJsonBody) return raw;
+  if (GHL_LOCATION_ID) {
+    const alt = await ghlGet(opportunityDetailUrlPlain(oppId));
+    if (alt._httpStatus === 200 && !alt._nonJsonBody) return alt;
+  }
+  return raw;
+}
+
+function mergeOpportunityDetail(base, rawJson) {
+  if (!rawJson || typeof rawJson !== 'object') return base;
+  const d = rawJson.opportunity || rawJson;
+  if (!d || typeof d !== 'object' || !d.id) return base;
+  return { ...base, ...d };
+}
+
+/**
+ * Pipeline opportunity lists often omit customField data. Pull full opportunity for Closed Won when cash is still 0.
+ */
+async function enrichOpportunitiesWithCashDetails(opps, meta) {
+  const m = meta || {};
+  m.fetches = 0;
+  if (!GHL_KEY || !GHL_OPP_CASH_CUSTOM_FIELD_IDS.length || !GHL_OPP_FETCH_CASH_DETAILS) return opps;
+
+  const out = opps.map((o) => ({ ...o }));
+  const maxFetches = GHL_OPP_CASH_ENRICH_MAX === 0 ? Infinity : GHL_OPP_CASH_ENRICH_MAX;
+
+  for (let i = 0; i < out.length; i++) {
+    if (m.fetches >= maxFetches) break;
+    const o = out[i];
+    if (o.pipelineStageId !== CLOSED_WON_STAGE_ID || !o.id) continue;
+    if (getCashCollectedFromOpp(o) > 0) continue;
+
+    const raw = await ghlGetOpportunityDetailBestEffort(o.id);
+    m.fetches++;
+    m.lastOppDetailHttpStatus = raw._httpStatus;
+    if (raw._httpStatus === 200 && !raw._nonJsonBody) {
+      out[i] = mergeOpportunityDetail(o, raw);
+    }
+    if (GHL_OPP_DETAIL_DELAY_MS) {
+      await new Promise((r) => setTimeout(r, GHL_OPP_DETAIL_DELAY_MS));
+    }
+  }
+  return out;
 }
 
 function buildStageDataFromOpps(opps) {
@@ -756,6 +1014,7 @@ function buildMetrics(allContacts, stageData, userMap, metaData, dateRange, allO
       totalContractValue: dealMetrics.totalContractValue,
       totalCashCollected: dealMetrics.totalCashCollected,
       cashMode: dealMetrics.cashCollectionMode,
+      cashCustomFieldCount: GHL_OPP_CASH_CUSTOM_FIELD_IDS.length,
       topCashBySource: dealMetrics.topCashBySource,
       topTcvBySource: dealMetrics.topTcvBySource,
       tcvSource: 'ghl_closed_won'
@@ -763,6 +1022,65 @@ function buildMetrics(allContacts, stageData, userMap, metaData, dateRange, allO
     closedWonDeals: dealMetrics.closedWonDeals || [],
     rawData: rawRows,
     fetchedAt: new Date().toISOString()
+  };
+}
+
+function summarizeOppCashShape(o) {
+  if (!o || !o.id) return null;
+  const lists = collectCustomFieldArrays(o);
+  const flat = lists.flat();
+  const fieldShapePreview = flat
+    .filter((x) => x && typeof x === 'object')
+    .slice(0, 25)
+    .map((cf) => ({
+      id: cf.id ?? cf.customFieldId ?? null,
+      fieldKey: cf.fieldKey ?? cf.key ?? null,
+      name: cf.name ?? cf.label ?? null,
+      hasValue: !(
+        (cf.value == null || cf.value === '') &&
+        (cf.fieldValue == null || cf.fieldValue === '')
+      )
+    }));
+  const topLevelKeysMatchingFieldNames = Object.keys(o).filter((k) =>
+    /custom|field|data|meta|attr|payment|cash/i.test(k)
+  );
+  return {
+    opportunityId: o.id,
+    topLevelKeysMatchingFieldNames: topLevelKeysMatchingFieldNames.slice(0, 35),
+    mergedFieldEntryCount: flat.length,
+    fieldShapePreview
+  };
+}
+
+function buildGhlCashDiagnostic(allOpps, meta, dateRange) {
+  const startMs = dateRange.start.getTime();
+  const endMs = dateRange.end ? dateRange.end.getTime() : Date.now();
+  const inRangeWon = allOpps.filter((o) => {
+    if (o.pipelineStageId !== CLOSED_WON_STAGE_ID || !o.id) return false;
+    const closedAt = new Date(o.lastStatusChangeAt || o.updatedAt || 0).getTime();
+    return closedAt >= startMs && closedAt <= endMs;
+  });
+  const first = inRangeWon[0];
+  let sample = null;
+  if (first) sample = summarizeOppCashShape(first);
+  if (!sample) {
+    for (const o of allOpps) {
+      if (o.pipelineStageId === CLOSED_WON_STAGE_ID && o.id) {
+        sample = summarizeOppCashShape(o);
+        break;
+      }
+    }
+  }
+  return {
+    hint: 'Remove ?ghlCashDebug=1 after fixing. Dollar amounts not listed; only field shapes.',
+    configuredTokens: GHL_OPP_CASH_CUSTOM_FIELD_IDS,
+    cashMode: cashCollectionMode(),
+    enrichFetches: meta.fetches,
+    lastOppDetailHttpStatus: meta.lastOppDetailHttpStatus,
+    closedWonInSelectedRange: inRangeWon.length,
+    firstInRangeOpportunityId: first ? first.id : null,
+    parsedCashOnFirstInRangeDeal: first != null ? getCashCollectedFromOpp(first) : null,
+    sampleOppFieldShape: sample
   };
 }
 
@@ -783,7 +1101,7 @@ module.exports = async (req, res) => {
   const fetchSheet = sheetsMode === 'replace' || sheetsAttrOn;
 
   try {
-    const [contactFetch, userMap, metaData, allOpps, sheetSnap] = await Promise.all([
+    const [contactFetch, userMap, metaData, allOppsRaw, sheetSnap] = await Promise.all([
       getAllContacts(),
       getUsers(),
       getMetaAdSpend(dateRange),
@@ -791,9 +1109,15 @@ module.exports = async (req, res) => {
       fetchSheet ? fetchSheetsRevenueInRange(dateRange) : Promise.resolve(null)
     ]);
     const allContacts = contactFetch.contacts || [];
+    const cashEnrichMeta = { fetches: 0 };
+    const allOpps = await enrichOpportunitiesWithCashDetails(allOppsRaw, cashEnrichMeta);
     const stageData = buildStageDataFromOpps(allOpps);
 
     let metrics = buildMetrics(allContacts, stageData, userMap, metaData, dateRange, allOpps);
+
+    if (metrics.marketingKpiStrip && cashEnrichMeta.fetches > 0) {
+      metrics.marketingKpiStrip.ghlOpportunityCashFetches = cashEnrichMeta.fetches;
+    }
 
     if (contactFetch.apiError) {
       metrics.ghlContactsApiError = contactFetch.apiError;
@@ -884,6 +1208,10 @@ module.exports = async (req, res) => {
     if (sheetsAttrOn && sheetsMode !== 'replace' && sheetSnap && sheetSnap.error == null) {
       metrics.sheetRevenue.attributionOnlyNote =
         'Revenue still from GHL; sheet was read for attribution breakdowns below.';
+    }
+
+    if (String(q.ghlCashDebug || '').trim() === '1') {
+      metrics.ghlCashDiagnostic = buildGhlCashDiagnostic(allOpps, cashEnrichMeta, dateRange);
     }
 
     return res.status(200).json(metrics);
