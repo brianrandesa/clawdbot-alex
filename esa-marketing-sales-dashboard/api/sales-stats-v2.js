@@ -214,10 +214,27 @@ module.exports = async function handler(req, res) {
   var lostInRange = [];
   var allTerminal = []; // won + lost for close rate denominators
 
+  // Historical pipeline ID -- use close date from Deal Notes for range filtering instead of lastStatusChangeAt
+  var HISTORICAL_PIPELINE = 'I22qa1FMKo20yxY3Vcws';
+
   for (var i = 0; i < allOpps.length; i++) {
     var o = allOpps[i];
     var stageId = o.pipelineStageId || '';
-    var changedAt = new Date(o.lastStatusChangeAt || o.updatedAt || 0).getTime();
+
+    // Determine the effective close date for range filtering
+    var changedAt;
+    if (o.pipelineId === HISTORICAL_PIPELINE) {
+      // Historical deals: parse close date from Deal Notes ("Close date: YYYY-MM-DD | ...")
+      var notesVal = cfStr(o, CF.dealNotes);
+      var dateMatch = notesVal.match(/Close date:\s*(\d{4}-\d{2}-\d{2})/);
+      if (dateMatch) {
+        changedAt = new Date(dateMatch[1] + 'T00:00:00Z').getTime();
+      } else {
+        changedAt = new Date(o.lastStatusChangeAt || o.updatedAt || 0).getTime();
+      }
+    } else {
+      changedAt = new Date(o.lastStatusChangeAt || o.updatedAt || 0).getTime();
+    }
     var inRange = changedAt >= bounds.start && changedAt <= bounds.end;
 
     if (ALL_WON_STAGES.indexOf(stageId) !== -1 && inRange) {
@@ -255,7 +272,14 @@ module.exports = async function handler(req, res) {
       var rel = opp.relations[0];
       contact = { id: rel.recordId, name: rel.fullName || rel.contactName || '', email: rel.email || '', phone: rel.phone || '', tags: rel.tags || [] };
     }
-    var closeDate = (opp.lastStatusChangeAt || opp.updatedAt || '').slice(0, 10);
+    // Use effective close date (parsed from notes for historical, lastStatusChangeAt for active)
+    var closeDate;
+    if (opp.pipelineId === HISTORICAL_PIPELINE) {
+      var nd = cfStr(opp, CF.dealNotes).match(/Close date:\s*(\d{4}-\d{2}-\d{2})/);
+      closeDate = nd ? nd[1] : (opp.lastStatusChangeAt || opp.updatedAt || '').slice(0, 10);
+    } else {
+      closeDate = (opp.lastStatusChangeAt || opp.updatedAt || '').slice(0, 10);
+    }
     var paymentStatus = cash >= tcv ? 'Paid in Full' : cash > 0 ? 'Payment Plan' : 'Outstanding';
     var ym = closeDate.slice(0, 7);
 
