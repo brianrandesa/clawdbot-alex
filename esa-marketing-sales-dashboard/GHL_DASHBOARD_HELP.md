@@ -21,7 +21,10 @@ These are **two different numbers**. The dashboard reads them from **two differe
 ## Location and API
 
 1. **Sub-account:** Dashboard reads contacts and opps for one **location**. On Vercel set **`GHL_LOCATION_ID`** to **Settings → Business Profile → Location ID** (same sub-account where deals live).
-2. **API key:** Private integration token with read access to contacts, users, pipeline opportunities.
+2. **API keys (two layers):**
+   - **`GHL_API_KEY`** (v1, `rest.gohighlevel.com`): used for **contacts** and **users** (and v1 fallback for opportunities if v2 is not used).
+   - **`GHL_API_KEY_V2`** (optional, `services.leadconnectorhq.com`): used for **opportunity search** and **opportunity detail** when set. Prefer this for **opportunity custom fields** (e.g. cash collected). Create a **Private Integration** in GHL with **opportunities** read access.
+3. **Which API ran:** JSON field **`marketingKpiStrip.opportunitiesFetchedVia`** is **`v2`** or **`v1`**. Use it to confirm v2 is active after you add **`GHL_API_KEY_V2`** and redeploy.
 
 ## Closed Won revenue (TCV, ROAS, “Wins driving revenue”)
 

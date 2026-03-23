@@ -16,6 +16,8 @@ Your **spreadsheet workflow** on the site: use the **Sales** tab to enter deals;
 
 **Env (Vercel):** `GHL_API_KEY`, `META_ACCESS_TOKEN`, `META_AD_ACCOUNT_ID`
 
+**`GHL_API_KEY_V2` (opportunities + custom fields):** Optional but **recommended** for **cash collected** on opportunities. HighLevel **v1** (`rest.gohighlevel.com`) often omits opportunity custom fields on list/detail; **v2** (`services.leadconnectorhq.com`) can return them inline on search/detail. Create a **Private Integration** token in GHL with scopes that include **opportunities** (read). Set **`GHL_API_KEY_V2`** on Vercel alongside **`GHL_LOCATION_ID`**. `/api/data` will **prefer v2** for the opportunity list when both are set; it **still uses v1** for **contacts** and **users** via **`GHL_API_KEY`**. If v2 is missing or fails, the app falls back to v1 pipeline opportunities (cash custom fields may stay **$0** unless detail enrichment works). **`marketingKpiStrip.opportunitiesFetchedVia`** is **`v2`** or **`v1`** so you can confirm which path ran.
+
 **`GHL_LOCATION_ID` (dashboard + CRM sync):** If the Marketing dashboard shows **Meta spend but 0 GHL leads**, your token may be **agency-level** or not scoped to the sub-account where contacts live. Set **`GHL_LOCATION_ID`** to the **Location ID** from GHL **Settings → Business Profile** (same value as for deal upload). The `/api/data` route passes it on **contacts**, **users**, and **pipeline opportunities** requests. Redeploy after changing env.
 
 **GHL opportunity create errors:** If **Create in GHL** fails with 400/422, set **`GHL_LOCATION_ID`** on Vercel to your sub-account Location ID (GHL Settings) and redeploy. Until fixed, use **Dashboard only** on the Sales tab (no GHL call).

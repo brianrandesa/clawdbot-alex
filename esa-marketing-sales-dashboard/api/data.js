@@ -476,12 +476,7 @@ async function getAllPipelineOpportunitiesV2() {
   return all;
 }
 
-async function getAllPipelineOpportunities() {
-  // Prefer v2 — it returns customFields inline on every opportunity (no per-opp detail fetch needed).
-  const v2 = await getAllPipelineOpportunitiesV2();
-  if (v2 && v2.length > 0) return v2;
-
-  // Fall back to v1 (no custom fields on opps).
+async function getAllPipelineOpportunitiesV1List() {
   const all = [];
   let url = GHL_BASE + '/pipelines/' + PIPELINE_ID + '/opportunities?limit=100' + ghlLocationQuery();
   let page = 0;
@@ -494,6 +489,18 @@ async function getAllPipelineOpportunities() {
     await new Promise(r => setTimeout(r, 150));
   }
   return all;
+}
+
+/** @returns {{ opportunities: unknown[], opportunitiesFetchedVia: 'v2' | 'v1' }} */
+async function getAllPipelineOpportunities() {
+  // Prefer v2 — it returns customFields inline on every opportunity (no per-opp detail fetch needed).
+  const v2 = await getAllPipelineOpportunitiesV2();
+  if (v2 && v2.length > 0) {
+    return { opportunities: v2, opportunitiesFetchedVia: 'v2' };
+  }
+
+  const all = await getAllPipelineOpportunitiesV1List();
+  return { opportunities: all, opportunitiesFetchedVia: 'v1' };
 }
 
 function opportunityDetailUrl(oppId) {
@@ -538,7 +545,9 @@ function mergeOpportunityDetail(base, rawJson) {
 async function enrichOpportunitiesWithCashDetails(opps, meta) {
   const m = meta || {};
   m.fetches = 0;
-  if (!GHL_KEY || !GHL_OPP_CASH_CUSTOM_FIELD_IDS.length || !GHL_OPP_FETCH_CASH_DETAILS) return opps;
+  if ((!GHL_KEY && !GHL_KEY_V2) || !GHL_OPP_CASH_CUSTOM_FIELD_IDS.length || !GHL_OPP_FETCH_CASH_DETAILS) {
+    return opps;
+  }
 
   const out = opps.map((o) => ({ ...o }));
   const maxFetches = GHL_OPP_CASH_ENRICH_MAX === 0 ? Infinity : GHL_OPP_CASH_ENRICH_MAX;
@@ -1101,7 +1110,7 @@ function summarizeOppCashShape(o) {
   };
 }
 
-function buildGhlCashDiagnostic(allOpps, meta, dateRange) {
+function buildGhlCashDiagnostic(allOpps, meta, dateRange, opportunitiesFetchedVia) {
   const startMs = dateRange.start.getTime();
   const endMs = dateRange.end ? dateRange.end.getTime() : Date.now();
   const inRangeWon = allOpps.filter((o) => {
@@ -1124,6 +1133,7 @@ function buildGhlCashDiagnostic(allOpps, meta, dateRange) {
     hint: 'Remove ?ghlCashDebug=1 after fixing. Dollar amounts not listed; only field shapes.',
     configuredTokens: GHL_OPP_CASH_CUSTOM_FIELD_IDS,
     cashMode: cashCollectionMode(),
+    opportunitiesFetchedVia: opportunitiesFetchedVia || null,
     enrichFetches: meta.fetches,
     lastOppDetailHttpStatus: meta.lastOppDetailHttpStatus,
     closedWonInSelectedRange: inRangeWon.length,
@@ -1150,13 +1160,16 @@ module.exports = async (req, res) => {
   const fetchSheet = sheetsMode === 'replace' || sheetsAttrOn;
 
   try {
-    const [contactFetch, userMap, metaData, allOppsRaw, sheetSnap] = await Promise.all([
+    const [contactFetch, userMap, metaData, oppBundle, sheetSnap] = await Promise.all([
       getAllContacts(),
       getUsers(),
       getMetaAdSpend(dateRange),
       getAllPipelineOpportunities(),
       fetchSheet ? fetchSheetsRevenueInRange(dateRange) : Promise.resolve(null)
     ]);
+    const allOppsRaw = (oppBundle && oppBundle.opportunities) || [];
+    const opportunitiesFetchedVia =
+      (oppBundle && oppBundle.opportunitiesFetchedVia) || 'v1';
     const allContacts = contactFetch.contacts || [];
     const cashEnrichMeta = { fetches: 0 };
     const allOpps = await enrichOpportunitiesWithCashDetails(allOppsRaw, cashEnrichMeta);
@@ -1164,8 +1177,11 @@ module.exports = async (req, res) => {
 
     let metrics = buildMetrics(allContacts, stageData, userMap, metaData, dateRange, allOpps);
 
-    if (metrics.marketingKpiStrip && cashEnrichMeta.fetches > 0) {
-      metrics.marketingKpiStrip.ghlOpportunityCashFetches = cashEnrichMeta.fetches;
+    if (metrics.marketingKpiStrip) {
+      metrics.marketingKpiStrip.opportunitiesFetchedVia = opportunitiesFetchedVia;
+      if (cashEnrichMeta.fetches > 0) {
+        metrics.marketingKpiStrip.ghlOpportunityCashFetches = cashEnrichMeta.fetches;
+      }
     }
 
     if (contactFetch.apiError) {
@@ -1260,7 +1276,12 @@ module.exports = async (req, res) => {
     }
 
     if (String(q.ghlCashDebug || '').trim() === '1') {
-      metrics.ghlCashDiagnostic = buildGhlCashDiagnostic(allOpps, cashEnrichMeta, dateRange);
+      metrics.ghlCashDiagnostic = buildGhlCashDiagnostic(
+        allOpps,
+        cashEnrichMeta,
+        dateRange,
+        opportunitiesFetchedVia
+      );
     }
 
     return res.status(200).json(metrics);
