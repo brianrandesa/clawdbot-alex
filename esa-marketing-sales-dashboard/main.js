@@ -1728,20 +1728,30 @@
   function paintSalesBoardV2(data) {
     if (!data) return;
 
-    // -- Top KPIs --
+    // -- All variables --
     var totalTcv = data.totalTCV || data.totalTcv || 0;
     var totalCash = data.totalCash || 0;
     var totalOwed = data.totalOwed || 0;
     var dealCount = data.dealCount || 0;
     var aov = dealCount ? totalTcv / dealCount : 0;
     var collectionRate = totalTcv ? (totalCash / totalTcv) * 100 : 0;
-
     var winRate = data.winRatePct || 0;
     var ppPct = data.paymentPlanPct || 0;
     var ppCount = data.paymentPlanCount || 0;
     var ltc = data.leadToClose || {};
     var ctc = data.callToClose || {};
+    var comm = data.commissions || {};
+    var totalSetterComm = comm.totalSetterComm || 0;
+    var totalCloserComm = comm.totalCloserComm || 0;
+    var totalComm = totalSetterComm + totalCloserComm;
+    var avgCommPerDeal = dealCount ? totalComm / dealCount : 0;
+    var ref = data.refunds || {};
+    var refCount = ref.count || 0;
+    var refTCV = ref.totalTCV || 0;
+    var refBack = ref.totalRefundedBack || 0;
+    var netRevenue = totalTcv - refTCV;
 
+    // -- 18 KPI cards in one grid (3 rows of 6) --
     el('sb2-kpis').innerHTML = [
       { label: 'Total TCV', value: money(totalTcv), sub: 'All deals (won + refunded)' },
       { label: 'Total Cash', value: money(totalCash), sub: 'Cash collected' },
@@ -1754,29 +1764,18 @@
       { label: 'Avg Lead > Close', value: ltc.avgDays != null ? ltc.avgDays + 'd' : '--', sub: ltc.count ? 'Median: ' + ltc.medianDays + 'd (' + ltc.count + ' deals)' : 'No date data' },
       { label: 'Avg Call > Close', value: ctc.avgDays != null ? ctc.avgDays + 'd' : '--', sub: ctc.count ? 'Median: ' + ctc.medianDays + 'd (' + ctc.count + ' deals)' : 'No date data' },
       { label: 'Refunds', value: String(refCount), sub: money(refBack) + ' returned' },
-      { label: 'Net Revenue', value: money(netRevenue), sub: 'TCV minus refund TCV' }
-    ].map(function (c) { return kpiHTML(c); }).join('');
-
-    // -- Commission KPIs --
-    var comm = data.commissions || {};
-    var totalSetterComm = comm.totalSetterComm || 0;
-    var totalCloserComm = comm.totalCloserComm || 0;
-    var totalComm = totalSetterComm + totalCloserComm;
-    var avgCommPerDeal = dealCount ? totalComm / dealCount : 0;
-
-    // -- Refund metrics --
-    var ref = data.refunds || {};
-    var refCount = ref.count || 0;
-    var refTCV = ref.totalTCV || 0;
-    var refBack = ref.totalRefundedBack || 0;
-    var netRevenue = totalTcv - refTCV;
-
-    el('sb2-commissions').innerHTML = [
+      { label: 'Net Revenue', value: money(netRevenue), sub: 'TCV minus refund TCV' },
       { label: 'Setter Commission', value: money(totalSetterComm), sub: 'Total setter comm' },
       { label: 'Closer Commission', value: money(totalCloserComm), sub: 'Total closer comm' },
       { label: 'Total Commission', value: money(totalComm), sub: 'Setter + Closer' },
-      { label: 'Avg Comm / Deal', value: money(avgCommPerDeal), sub: 'Per closed deal' }
+      { label: 'Avg Comm / Deal', value: money(avgCommPerDeal), sub: 'Per closed deal' },
+      { label: 'Refund TCV', value: money(refTCV), sub: refCount + ' deal' + (refCount !== 1 ? 's' : '') + ' refunded' },
+      { label: 'Refund Cash Back', value: money(refBack), sub: 'Total returned to clients' }
     ].map(function (c) { return kpiHTML(c); }).join('');
+
+    // Hide separate commission row
+    var commEl = el('sb2-commissions');
+    if (commEl) commEl.style.display = 'none';
 
     // -- Helper: render a breakdown table --
     function breakdownTable(headers, rows, emptyMsg) {
