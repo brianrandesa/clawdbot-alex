@@ -155,7 +155,8 @@ async function enrichClosedWonWithDetail(opps) {
   var out = [];
   for (var i = 0; i < opps.length; i++) {
     var o = opps[i];
-    if ((ALL_WON_STAGES.indexOf(o.pipelineStageId) !== -1 || ALL_REFUNDED_STAGES.indexOf(o.pipelineStageId) !== -1) && o.id) {
+    // Only enrich Brian & Diamond pipeline opps (historical already have data from migration)
+    if ((ALL_WON_STAGES.indexOf(o.pipelineStageId) !== -1 || ALL_REFUNDED_STAGES.indexOf(o.pipelineStageId) !== -1) && o.id && o.pipelineId === 'LlthtHqW8V4PA9AWN8g7') {
       var detail = await v2Get('/opportunities/' + encodeURIComponent(o.id));
       if (detail._httpStatus === 200 && detail.opportunity) {
         // Merge detail custom fields over search results
