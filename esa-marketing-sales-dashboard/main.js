@@ -1736,13 +1736,25 @@
     var aov = dealCount ? totalTcv / dealCount : 0;
     var collectionRate = totalTcv ? (totalCash / totalTcv) * 100 : 0;
 
+    var winRate = data.winRatePct || 0;
+    var ppPct = data.paymentPlanPct || 0;
+    var ppCount = data.paymentPlanCount || 0;
+    var ltc = data.leadToClose || {};
+    var ctc = data.callToClose || {};
+
     el('sb2-kpis').innerHTML = [
-      { label: 'Total TCV', value: money(totalTcv), sub: 'Total contract value' },
+      { label: 'Total TCV', value: money(totalTcv), sub: 'All deals (won + refunded)' },
       { label: 'Total Cash', value: money(totalCash), sub: 'Cash collected' },
       { label: 'Total Owed', value: money(totalOwed), sub: 'Remaining balance' },
-      { label: 'Deal Count', value: String(dealCount), sub: 'Closed won deals' },
+      { label: 'Deal Count', value: String(dealCount), sub: 'Won + refunded deals' },
       { label: 'AOV', value: money(aov), sub: 'Avg order value' },
-      { label: 'Collection Rate', value: pct(collectionRate), sub: 'Cash / TCV' }
+      { label: 'Collection Rate', value: pct(collectionRate), sub: 'Cash / TCV' },
+      { label: 'Win Rate', value: pct(winRate), sub: 'Won / (won + lost + refund)' },
+      { label: 'Payment Plans', value: String(ppCount), sub: pct(ppPct) + ' of deals' },
+      { label: 'Avg Lead > Close', value: ltc.avgDays != null ? ltc.avgDays + 'd' : '--', sub: ltc.count ? 'Median: ' + ltc.medianDays + 'd (' + ltc.count + ' deals)' : 'No date data' },
+      { label: 'Avg Call > Close', value: ctc.avgDays != null ? ctc.avgDays + 'd' : '--', sub: ctc.count ? 'Median: ' + ctc.medianDays + 'd (' + ctc.count + ' deals)' : 'No date data' },
+      { label: 'Refunds', value: String(refCount), sub: money(refBack) + ' returned' },
+      { label: 'Net Revenue', value: money(netRevenue), sub: 'TCV minus refund TCV' }
     ].map(function (c) { return kpiHTML(c); }).join('');
 
     // -- Commission KPIs --
@@ -1763,9 +1775,7 @@
       { label: 'Setter Commission', value: money(totalSetterComm), sub: 'Total setter comm' },
       { label: 'Closer Commission', value: money(totalCloserComm), sub: 'Total closer comm' },
       { label: 'Total Commission', value: money(totalComm), sub: 'Setter + Closer' },
-      { label: 'Net Revenue', value: money(netRevenue), sub: 'TCV minus refunds' },
-      { label: 'Refunds', value: String(refCount), sub: money(refBack) + ' returned' },
-      { label: 'Refund TCV', value: money(refTCV), sub: refCount + ' deal' + (refCount !== 1 ? 's' : '') + ' refunded' }
+      { label: 'Avg Comm / Deal', value: money(avgCommPerDeal), sub: 'Per closed deal' }
     ].map(function (c) { return kpiHTML(c); }).join('');
 
     // -- Helper: render a breakdown table --

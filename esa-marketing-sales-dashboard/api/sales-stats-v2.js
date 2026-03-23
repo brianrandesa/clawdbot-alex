@@ -34,7 +34,9 @@ const CF = {
   closerCommPct:  '9J36dFinm9Fx67I6Rt8x',
   fathomUrl:      'X6oVJega05lWyyLuiCty',
   dealNotes:      '60tWWito5ohRf6pFlYWB',
-  nextSteps:      'faepoQCRUUMuiWnJhfcO'
+  nextSteps:      'faepoQCRUUMuiWnJhfcO',
+  dateFirstAppt:  'Ww86ESt6WpntHynEN8Iw',
+  dateFirstPay:   'gnrAHfUyb2By3kYJlArc'
 };
 
 const SOURCE_LABELS = {
@@ -425,6 +427,74 @@ module.exports = async function handler(req, res) {
   if (totalOwed < 0) totalOwed = 0;
   var dealCount = closedWonDeals.length;
 
+  // Win rate: won / (won + lost + refunded)
+  var totalTerminal = wonInRange.length + lostInRange.length + refundedInRange.length;
+  var winRatePct = totalTerminal > 0 ? round2(wonInRange.length / totalTerminal * 100) : 0;
+
+  // Payment plan %: deals where cash < tcv and not refunded
+  var paymentPlanCount = 0;
+  closedWonDeals.forEach(function (d) {
+    if (d.paymentStatus === 'Payment Plan') paymentPlanCount++;
+  });
+  var paymentPlanPct = dealCount > 0 ? round2(paymentPlanCount / dealCount * 100) : 0;
+
+  // Sales cycle: lead-to-close and call-to-close (days)
+  // Uses Date of First Appointment and close date
+  var leadToCloseSpans = [];
+  var callToCloseSpans = [];
+  for (var sc = 0; sc < allDealsForTotals.length; sc++) {
+    var scOpp = allDealsForTotals[sc];
+    var scClose = cfStr(scOpp, CF.dealNotes).match(/Close date:\s*(\d{4}-\d{2}-\d{2})/);
+    if (!scClose) continue;
+    var closeMs = new Date(scClose[1] + 'T00:00:00Z').getTime();
+    // Lead created = contact dateAdded (from GHL contact)
+    var contactCreated = scOpp.createdAt ? new Date(scOpp.createdAt).getTime() : 0;
+    if (contactCreated > 0 && closeMs > contactCreated) {
+      leadToCloseSpans.push(Math.round((closeMs - contactCreated) / 86400000));
+    }
+    // First appointment
+    var apptDate = cfStr(scOpp, CF.dateFirstAppt);
+    if (apptDate) {
+      var apptMs = new Date(apptDate + 'T00:00:00Z').getTime();
+      if (apptMs > 0 && closeMs >= apptMs) {
+        callToCloseSpans.push(Math.round((closeMs - apptMs) / 86400000));
+      }
+    }
+  }
+  function computeSpanStats(spans) {
+    if (spans.length === 0) return { avgDays: null, medianDays: null, count: 0 };
+    spans.sort(function (a, b) { return a - b; });
+    var sum = 0;
+    for (var i = 0; i < spans.length; i++) sum += spans[i];
+    var avg = round2(sum / spans.length);
+    var mid = Math.floor(spans.length / 2);
+    var median = spans.length % 2 === 1 ? spans[mid] : round2((spans[mid - 1] + spans[mid]) / 2);
+    return { avgDays: avg, medianDays: median, count: spans.length };
+  }
+  var leadToClose = computeSpanStats(leadToCloseSpans);
+  var callToClose = computeSpanStats(callToCloseSpans);
+
+  // By Campaign (from contact utm_campaign custom field on contacts)
+  // Contact custom fields are on the contact object embedded in opp relations
+  var byCampaign = {};
+  for (var ci = 0; ci < allDealsForTotals.length; ci++) {
+    var cOpp = allDealsForTotals[ci];
+    var campaign = '';
+    // Check relations for contact custom fields
+    if (cOpp.relations && cOpp.relations[0]) {
+      // utm_campaign is a contact-level field, not available in opp search
+      // Use the opp source field as fallback
+    }
+    // Use opportunity source as campaign proxy
+    campaign = (cOpp.source || '').trim() || 'Unknown';
+    if (campaign === 'REDIS IMPORT' || campaign === 'REDIS IMPORT (payment plan)' || campaign === 'REFUND') campaign = 'Historical Import';
+    if (!byCampaign[campaign]) byCampaign[campaign] = { deals: 0, tcv: 0, cash: 0 };
+    byCampaign[campaign].deals++;
+    byCampaign[campaign].tcv += parseFloat(cOpp.monetaryValue) || 0;
+    byCampaign[campaign].cash += cfNum(cOpp, CF.cash);
+  }
+  Object.keys(byCampaign).forEach(function (k) { byCampaign[k].tcv = round2(byCampaign[k].tcv); byCampaign[k].cash = round2(byCampaign[k].cash); });
+
   closedWonDeals.sort(function (a, b) { return (b.closeDate || '').localeCompare(a.closeDate || ''); });
 
   var result = {
@@ -435,6 +505,11 @@ module.exports = async function handler(req, res) {
     dealCount: dealCount,
     avgDeal: dealCount > 0 ? round2(totalTCV / dealCount) : 0,
     collectionRate: totalTCV > 0 ? round2(totalCash / totalTCV * 100) : 0,
+    winRatePct: winRatePct,
+    paymentPlanCount: paymentPlanCount,
+    paymentPlanPct: paymentPlanPct,
+    leadToClose: leadToClose,
+    callToClose: callToClose,
     commissions: {
       totalSetterComm: round2(totalSetterComm),
       totalCloserComm: round2(totalCloserComm),
@@ -447,6 +522,7 @@ module.exports = async function handler(req, res) {
     byCloser: byCloser,
     bySetter: bySetter,
     byMonth: byMonth,
+    byCampaign: byCampaign,
     refunds: (function() {
       var totalRefundTCV = 0, totalRefundCashBack = 0;
       var refundDeals = [];
