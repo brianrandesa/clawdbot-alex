@@ -15,7 +15,14 @@ var PIPELINES = [
 ];
 var ALL_WON_STAGES = PIPELINES.map(function(p) { return p.wonStage; });
 var ALL_LOST_STAGES = PIPELINES.map(function(p) { return p.lostStage; });
-var ALL_REFUNDED_STAGES = ['81dca2b1-f729-47ba-8a14-a8d3f873c9e5'];
+var ALL_REFUNDED_STAGES = ['81dca2b1-f729-47ba-8a14-a8d3f873c9e5', 'f9784964-a872-4d0e-be2d-b6aec25f5963'];
+
+// Detect refund by stage OR by name containing "REFUNDED"
+function isRefundedOpp(o) {
+  if (ALL_REFUNDED_STAGES.indexOf(o.pipelineStageId) !== -1) return true;
+  if ((o.name || '').toUpperCase().indexOf('REFUNDED') !== -1) return true;
+  return false;
+}
 
 // Opportunity custom field IDs
 const CF = {
@@ -253,11 +260,11 @@ module.exports = async function handler(req, res) {
     }
     var inRange = changedAt >= bounds.start && changedAt <= bounds.end;
 
-    if (ALL_WON_STAGES.indexOf(stageId) !== -1 && inRange) {
-      wonInRange.push(o);
-      allTerminal.push(o);
-    } else if (ALL_REFUNDED_STAGES.indexOf(stageId) !== -1 && inRange) {
+    if (isRefundedOpp(o) && inRange) {
       refundedInRange.push(o);
+      allTerminal.push(o);
+    } else if (ALL_WON_STAGES.indexOf(stageId) !== -1 && inRange) {
+      wonInRange.push(o);
       allTerminal.push(o);
     } else if (ALL_LOST_STAGES.indexOf(stageId) !== -1 && inRange) {
       lostInRange.push(o);
@@ -276,7 +283,7 @@ module.exports = async function handler(req, res) {
 
   for (var w = 0; w < allDealsForTotals.length; w++) {
     var opp = allDealsForTotals[w];
-    var isRefunded = ALL_REFUNDED_STAGES.indexOf(opp.pipelineStageId) !== -1;
+    var isRefunded = isRefundedOpp(opp);
     var tcv = parseFloat(opp.monetaryValue) || 0;
     var cash = cfNum(opp, CF.cash);
     var owed = round2(tcv - cash);
