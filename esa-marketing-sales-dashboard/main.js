@@ -2,7 +2,7 @@
   'use strict';
 
   /** Bump when KPI layout changes; footer shows this so you know the browser loaded THIS file (not a cached old main.js). */
-  var ESA_UI_BUILD = 'kpi18-migrate-20260323b';
+  var ESA_UI_BUILD = 'rowc-tcv-by-source-20260323';
 
   var BENCHMARKS = {
     conservative: { adSpend:10000, leads:200, bookedCalls:67, leadBookPct:33.33, liveCalls:33, cpl:50, costPerBooking:150, costPerLive:300, showRate:40, offerRate:50, closeRate:15, cpa:2000, aov:9800, cashCollectedPct:40, avgUpfrontCash:3920, upfrontRoas:1.96 },
@@ -352,9 +352,16 @@
         : mode === 'matches_contract'
           ? 'Cash = contract (GHL_CASH_MATCHES_CONTRACT=1)'
           : 'Configure cash field or GHL_CASH_MATCHES_CONTRACT=1';
-    var topSrc = strip.topCashBySource || [];
-    var t1 = topSrc[0] || { label: '—', cash: 0 };
-    var t2 = topSrc[1] || { label: '—', cash: 0 };
+    var topTcvSrc = strip.topTcvBySource || [];
+    var tr1 = topTcvSrc[0] || { label: '—', tcv: 0, cash: 0 };
+    var tr2 = topTcvSrc[1] || { label: '—', tcv: 0, cash: 0 };
+    function rowCsourceSub(rank, r) {
+      var cashLine =
+        mode === 'none'
+          ? 'Per-source cash needs GHL_OPP_CASH_CUSTOM_FIELD_ID (or GHL_CASH_MATCHES_CONTRACT=1)'
+          : 'Cash collected this source: ' + money(r.cash);
+      return '#' + rank + ' by TCV (Closed Won) · ' + cashLine;
+    }
     var rowC = [
       {
         label: 'Upfront ROAS',
@@ -364,8 +371,20 @@
       },
       { label: 'Total contract value (TCV)', value: money(tcv), sub: tcvSub, revenue: true, delta: null },
       { label: 'Total cash collected', value: money(cash), sub: cashSub, revenue: true, delta: null },
-      { label: 'Cash · ' + t1.label, value: money(t1.cash), sub: '#1 by cash · lead source', revenue: true, delta: null },
-      { label: 'Cash · ' + t2.label, value: money(t2.cash), sub: '#2 by cash · lead source', revenue: true, delta: null },
+      {
+        label: 'TCV · ' + tr1.label,
+        value: money(tr1.tcv),
+        sub: rowCsourceSub(1, tr1),
+        revenue: true,
+        delta: null
+      },
+      {
+        label: 'TCV · ' + tr2.label,
+        value: money(tr2.tcv),
+        sub: rowCsourceSub(2, tr2),
+        revenue: true,
+        delta: null
+      },
       {
         label: 'AOV (avg deal)',
         value: data.aov > 0 ? money(data.aov) : '--',

@@ -39,9 +39,9 @@ Use your **[sales sheet](https://docs.google.com/spreadsheets/d/1PpmjfmolXIkrSht
 
 **Optional:** `GHL_DEAL_VALUE_FALLBACK` – if an opportunity has **Closed Won** but `monetaryValue` is empty, count it as this dollar amount for revenue/ROAS (omit or set `0` to only count deals with real values entered in GHL).
 
-**Cash collected (dashboard strip + benchmark):** By default cash totals are **$0** until you configure one of:
-- `GHL_OPP_CASH_CUSTOM_FIELD_ID` – GHL **custom field id** on the **opportunity** that stores collected cash (numeric). The API reads it per Closed Won opp in the date window.
-- `GHL_CASH_MATCHES_CONTRACT=1` – treat cash per deal as the same as contract value (`monetaryValue` / fallback).
+**Cash collected (Row C + benchmarks):** By default cash is **$0** until you set one of:
+- **`GHL_OPP_CASH_CUSTOM_FIELD_ID`** – opportunity custom field id (numeric). Fills **Total cash collected**, **Cash collected %**, **Avg upfront cash**, and **“Cash collected this source”** under each **TCV · [source]** card on Row C. Without it, **TCV by source** on Row C still works from `monetaryValue`; per-source cash lines show **$0**.
+- **`GHL_CASH_MATCHES_CONTRACT=1`** – cash per deal = contract value (`monetaryValue` / fallback). Use when you do not track partial payments in GHL.
 
 After changing GHL pipeline stage IDs, update `PIPELINE_STAGES` and `CLOSED_WON_STAGE_ID` in `api/data.js`.
 

@@ -172,9 +172,10 @@ Use this when ops asks *“where do we put that story?”*
 | What you mean | Where it lives in product | What to do in GHL |
 |---------------|---------------------------|-------------------|
 | **Total contract value (TCV)** in the date range | **TCV** KPI card, **Closed Won** subtitle, benchmark **AOV**, **Upfront ROAS** | Sum of **Closed Won** opps in range (`monetaryValue` or sheet replace). One number for the whole business in that window. |
-| **$ attributed to VSL path** | **Lead Source Breakdown** row **VSL Funnel**, **Wins driving revenue** source column, **Cash · …** KPIs (if cash env set) | Contact on that deal must carry **`src-vsl`** (or a legacy VSL phrase that maps to it). |
-| **$ from a comeback client** | Same tables, row **Returning client** | Contact must carry **`src-returning`** (or a legacy phrase like `returning client`). Do **not** leave only `src-vsl` on a winback if you want it out of VSL. |
-| **Example (real numbers, one range)** | Illustration only | TCV **$22,500** = all Closed Won in scope. Two deals called out: **$5,000** VSL + **$5,000** returning; the other **$12,500** is other sources/deals in the same window. |
+| **$ attributed to VSL path** | **Lead Source Breakdown** row **VSL Funnel**, **Wins driving revenue** source column, **Row C** cards **TCV · VSL Funnel** (contract $ on Closed Won for that tag) | Contact on that deal must carry **`src-vsl`** (or a legacy VSL phrase that maps to it). |
+| **$ from a comeback client** | Same tables, **Row C** **TCV · Returning client** | Contact must carry **`src-returning`** (or a legacy phrase like `returning client`). Do **not** leave only `src-vsl` on a winback if you want it out of VSL. |
+| **Cash $10k with $5k + $5k by source** | **Total cash collected** (Row C) + subtitle on each **TCV · …** card (*Cash collected this source*) | Set **`GHL_OPP_CASH_CUSTOM_FIELD_ID`** on each Closed Won opp (or **`GHL_CASH_MATCHES_CONTRACT=1`** if cash = full contract). |
+| **Example (two wins)** | Illustration | Karl **VSL**: opp **`monetaryValue` $15,000** (total contract), **$5,000** in the cash field if that is what was collected. Returning client: **$7,500** contract, **$5,000** collected. **TCV** $22,500 = $15k + $7.5k. **Total cash** $10k = $5k + $5k. |
 
 **Sales tab / CSV:** **`src-returning`** is a normal option in the source dropdown (same list as `api/ghlDealConstants.js`).
 

@@ -372,12 +372,31 @@ function computeClosedWonDealMetrics(allOpps, dateRange, allContacts, userMap) {
     topCashBySource.push({ tag: '', label: '—', cash: 0 });
   }
 
+  /** Row C: top 2 lead sources by Closed Won TCV, each with cash collected on those opps (same tags). */
+  const topTcvBySource = Object.entries(bySourceRevenue)
+    .filter(([, rev]) => rev > 0)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([tag, rev]) => ({
+      tag,
+      label:
+        tag === 'unknown'
+          ? 'Untagged / Other'
+          : (SOURCES.find((s) => s.tag === tag) || { label: 'Untagged / Other' }).label,
+      tcv: Math.round(rev * 100) / 100,
+      cash: Math.round((bySourceCash[tag] || 0) * 100) / 100
+    }));
+  while (topTcvBySource.length < 2) {
+    topTcvBySource.push({ tag: '', label: '—', tcv: 0, cash: 0 });
+  }
+
   return {
     totalRevenue,
     totalContractValue: totalRevenue,
     totalCashCollected: Math.round(totalCashCollected * 100) / 100,
     cashCollectionMode: cashMode,
     topCashBySource,
+    topTcvBySource,
     dealCount,
     dealsUsingFallback,
     bySourceRevenue,
@@ -738,6 +757,7 @@ function buildMetrics(allContacts, stageData, userMap, metaData, dateRange, allO
       totalCashCollected: dealMetrics.totalCashCollected,
       cashMode: dealMetrics.cashCollectionMode,
       topCashBySource: dealMetrics.topCashBySource,
+      topTcvBySource: dealMetrics.topTcvBySource,
       tcvSource: 'ghl_closed_won'
     },
     closedWonDeals: dealMetrics.closedWonDeals || [],
