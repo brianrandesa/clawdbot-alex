@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260322-salesboard">
+  <link rel="stylesheet" href="styles.css?v=20260322-attrib">
 </head>
 <body>
 
@@ -304,6 +304,51 @@
         </div>
         <div id="salesboard-kv-banner" class="kv-banner" style="display:none"></div>
         <section class="kpi-row" id="salesboard-kpis"></section>
+        <article class="panel salesboard-panel-wide salesboard-closed-won-attrib">
+          <div class="panel-head">
+            <h2>Closed Won · where they came from</h2>
+            <p><strong>Closed Won</strong> rows in this date range only. Summary = attribution on wins; detail = each deal. Fill <strong>Source tag</strong>, <strong>Lead source</strong>, <strong>Campaign</strong> / <strong>Ad set</strong> / <strong>Ad</strong> on the Sales form or CSV to see them here.</p>
+          </div>
+          <div class="salesboard-cw-split">
+            <div class="salesboard-cw-mini">
+              <h3 class="salesboard-cw-h3">Wins by source tag</h3>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Source tag</th><th>Deals</th><th>Paid</th><th>Owed</th></tr></thead>
+                  <tbody id="salesboard-cw-by-tag"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="salesboard-cw-mini">
+              <h3 class="salesboard-cw-h3">Wins by lead source</h3>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Lead source</th><th>Deals</th><th>Paid</th><th>Owed</th></tr></thead>
+                  <tbody id="salesboard-cw-by-lead"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <h3 class="salesboard-cw-h3">Each closed deal</h3>
+          <div class="table-wrap salesboard-cw-detail-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>EVENT/NAME</th>
+                  <th>Paid</th>
+                  <th>Closing date</th>
+                  <th>Source tag</th>
+                  <th>Lead source</th>
+                  <th>Campaign</th>
+                  <th>Ad set</th>
+                  <th>Ad</th>
+                  <th>Product</th>
+                </tr>
+              </thead>
+              <tbody id="salesboard-cw-detail"></tbody>
+            </table>
+          </div>
+        </article>
         <div class="salesboard-grid">
           <article class="panel">
             <div class="panel-head"><h2>By product</h2></div>
@@ -476,6 +521,6 @@
     <p>GHL + Meta Ads API. Data refreshes on load and caches for 2 minutes.</p>
   </footer>
 
-  <script src="main.js?v=20260322-salesboard"></script>
+  <script src="main.js?v=20260322-attrib"></script>
 </body>
 </html>

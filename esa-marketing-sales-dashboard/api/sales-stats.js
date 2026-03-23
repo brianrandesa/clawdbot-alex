@@ -136,6 +136,10 @@ module.exports = async (req, res) => {
   const byCampaign = {};
   const byAdset = {};
   const byClosingMonth = {};
+  /** Closed Won only — for "where did wins come from" */
+  const bySourceTagClosedWon = {};
+  const byLeadSourceClosedWon = {};
+  const closedWonDetails = [];
 
   for (const row of rows) {
     const paid = parseFloat(row.monetaryValue) || 0;
@@ -178,6 +182,21 @@ module.exports = async (req, res) => {
       closedWonCount++;
       closedWonPaid += paid;
       closedWonOwed += owed;
+      bumpPayout(bySourceTagClosedWon, row.sourceTag, paid, owed);
+      bumpPayout(byLeadSourceClosedWon, row.leadSource, paid, owed);
+      closedWonDetails.push({
+        clientOrEvent: String(row.clientOrEvent || '').trim() || '—',
+        paid,
+        owed,
+        closingDate: String(row.closingDate || '').trim() || '',
+        submittedAt: String(row.submittedAt || '').trim() || '',
+        sourceTag: String(row.sourceTag || '').trim() || '—',
+        leadSource: String(row.leadSource || '').trim() || '—',
+        campaign: String(row.campaign || '').trim() || '—',
+        adset: String(row.adset || '').trim() || '—',
+        ad: String(row.ad || '').trim() || '—',
+        product: String(row.product || '').trim() || '—'
+      });
       const ym = closingMonthKey(row.closingDate);
       if (ym) {
         if (!byClosingMonth[ym]) byClosingMonth[ym] = { count: 0, paid: 0, owed: 0 };
@@ -187,6 +206,17 @@ module.exports = async (req, res) => {
       }
     }
   }
+
+  closedWonDetails.sort((a, b) => {
+    const db = parseDateMs(b.closingDate);
+    const da = parseDateMs(a.closingDate);
+    const sb = db == null ? 0 : db;
+    const sa = da == null ? 0 : da;
+    if (sb !== sa) return sb - sa;
+    const tb = new Date(b.submittedAt || 0).getTime();
+    const ta = new Date(a.submittedAt || 0).getTime();
+    return tb - ta;
+  });
 
   const leadToClose = summarizeDaySpans('dateCreated', 'closingDate', rows);
   const firstCallToClose = summarizeDaySpans('dateFirstCall', 'closingDate', rows);
@@ -223,6 +253,9 @@ module.exports = async (req, res) => {
     byCampaign,
     byAdset,
     byClosingMonth,
+    bySourceTagClosedWon,
+    byLeadSourceClosedWon,
+    closedWonDetails,
     inRangeRows: rows.slice(0, 200),
     ...(redisError ? { redisError } : {})
   });

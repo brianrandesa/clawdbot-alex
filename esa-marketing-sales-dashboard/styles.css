@@ -534,6 +534,30 @@ td.val-bad { color: var(--red); font-weight: 600; }
   }
 }
 
+.salesboard-closed-won-attrib {
+  margin-top: 1rem;
+}
+.salesboard-cw-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+}
+@media (min-width: 720px) {
+  .salesboard-cw-split {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.salesboard-cw-h3 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--text);
+}
+.salesboard-cw-detail-wrap {
+  overflow-x: auto;
+}
+
 .submissions-meta {
   font-size: 0.8rem;
   color: var(--muted);

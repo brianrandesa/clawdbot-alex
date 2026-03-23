@@ -742,7 +742,10 @@
       'salesboard-by-leadsource',
       'salesboard-by-campaign',
       'salesboard-by-adset',
-      'salesboard-by-closing-month'
+      'salesboard-by-closing-month',
+      'salesboard-cw-by-tag',
+      'salesboard-cw-by-lead',
+      'salesboard-cw-detail'
     ].forEach(function (id) {
       var n = el(id);
       if (n) n.innerHTML = '';
@@ -790,6 +793,86 @@
         sub: 'median ' + o.medianDays + ' d · ' + o.count + ' deal' + (o.count === 1 ? '' : 's')
       };
     }
+    function renderClosedWonAttribution(d) {
+      var tagBody = el('salesboard-cw-by-tag');
+      var leadBody = el('salesboard-cw-by-lead');
+      var detBody = el('salesboard-cw-detail');
+      if (!tagBody || !leadBody || !detBody) return;
+      var cw = d.closedWonCount || 0;
+      if (cw === 0) {
+        tagBody.innerHTML =
+          '<tr><td colspan="4">No <strong>Closed Won</strong> in this range (or widen to <strong>All Time</strong>).</td></tr>';
+        leadBody.innerHTML = '<tr><td colspan="4">—</td></tr>';
+        detBody.innerHTML = '<tr><td colspan="9">—</td></tr>';
+        return;
+      }
+      var stcw = d.bySourceTagClosedWon || {};
+      var keysTag = Object.keys(stcw).sort();
+      tagBody.innerHTML =
+        keysTag
+          .map(function (k) {
+            var x = stcw[k];
+            return (
+              '<tr><td><strong>' +
+              esc(k) +
+              '</strong></td><td>' +
+              x.count +
+              '</td><td>' +
+              money(x.paid) +
+              '</td><td>' +
+              money(x.owed) +
+              '</td></tr>'
+            );
+          })
+          .join('') || '<tr><td colspan="4">No source tags on wins</td></tr>';
+      var lscw = d.byLeadSourceClosedWon || {};
+      var keysLead = Object.keys(lscw).sort();
+      leadBody.innerHTML =
+        keysLead
+          .map(function (k) {
+            var x = lscw[k];
+            return (
+              '<tr><td><strong>' +
+              esc(k) +
+              '</strong></td><td>' +
+              x.count +
+              '</td><td>' +
+              money(x.paid) +
+              '</td><td>' +
+              money(x.owed) +
+              '</td></tr>'
+            );
+          })
+          .join('') || '<tr><td colspan="4">No lead source text on wins</td></tr>';
+      var details = d.closedWonDetails || [];
+      detBody.innerHTML =
+        details
+          .map(function (r) {
+            return (
+              '<tr><td>' +
+              esc(r.clientOrEvent) +
+              '</td><td>' +
+              money(r.paid) +
+              '</td><td>' +
+              esc(r.closingDate || '—') +
+              '</td><td>' +
+              esc(r.sourceTag) +
+              '</td><td>' +
+              esc(r.leadSource) +
+              '</td><td>' +
+              esc(r.campaign) +
+              '</td><td>' +
+              esc(r.adset) +
+              '</td><td>' +
+              esc(r.ad) +
+              '</td><td>' +
+              esc(r.product) +
+              '</td></tr>'
+            );
+          })
+          .join('') || '<tr><td colspan="9">—</td></tr>';
+    }
+
     var ltc = fmtLeadClose(data.leadToClose, 'Date created → Closing');
     var ftc = fmtLeadClose(data.firstCallToClose, '1st call → Closing');
     var cards = [
@@ -823,6 +906,8 @@
         );
       })
       .join('');
+
+    renderClosedWonAttribution(data);
 
     var bp = data.byProduct || {};
     el('salesboard-by-product').innerHTML =
