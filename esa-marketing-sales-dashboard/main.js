@@ -26,25 +26,22 @@
    * If main.js updated but HTML cached (or vice versa), upgrade the DOM once so all 18 cards render.
    */
   function ensureKpiMain18Host() {
-    var m = el('kpi-main-18');
-    if (m) return m;
     var tab = el('tab-dashboard');
     if (!tab) return null;
+    var m = el('kpi-main-18');
+    if (!m) {
+      m = document.createElement('section');
+      m.id = 'kpi-main-18';
+      m.className = 'kpi-row kpi-grid-18';
+    }
+    // Always ensure it's the first visible child of the dashboard tab
+    var banner = el('dashboard-ghl-banner');
+    var after = banner && banner.parentNode === tab ? banner.nextSibling : tab.firstChild;
+    if (m.parentNode !== tab || m !== after) {
+      tab.insertBefore(m, after);
+    }
     var top = el('kpi-top');
     var bottom = el('kpi-bottom');
-    m = document.createElement('section');
-    m.id = 'kpi-main-18';
-    m.className = 'kpi-row kpi-grid-18';
-    m.setAttribute('data-kpi-slots', '18');
-    if (top && top.parentNode === tab) {
-      tab.insertBefore(m, top);
-    } else if (bottom && bottom.parentNode === tab) {
-      tab.insertBefore(m, bottom);
-    } else {
-      var mk = tab.querySelector('.marketing-kpi-block');
-      if (mk && mk.nextSibling) tab.insertBefore(m, mk.nextSibling);
-      else tab.appendChild(m);
-    }
     if (top && top.parentNode) top.parentNode.removeChild(top);
     if (bottom && bottom.parentNode) bottom.parentNode.removeChild(bottom);
     return m;
