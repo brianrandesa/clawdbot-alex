@@ -45,6 +45,7 @@
     <button class="tab" data-tab="rawdata">Raw Data</button>
     <button class="tab" data-tab="snapshot">Snapshot</button>
     <button class="tab" data-tab="salesboard-v2">Sales Board</button>
+    <button class="tab" data-tab="meta-ads">Meta Ads</button>
   </nav>
 
   <main>
@@ -488,6 +489,28 @@
         <h3 style="margin-bottom:.5rem">All Closed Won Deals</h3>
         <button id="sb2-export-csv" type="button" class="btn-sm" style="margin-bottom:.5rem">Export CSV</button>
         <div id="sb2-deals-table" style="overflow-x:auto"></div>
+      </section>
+    </div>
+
+    <!-- === META ADS TAB === -->
+    <div id="tab-meta-ads" style="display:none">
+      <h2 style="margin-bottom:.5rem">Meta Ads Performance <span style="font-size:.7em;color:var(--muted)">Since May 1, 2025</span></h2>
+
+      <section class="kpi-row" id="meta-kpis" style="grid-template-columns:repeat(6,minmax(0,1fr));margin-bottom:1rem;gap:.5rem"></section>
+
+      <section class="panel" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:.5rem">Monthly ROAS</h3>
+        <div id="meta-monthly-table" style="overflow-x:auto"></div>
+      </section>
+
+      <section class="panel" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:.5rem">Campaign Performance</h3>
+        <div id="meta-campaigns-table" style="overflow-x:auto"></div>
+      </section>
+
+      <section class="panel" style="margin-bottom:1rem">
+        <h3 style="margin-bottom:.5rem">Meta-Attributed Closed Deals</h3>
+        <div id="meta-deals-table" style="overflow-x:auto"></div>
       </section>
     </div>
 

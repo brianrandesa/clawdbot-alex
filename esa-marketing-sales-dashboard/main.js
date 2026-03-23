@@ -59,10 +59,13 @@
       el('tab-submissions').style.display = tab === 'submissions' ? '' : 'none';
       el('tab-salesboard').style.display = tab === 'salesboard' ? '' : 'none';
       el('tab-salesboard-v2').style.display = tab === 'salesboard-v2' ? '' : 'none';
+      var metaTab = el('tab-meta-ads');
+      if (metaTab) metaTab.style.display = tab === 'meta-ads' ? '' : 'none';
       el('tab-sales').style.display = tab === 'sales' ? '' : 'none';
       if (tab === 'sales') initLogDealForm();
       if (tab === 'submissions' || tab === 'salesboard') refreshSalesTabs();
       if (tab === 'salesboard-v2') renderSalesBoardV2();
+      if (tab === 'meta-ads') renderMetaAdsTab();
       if (tab === 'snapshot' && currentData) renderSnapshot(currentData);
       try {
         if (tab === 'dashboard') {
@@ -1921,6 +1924,95 @@
       URL.revokeObjectURL(url);
     });
   })();
+
+  // ---- Meta Ads Tab ----
+  var metaAdsCache = null;
+  function renderMetaAdsTab() {
+    fetch('/api/meta-ads-report?since=2025-05-01')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        metaAdsCache = data;
+        paintMetaAds(data);
+      })
+      .catch(function (e) {
+        var kpis = el('meta-kpis');
+        if (kpis) kpis.innerHTML = '<div class="kpi"><div class="kpi-label">Error</div><div class="kpi-value">--</div><div class="kpi-sub">' + esc(e.message) + '</div></div>';
+      });
+  }
+
+  function paintMetaAds(data) {
+    if (!data) return;
+
+    function breakdownTable(headers, rows, emptyMsg) {
+      if (!rows || rows.length === 0) {
+        return '<table><thead><tr>' + headers.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr></thead><tbody><tr><td colspan="' + headers.length + '">' + (emptyMsg || 'No data') + '</td></tr></tbody></table>';
+      }
+      return '<table><thead><tr>' + headers.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr></thead><tbody>' + rows.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
+    }
+
+    // KPIs
+    el('meta-kpis').innerHTML = [
+      { label: 'Total Ad Spend', value: money(data.totalSpend), sub: 'Since ' + data.since },
+      { label: 'Total Leads', value: (data.totalLeads || 0).toLocaleString(), sub: 'Meta results' },
+      { label: 'CPL', value: money(data.cpl), sub: 'Cost per lead' },
+      { label: 'Meta Deals Closed', value: String(data.metaDealCount || 0), sub: 'FB Lead Form + VSL' },
+      { label: 'Meta Revenue (TCV)', value: money(data.metaTCV), sub: 'From Meta-sourced deals' },
+      { label: 'Meta Cash Collected', value: money(data.metaCash), sub: 'Actual cash in' },
+      { label: 'ROAS (TCV)', value: (data.overallROAS || 0) + 'x', sub: 'TCV / ad spend' },
+      { label: 'ROAS (Cash)', value: (data.cashROAS || 0) + 'x', sub: 'Cash / ad spend' },
+      { label: 'CPA', value: money(data.cpa), sub: 'Cost per acquisition' },
+      { label: 'Impressions', value: (data.totalImpressions || 0).toLocaleString(), sub: 'Total reach' },
+      { label: 'Clicks', value: (data.totalClicks || 0).toLocaleString(), sub: 'Total clicks' },
+      { label: 'CTR', value: data.totalImpressions > 0 ? pct(data.totalClicks / data.totalImpressions * 100) : '--', sub: 'Click-through rate' }
+    ].map(function (c) { return kpiHTML(c); }).join('');
+
+    // Monthly ROAS table
+    var monthly = data.monthlyROAS || [];
+    var monthRows = monthly.map(function (m) {
+      return [
+        '<strong>' + esc(m.month) + '</strong>',
+        money(m.spend),
+        String(m.leads),
+        String(m.deals),
+        money(m.tcv),
+        money(m.cash),
+        '<strong>' + m.roas + 'x</strong>',
+        m.cashRoas + 'x'
+      ];
+    });
+    var mEl = el('meta-monthly-table');
+    if (mEl) mEl.innerHTML = breakdownTable(['Month', 'Ad Spend', 'Leads', 'Deals Closed', 'TCV', 'Cash', 'ROAS (TCV)', 'ROAS (Cash)'], monthRows, 'No monthly data');
+
+    // Campaign table
+    var camps = data.campaigns || [];
+    var campRows = camps.map(function (c) {
+      return [
+        '<strong>' + esc(c.name) + '</strong>',
+        money(c.spend),
+        String(c.leads),
+        String(c.clicks),
+        money(c.cpl),
+        c.leads > 0 && data.totalLeads > 0 ? pct(c.leads / data.totalLeads * 100) : '--'
+      ];
+    });
+    var cEl = el('meta-campaigns-table');
+    if (cEl) cEl.innerHTML = breakdownTable(['Campaign', 'Spend', 'Leads', 'Clicks', 'CPL', '% of Leads'], campRows, 'No campaign data');
+
+    // Deals table
+    var deals = data.metaDeals || [];
+    var dealRows = deals.map(function (d) {
+      return [
+        esc(d.closeDate),
+        '<strong>' + esc(d.name) + '</strong>',
+        esc(d.source),
+        money(d.tcv),
+        money(d.cash),
+        d.isRefunded ? '<span style="color:var(--red)">Refunded</span>' : '<span style="color:var(--green)">Active</span>'
+      ];
+    });
+    var dEl = el('meta-deals-table');
+    if (dEl) dEl.innerHTML = breakdownTable(['Close Date', 'Client', 'Source', 'TCV', 'Cash', 'Status'], dealRows, 'No Meta-attributed deals');
+  }
 
   load();
 })();

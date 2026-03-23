@@ -35,6 +35,9 @@
     },
     "api/sales-stats-v2.js": {
       "maxDuration": 60
+    },
+    "api/meta-ads-report.js": {
+      "maxDuration": 60
     }
   }
 }
