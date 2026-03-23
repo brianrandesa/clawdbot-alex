@@ -290,7 +290,7 @@
 
   // ---- SS Lead Form · Sam Sauter (top row) ----
   function renderLeadFormKPIs(data) {
-    console.log('[ESA] renderLeadFormKPIs called, kpi-lead-forms exists:', !!el('kpi-lead-forms'));
+    try {
     var lf = data.leadFormMarketing || {};
     var total = lf.total || 0;
     var booked = lf.booked || 0;
@@ -299,58 +299,54 @@
     var selfN = lf.selfBookTagged || 0;
     var metaR = lf.metaSSLeadFormResults || 0;
     var metaSp = lf.metaSSLeadFormSpend || 0;
-    var metaCpr = metaR > 0 && metaSp > 0 ? money(metaSp / metaR) + ' / result' : '—';
     var useMeta = metaR > 0;
     var primaryCount = useMeta ? metaR : total;
     var unbookedVsMeta = useMeta ? Math.max(0, metaR - booked) : unbookedGhl;
     var bookPctOfSs = useMeta && metaR ? (booked / metaR) * 100 : (total ? lf.bookRatePct || 0 : 0);
     var deals = data.closedWonDeals || [];
-    var fb = sumDealsBySource(deals, 'src-fb-lead-form-ss');
-    var fbSrc = getBySource(data, 'src-fb-lead-form-ss');
-    var showed = fbSrc.showed || 0;
-    var cards = [
-      { label: 'Leads', value: primaryCount.toLocaleString(), sub: useMeta ? money(metaSp) + ' spend · ' + metaCpr : total + ' GHL SS tags', marketing: true },
-      { label: 'Booked', value: booked.toLocaleString(), sub: pct(bookPctOfSs) + ' book rate' + (selfN ? ' · ' + selfN + ' self-book' : ''), marketing: true },
-      { label: 'Diamond Sets', value: diamond.toLocaleString(), sub: booked ? pct(lf.diamondShareOfBookedPct || 0) + ' of booked' : '—', marketing: true },
-      { label: 'Showed', value: showed.toLocaleString(), sub: booked > 0 ? pct(Math.round(showed / booked * 10000) / 100) + ' show rate' : '—', marketing: true },
-      { label: 'Unbooked', value: unbookedVsMeta.toLocaleString(), sub: 'Leads not yet booked', marketing: true },
-      { label: 'Closed Deals', value: fb.closed.toLocaleString(), sub: showed > 0 ? pct(Math.round(fb.closed / showed * 10000) / 100) + ' close rate' : '—', marketing: true },
-      { label: 'TCV', value: money(fb.tcv), sub: fb.closed + ' deal' + (fb.closed !== 1 ? 's' : '') + ' closed', marketing: true },
-      { label: 'Cash Collected', value: money(fb.cash), sub: fb.tcv > 0 ? pct(Math.round(fb.cash / fb.tcv * 10000) / 100) + ' collected' : '—', marketing: true }
-    ];
-    var wrap = el('kpi-lead-forms');
-    console.log('[ESA] SS wrap:', wrap, 'cards:', cards.length);
+    var fbClosed = 0, fbTcv = 0, fbCash = 0;
+    for (var i = 0; i < deals.length; i++) { if (deals[i].sourceTag === 'src-fb-lead-form-ss') { fbClosed++; fbTcv += Number(deals[i].amount) || 0; fbCash += Number(deals[i].cashCollected) || 0; } }
+    var bySrc = data.bySource || [];
+    var fbShowed = 0;
+    for (var j = 0; j < bySrc.length; j++) { if (bySrc[j].tag === 'src-fb-lead-form-ss') { fbShowed = bySrc[j].showed || 0; break; } }
+    var wrap = document.getElementById('kpi-lead-forms');
     if (!wrap) return;
-    wrap.innerHTML = cards.map(kpiHTML).join('');
-    console.log('[ESA] SS innerHTML set, children:', wrap.children.length);
+    wrap.innerHTML =
+      kpiHTML({ label: 'Leads', value: primaryCount.toLocaleString(), sub: useMeta ? money(metaSp) + ' spend' : total + ' GHL tags', marketing: true }) +
+      kpiHTML({ label: 'Booked', value: booked.toLocaleString(), sub: pct(bookPctOfSs) + ' book rate', marketing: true }) +
+      kpiHTML({ label: 'Diamond Sets', value: diamond.toLocaleString(), sub: booked ? pct(lf.diamondShareOfBookedPct || 0) + ' of booked' : '--', marketing: true }) +
+      kpiHTML({ label: 'Showed', value: fbShowed.toLocaleString(), sub: booked > 0 ? pct(Math.round(fbShowed / booked * 10000) / 100) + ' show rate' : '--', marketing: true }) +
+      kpiHTML({ label: 'Unbooked', value: unbookedVsMeta.toLocaleString(), sub: 'Leads not yet booked', marketing: true }) +
+      kpiHTML({ label: 'Closed Deals', value: fbClosed.toLocaleString(), sub: fbShowed > 0 ? pct(Math.round(fbClosed / fbShowed * 10000) / 100) + ' close rate' : '--', marketing: true }) +
+      kpiHTML({ label: 'TCV', value: money(fbTcv), sub: fbClosed + ' deal' + (fbClosed !== 1 ? 's' : '') + ' closed', marketing: true }) +
+      kpiHTML({ label: 'Cash Collected', value: money(fbCash), sub: fbTcv > 0 ? pct(Math.round(fbCash / fbTcv * 10000) / 100) + ' collected' : '--', marketing: true });
+    } catch (e) { console.error('[ESA] renderLeadFormKPIs error:', e); }
   }
 
   // ---- VSL Funnel (row below SS) ----
   function renderVslKPIs(data) {
-    console.log('[ESA] renderVslKPIs called');
+    try {
     var deals = data.closedWonDeals || [];
-    var vsl = sumDealsBySource(deals, 'src-vsl');
-    var vslSrc = getBySource(data, 'src-vsl');
-    var leads = vslSrc.leads || 0;
-    var booked = vslSrc.booked || 0;
-    var showed = vslSrc.showed || 0;
-    var offered = vslSrc.offered || 0;
+    var vClosed = 0, vTcv = 0, vCash = 0;
+    for (var i = 0; i < deals.length; i++) { if (deals[i].sourceTag === 'src-vsl') { vClosed++; vTcv += Number(deals[i].amount) || 0; vCash += Number(deals[i].cashCollected) || 0; } }
+    var bySrc = data.bySource || [];
+    var leads = 0, booked = 0, showed = 0, offered = 0;
+    for (var j = 0; j < bySrc.length; j++) { if (bySrc[j].tag === 'src-vsl') { leads = bySrc[j].leads || 0; booked = bySrc[j].booked || 0; showed = bySrc[j].showed || 0; offered = bySrc[j].offered || 0; break; } }
     var bookRate = leads > 0 ? Math.round(booked / leads * 10000) / 100 : 0;
     var showRate = booked > 0 ? Math.round(showed / booked * 10000) / 100 : 0;
-    var closeRate = showed > 0 ? Math.round(vsl.closed / showed * 10000) / 100 : 0;
-    var cards = [
-      { label: 'Leads', value: leads.toLocaleString(), sub: 'VSL / quiz opt-ins', marketing: true },
-      { label: 'Booked', value: booked.toLocaleString(), sub: pct(bookRate) + ' book rate', marketing: true },
-      { label: 'Showed', value: showed.toLocaleString(), sub: pct(showRate) + ' show rate', marketing: true },
-      { label: 'Offers Made', value: offered.toLocaleString(), sub: showed > 0 ? pct(Math.round(offered / showed * 10000) / 100) + ' offer rate' : '—', marketing: true },
-      { label: 'Unbooked', value: Math.max(0, leads - booked).toLocaleString(), sub: 'Leads not yet booked', marketing: true },
-      { label: 'Closed Deals', value: vsl.closed.toLocaleString(), sub: showed > 0 ? pct(closeRate) + ' close rate' : '—', marketing: true },
-      { label: 'TCV', value: money(vsl.tcv), sub: vsl.closed + ' deal' + (vsl.closed !== 1 ? 's' : '') + ' closed', marketing: true },
-      { label: 'Cash Collected', value: money(vsl.cash), sub: vsl.tcv > 0 ? pct(Math.round(vsl.cash / vsl.tcv * 10000) / 100) + ' collected' : '—', marketing: true }
-    ];
-    var wrap = el('kpi-vsl-funnel');
+    var closeRate = showed > 0 ? Math.round(vClosed / showed * 10000) / 100 : 0;
+    var wrap = document.getElementById('kpi-vsl-funnel');
     if (!wrap) return;
-    wrap.innerHTML = cards.map(kpiHTML).join('');
+    wrap.innerHTML =
+      kpiHTML({ label: 'Leads', value: leads.toLocaleString(), sub: 'VSL / quiz opt-ins', marketing: true }) +
+      kpiHTML({ label: 'Booked', value: booked.toLocaleString(), sub: pct(bookRate) + ' book rate', marketing: true }) +
+      kpiHTML({ label: 'Showed', value: showed.toLocaleString(), sub: pct(showRate) + ' show rate', marketing: true }) +
+      kpiHTML({ label: 'Offers Made', value: offered.toLocaleString(), sub: showed > 0 ? pct(Math.round(offered / showed * 10000) / 100) + ' offer rate' : '--', marketing: true }) +
+      kpiHTML({ label: 'Unbooked', value: Math.max(0, leads - booked).toLocaleString(), sub: 'Leads not yet booked', marketing: true }) +
+      kpiHTML({ label: 'Closed Deals', value: vClosed.toLocaleString(), sub: showed > 0 ? pct(closeRate) + ' close rate' : '--', marketing: true }) +
+      kpiHTML({ label: 'TCV', value: money(vTcv), sub: vClosed + ' deal' + (vClosed !== 1 ? 's' : '') + ' closed', marketing: true }) +
+      kpiHTML({ label: 'Cash Collected', value: money(vCash), sub: vTcv > 0 ? pct(Math.round(vCash / vTcv * 10000) / 100) + ' collected' : '--', marketing: true });
+    } catch (e) { console.error('[ESA] renderVslKPIs error:', e); }
   }
 
   // ---- KPIs ----
