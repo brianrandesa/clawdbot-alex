@@ -8,6 +8,8 @@ Your **spreadsheet workflow** on the site: use the **Sales** tab to enter deals;
 
 **System spec (tags, stages, SOP):** [ESA_SALES_SYSTEM.md](./ESA_SALES_SYSTEM.md) — Meta lead form workflow tag is aligned with marketer **Sam Sauter** (exact GHL string in the spec).
 
+**Lead source tags (`src-*`):** Use **`src-vsl`** for VSL funnel wins, **`src-returning`** for returning / winback clients (legacy phrases like `returning client`, `reactivation`, `winback` also map in `api/data.js`). Keeps TCV and “cash by source” rows aligned with how deals actually came in.
+
 **Product scope:** [VERSION_ROADMAP.md](./VERSION_ROADMAP.md) — what counts as **1.0** (shipped) vs **2.0** (optional follow-ons).
 
 **Env (Vercel):** `GHL_API_KEY`, `META_ACCESS_TOKEN`, `META_AD_ACCOUNT_ID`

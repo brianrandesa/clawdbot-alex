@@ -33,6 +33,7 @@ const STAGE_TO_STATUS_TAG = {
 const SOURCES = [
   { tag: 'src-fb-lead-form-ss', label: 'FB Lead Form' },
   { tag: 'src-vsl', label: 'VSL Funnel' },
+  { tag: 'src-returning', label: 'Returning client' },
   { tag: 'src-outbound', label: 'Outbound Dialer' },
   { tag: 'src-coldcall', label: 'Cold Call Events' },
   { tag: 'src-organic', label: 'Organic' },

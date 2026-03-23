@@ -17,6 +17,7 @@ const CANONICAL_META_LEAD_FORM_GHL_TAG = 'new lead - meta - lead form (sam)';
 const SOURCES = [
   { tag: 'src-fb-lead-form-ss', label: 'FB Lead Form' },
   { tag: 'src-vsl',             label: 'VSL Funnel' },
+  { tag: 'src-returning',       label: 'Returning client' },
   { tag: 'src-outbound',        label: 'Outbound Dialer' },
   { tag: 'src-coldcall',        label: 'Cold Call Events' },
   { tag: 'src-organic',         label: 'Organic' },
@@ -43,7 +44,13 @@ const LEGACY_SOURCE_MAP = {
   'facebook messenger': 'src-organic',
   'fb messenger': 'src-organic',
   'source:direct': 'src-brian-direct',
-  'source:esa': 'src-brian-direct'
+  'source:esa': 'src-brian-direct',
+  'returning client': 'src-returning',
+  'reactivation': 'src-returning',
+  'winback': 'src-returning',
+  'past client': 'src-returning',
+  'old client': 'src-returning',
+  'client comeback': 'src-returning'
 };
 
 const LEGACY_STATUS_MAP = {
