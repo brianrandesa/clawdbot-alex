@@ -2,8 +2,10 @@ const https = require('https');
 const { fetchSheetsRevenueInRange, SPREADSHEET_ID_DEFAULT } = require('./sheetsRevenue');
 
 const GHL_KEY = (process.env.GHL_API_KEY || '').trim();
+const GHL_KEY_V2 = (process.env.GHL_API_KEY_V2 || '').trim();
 const GHL_LOCATION_ID = (process.env.GHL_LOCATION_ID || '').trim();
 const GHL_BASE = 'https://rest.gohighlevel.com/v1';
+const GHL_V2_BASE = 'https://services.leadconnectorhq.com';
 const PIPELINE_ID = 'LlthtHqW8V4PA9AWN8g7';
 
 const META_TOKEN = (process.env.META_ACCESS_TOKEN || '').trim();
@@ -224,6 +226,7 @@ function findCashInCustomFieldArray(list, wantId) {
     const raw =
       cf.value ??
       cf.fieldValue ??
+      cf.fieldValueString ??
       cf.answer ??
       cf.text ??
       cf.content ??
@@ -257,6 +260,7 @@ function deepScanCashCollected(o) {
       const valRaw =
         node.value ??
         node.fieldValue ??
+        node.fieldValueString ??
         node.answer ??
         node.text ??
         node.content ??
@@ -377,6 +381,7 @@ function ghlTagStrings(contact) {
 }
 
 function ghlGet(url) { return httpsGet(url, { 'Authorization': 'Bearer ' + GHL_KEY }); }
+function ghlV2Get(url) { return httpsGet(url, { 'Authorization': 'Bearer ' + GHL_KEY_V2, 'Version': '2021-07-28', 'Accept': 'application/json' }); }
 function metaGet(url) { return httpsGet(url); }
 
 function getDateRange(range, startStr, endStr) {
@@ -442,7 +447,41 @@ async function getAllContacts() {
   return { contacts, apiError };
 }
 
+async function getAllPipelineOpportunitiesV2() {
+  if (!GHL_KEY_V2 || !GHL_LOCATION_ID) return null;
+  const all = [];
+  const seenIds = new Set();
+  let startAfterId = '';
+  let page = 0;
+  while (page < 80) {
+    const qs = `?location_id=${encodeURIComponent(GHL_LOCATION_ID)}&pipeline_id=${encodeURIComponent(PIPELINE_ID)}&limit=100` +
+      (startAfterId ? `&startAfterId=${encodeURIComponent(startAfterId)}` : '');
+    const data = await ghlV2Get(GHL_V2_BASE + '/opportunities/search' + qs);
+    if (data._httpStatus !== 200 || !data.opportunities) return null; // fall back to v1
+    let added = 0;
+    for (const opp of data.opportunities) {
+      if (opp.id && !seenIds.has(opp.id)) {
+        seenIds.add(opp.id);
+        all.push(opp);
+        added++;
+      }
+    }
+    // v2 search: use startAfterId from meta for pagination; stop on empty page or no new items.
+    const nextId = data.meta?.startAfterId || '';
+    if (!nextId || added === 0 || data.opportunities.length < 100) break;
+    startAfterId = nextId;
+    page++;
+    await new Promise(r => setTimeout(r, 150));
+  }
+  return all;
+}
+
 async function getAllPipelineOpportunities() {
+  // Prefer v2 — it returns customFields inline on every opportunity (no per-opp detail fetch needed).
+  const v2 = await getAllPipelineOpportunitiesV2();
+  if (v2 && v2.length > 0) return v2;
+
+  // Fall back to v1 (no custom fields on opps).
   const all = [];
   let url = GHL_BASE + '/pipelines/' + PIPELINE_ID + '/opportunities?limit=100' + ghlLocationQuery();
   let page = 0;
@@ -466,7 +505,17 @@ function opportunityDetailUrlPlain(oppId) {
   return `${GHL_BASE}/opportunities/${encodeURIComponent(oppId)}`;
 }
 
+function opportunityDetailUrlV2(oppId) {
+  return `${GHL_V2_BASE}/opportunities/${encodeURIComponent(oppId)}`;
+}
+
 async function ghlGetOpportunityDetailBestEffort(oppId) {
+  // Prefer v2 API — it returns opportunity custom fields (v1 does not).
+  if (GHL_KEY_V2) {
+    const v2 = await ghlV2Get(opportunityDetailUrlV2(oppId));
+    if (v2._httpStatus === 200 && !v2._nonJsonBody) return v2;
+  }
+  // Fall back to v1.
   let raw = await ghlGet(opportunityDetailUrl(oppId));
   if (raw._httpStatus === 200 && !raw._nonJsonBody) return raw;
   if (GHL_LOCATION_ID) {
