@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  /** Bump when KPI layout changes; footer shows this so you know the browser loaded THIS file (not a cached old main.js). */
+  var ESA_UI_BUILD = 'kpi18-migrate-20260323b';
+
   var BENCHMARKS = {
     conservative: { adSpend:10000, leads:200, bookedCalls:67, leadBookPct:33.33, liveCalls:33, cpl:50, costPerBooking:150, costPerLive:300, showRate:40, offerRate:50, closeRate:15, cpa:2000, aov:9800, cashCollectedPct:40, avgUpfrontCash:3920, upfrontRoas:1.96 },
     baseCase:     { adSpend:10000, leads:250, bookedCalls:100, leadBookPct:40, liveCalls:40, cpl:40, costPerBooking:100, costPerLive:250, showRate:50, offerRate:70, closeRate:20, cpa:1250, aov:9800, cashCollectedPct:50, avgUpfrontCash:4900, upfrontRoas:3.92 },
@@ -13,6 +16,59 @@
   function money(n) { return '$' + Number(n).toLocaleString('en-US', { maximumFractionDigits: 0 }); }
   function pct(n) { return round(n, 1) + '%'; }
   function el(id) { return document.getElementById(id); }
+
+  function esc(s) {
+    return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /**
+   * Legacy pages only had #kpi-top + #kpi-bottom (13 KPI cells). New UI uses #kpi-main-18 (18 cells).
+   * If main.js updated but HTML cached (or vice versa), upgrade the DOM once so all 18 cards render.
+   */
+  function ensureKpiMain18Host() {
+    var m = el('kpi-main-18');
+    if (m) return m;
+    var tab = el('tab-dashboard');
+    if (!tab) return null;
+    var top = el('kpi-top');
+    var bottom = el('kpi-bottom');
+    m = document.createElement('section');
+    m.id = 'kpi-main-18';
+    m.className = 'kpi-row kpi-grid-18';
+    m.setAttribute('data-kpi-slots', '18');
+    if (top && top.parentNode === tab) {
+      tab.insertBefore(m, top);
+    } else if (bottom && bottom.parentNode === tab) {
+      tab.insertBefore(m, bottom);
+    } else {
+      var mk = tab.querySelector('.marketing-kpi-block');
+      if (mk && mk.nextSibling) tab.insertBefore(m, mk.nextSibling);
+      else tab.appendChild(m);
+    }
+    if (top && top.parentNode) top.parentNode.removeChild(top);
+    if (bottom && bottom.parentNode) bottom.parentNode.removeChild(bottom);
+    return m;
+  }
+
+  (function initSiteUpdateBanner() {
+    var b = el('site-update-banner');
+    var btn = el('site-update-banner-dismiss');
+    if (!b) return;
+    try {
+      if (localStorage.getItem('esa_site_update_banner_20260323') === 'dismissed') {
+        b.style.display = 'none';
+        return;
+      }
+    } catch (e) { /* private mode */ }
+    if (btn) {
+      btn.addEventListener('click', function () {
+        try {
+          localStorage.setItem('esa_site_update_banner_20260323', 'dismissed');
+        } catch (e2) { /* ignore */ }
+        b.style.display = 'none';
+      });
+    }
+  })();
 
   // ---- TABS ----
   document.querySelectorAll('.tab').forEach(function (btn) {
@@ -280,17 +336,75 @@
       { label: 'No Show', value: sc.noShow || 0, sub: 'Calendar no-show / cancelled', delta: null },
       { label: 'Ad Spend', value: data.adSpend > 0 ? money(data.adSpend) : '--', sub: (data.adSource || 'No data') + (data.metaImpressions ? ' | ' + data.metaImpressions.toLocaleString() + ' impr' : ''), delta: null },
       { label: 'CPL', value: data.cpl > 0 ? money(data.cpl) : '--', sub: 'Cost per lead', delta: data.cpl > 0 ? benchmarkDelta('cpl', data.cpl, true) : null },
-      { label: 'Cost / Booking', value: data.costPerBooking > 0 ? money(data.costPerBooking) : '--', sub: 'Cost per booked call', delta: data.costPerBooking > 0 ? benchmarkDelta('costPerBooking', data.costPerBooking, true) : null },
-      { label: 'Upfront ROAS', value: data.upfrontRoas > 0 ? data.upfrontRoas + 'x' : '--', sub: 'Revenue / spend', delta: data.upfrontRoas > 0 ? benchmarkDelta('upfrontRoas', data.upfrontRoas) : null }
+      { label: 'Cost / Booking', value: data.costPerBooking > 0 ? money(data.costPerBooking) : '--', sub: 'Cost per booked call', delta: data.costPerBooking > 0 ? benchmarkDelta('costPerBooking', data.costPerBooking, true) : null }
     ];
-    el('kpi-top').innerHTML = topCards.map(kpiHTML).join('');
-    el('kpi-bottom').innerHTML = bottomCards.map(kpiHTML).join('');
+    var strip = data.marketingKpiStrip || {};
+    var tcv = strip.totalContractValue != null ? strip.totalContractValue : data.revenue || 0;
+    var cash = strip.totalCashCollected != null ? strip.totalCashCollected : 0;
+    var tcvSub =
+      strip.tcvSource === 'google_sheet'
+        ? 'Google Sheet total (replace mode)'
+        : 'GHL Closed Won · contract value sum';
+    var mode = strip.cashMode || 'none';
+    var cashSub =
+      mode === 'custom_field'
+        ? 'Opp field (GHL_OPP_CASH_CUSTOM_FIELD_ID)'
+        : mode === 'matches_contract'
+          ? 'Cash = contract (GHL_CASH_MATCHES_CONTRACT=1)'
+          : 'Configure cash field or GHL_CASH_MATCHES_CONTRACT=1';
+    var topSrc = strip.topCashBySource || [];
+    var t1 = topSrc[0] || { label: '—', cash: 0 };
+    var t2 = topSrc[1] || { label: '—', cash: 0 };
+    var rowC = [
+      {
+        label: 'Upfront ROAS',
+        value: data.upfrontRoas > 0 ? data.upfrontRoas + 'x' : '--',
+        sub: 'Revenue / spend',
+        delta: data.upfrontRoas > 0 ? benchmarkDelta('upfrontRoas', data.upfrontRoas) : null
+      },
+      { label: 'Total contract value (TCV)', value: money(tcv), sub: tcvSub, revenue: true, delta: null },
+      { label: 'Total cash collected', value: money(cash), sub: cashSub, revenue: true, delta: null },
+      { label: 'Cash · ' + t1.label, value: money(t1.cash), sub: '#1 by cash · lead source', revenue: true, delta: null },
+      { label: 'Cash · ' + t2.label, value: money(t2.cash), sub: '#2 by cash · lead source', revenue: true, delta: null },
+      {
+        label: 'AOV (avg deal)',
+        value: data.aov > 0 ? money(data.aov) : '--',
+        sub: 'Revenue ÷ Closed Won deals',
+        delta: data.aov > 0 ? benchmarkDelta('aov', data.aov) : null
+      }
+    ];
+    var all18 = topCards.concat(bottomCards).concat(rowC);
+    var main18 = ensureKpiMain18Host();
+    if (main18) {
+      main18.className = 'kpi-row kpi-grid-18';
+      main18.style.display = '';
+      main18.setAttribute('data-kpi-count', String(all18.length));
+      main18.innerHTML = all18.map(kpiHTML).join('');
+      if (all18.length !== 18) {
+        console.warn('[ESA dashboard] KPI card count is', all18.length, '(expected 18)');
+      }
+    } else {
+      console.error('[ESA dashboard] No #kpi-main-18 host; KPIs not rendered.');
+    }
   }
 
   function kpiHTML(c) {
-    var d = c.delta ? ' <span class="kpi-delta ' + c.delta.dir + '">' + c.delta.text + '</span>' : '';
+    var d = c.delta ? ' <span class="kpi-delta ' + c.delta.dir + '">' + esc(c.delta.text) + '</span>' : '';
     var mk = c.marketing ? ' kpi-marketing' : '';
-    return '<div class="kpi' + mk + '"><div class="kpi-label">' + c.label + '</div><div class="kpi-value">' + c.value + '</div><div class="kpi-sub">' + c.sub + d + '</div></div>';
+    var rev = c.revenue ? ' kpi-revenue' : '';
+    return (
+      '<div class="kpi' +
+      mk +
+      rev +
+      '"><div class="kpi-label">' +
+      esc(c.label) +
+      '</div><div class="kpi-value">' +
+      esc(String(c.value)) +
+      '</div><div class="kpi-sub">' +
+      esc(c.sub) +
+      d +
+      '</div></div>'
+    );
   }
 
   function benchmarkDelta(key, actual, lowerIsBetter) {
@@ -363,7 +477,7 @@
     var rows = data.closedWonDeals || [];
     if (!rows.length) {
       tbody.innerHTML =
-        '<tr><td colspan="8">No <strong>Closed Won</strong> opportunities in this range in GHL. Try <strong>All Time</strong> or widen custom dates. Opps must have <code>monetaryValue</code> or <code>GHL_DEAL_VALUE_FALLBACK</code> set on Vercel.</td></tr>';
+        '<tr><td colspan="9">No <strong>Closed Won</strong> opportunities in this range in GHL. Try <strong>All Time</strong> or widen custom dates. Opps must have <code>monetaryValue</code> or <code>GHL_DEAL_VALUE_FALLBACK</code> set on Vercel.</td></tr>';
       return;
     }
     tbody.innerHTML = rows
@@ -375,6 +489,7 @@
             : '');
         var amt = money(r.amount);
         if (r.usedFallback) amt += ' *';
+        var cashCell = money(r.cashCollected != null ? r.cashCollected : 0);
         var big = r.amount >= 4500 ? ' closed-won-big' : '';
         var opp = (r.opportunityName || '').trim() || r.opportunityId || '—';
         return (
@@ -382,6 +497,8 @@
           big.trim() +
           '"><td>' +
           amt +
+          '</td><td>' +
+          cashCell +
           '</td><td>' +
           esc(r.contactName) +
           '</td><td>' +
@@ -566,8 +683,6 @@
       '</tr>';
     }).join('');
   }
-
-  function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
   var submissionsCache = { rows: [], kvEnabled: false, redisError: null, fetchError: null };
   var salesStatsCache = null;
@@ -1320,9 +1435,34 @@
 
   // ---- MAIN ----
   function render(data) {
+    var ghlBan = el('dashboard-ghl-banner');
+    if (ghlBan) {
+      if (data.ghlDataWarning) {
+        ghlBan.style.display = '';
+        ghlBan.className = 'kv-banner kv-banner-warn';
+        ghlBan.innerHTML =
+          '<strong>GHL data:</strong> ' +
+          esc(data.ghlDataWarning) +
+          (data.ghlContactsApiError && data.ghlDataWarning !== data.ghlContactsApiError
+            ? ' <span style="color:var(--muted);font-size:.86rem">(' + esc(data.ghlContactsApiError) + ')</span>'
+            : '');
+      } else {
+        ghlBan.style.display = 'none';
+        ghlBan.textContent = '';
+        ghlBan.className = 'kv-banner';
+      }
+    }
     renderLeadFormKPIs(data);
     currentData = data;
-    renderKPIs(data); renderBenchmarkTable(data); renderFunnel(data);
+    renderKPIs(data);
+    var fp = el('ui-build-fingerprint');
+    if (fp) {
+      var km = el('kpi-main-18');
+      var n = km ? km.querySelectorAll('.kpi').length : 0;
+      fp.textContent = 'Build ' + ESA_UI_BUILD + ' · ' + n + ' main KPI cards (expect 18)';
+      fp.className = 'ui-build-fingerprint' + (n === 18 ? '' : ' ui-build-fingerprint-warn');
+    }
+    renderBenchmarkTable(data); renderFunnel(data);
     renderSourceTable(data);
     renderClosedWonGhlTable(data);
     renderCampaigns(data); renderSheetAttribution(data); renderTeamTable(data);
@@ -1344,6 +1484,21 @@
   });
 
   function fetchData() {
+    var preview = /[?&]preview=1(?:&|$)/.test(location.search);
+    if (preview) {
+      el('status-label').textContent = 'Preview (mock JSON)';
+      document.querySelector('.status-dot').classList.add('live');
+      return fetch('preview-mock.json')
+        .then(function (res) {
+          if (!res.ok) throw new Error('preview-mock.json ' + res.status);
+          return res.json();
+        })
+        .catch(function (err) {
+          el('status-label').textContent = 'Preview error: ' + err.message;
+          return null;
+        });
+    }
+
     var range = el('range-select').value;
     var url = '/api/data?range=' + range;
 

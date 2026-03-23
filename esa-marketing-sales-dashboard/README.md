@@ -12,6 +12,8 @@ Your **spreadsheet workflow** on the site: use the **Sales** tab to enter deals;
 
 **Env (Vercel):** `GHL_API_KEY`, `META_ACCESS_TOKEN`, `META_AD_ACCOUNT_ID`
 
+**`GHL_LOCATION_ID` (dashboard + CRM sync):** If the Marketing dashboard shows **Meta spend but 0 GHL leads**, your token may be **agency-level** or not scoped to the sub-account where contacts live. Set **`GHL_LOCATION_ID`** to the **Location ID** from GHL **Settings → Business Profile** (same value as for deal upload). The `/api/data` route passes it on **contacts**, **users**, and **pipeline opportunities** requests. Redeploy after changing env.
+
 **GHL opportunity create errors:** If **Create in GHL** fails with 400/422, set **`GHL_LOCATION_ID`** on Vercel to your sub-account Location ID (GHL Settings) and redeploy. Until fixed, use **Dashboard only** on the Sales tab (no GHL call).
 
 **Sales tab / deal form (optional):** `DEAL_UPLOAD_SECRET` — shared team password for the **Sales** tab. The form includes the same columns as the sales workbook (Fathom URLs, dates, client/event name, product, paid/owed, setter & closer, Meta attribution fields, etc.). **Dashboard only** (checkbox): appends one row to **Submissions** / **Sales board** in Redis with **no** GHL calls (needs Redis + secret only). **Create in GHL**: writes to GHL (notes + tags + opportunity) and also appends to Redis when configured. `GHL_API_KEY` must allow **contacts** and **opportunities** write for the GHL path. Without `DEAL_UPLOAD_SECRET`, the API returns 503.
@@ -34,6 +36,10 @@ Use your **[sales sheet](https://docs.google.com/spreadsheets/d/1PpmjfmolXIkrSht
 **Sheet attribution on the Dashboard:** With the same fetch, the API looks for optional columns (header names, case-insensitive): **Lead Source** (or **Source** / **UTM source**), **Dashboard source** / **Source tag**, **Campaign**, **Adset** / **Ad set**, **Ad**, **Product**. The **Dashboard** tab shows a **Google Sheet · cash by attribution** section: revenue and row counts per value, same date window as the sheet revenue logic. This runs automatically when `SHEETS_REVENUE_MODE=replace`. To read the sheet **only** for attribution while keeping **GHL** as the revenue source, set **`GOOGLE_SHEETS_ATTRIBUTION=1`** (still requires `GOOGLE_SERVICE_ACCOUNT_JSON` and a shared spreadsheet).
 
 **Optional:** `GHL_DEAL_VALUE_FALLBACK` – if an opportunity has **Closed Won** but `monetaryValue` is empty, count it as this dollar amount for revenue/ROAS (omit or set `0` to only count deals with real values entered in GHL).
+
+**Cash collected (dashboard strip + benchmark):** By default cash totals are **$0** until you configure one of:
+- `GHL_OPP_CASH_CUSTOM_FIELD_ID` – GHL **custom field id** on the **opportunity** that stores collected cash (numeric). The API reads it per Closed Won opp in the date window.
+- `GHL_CASH_MATCHES_CONTRACT=1` – treat cash per deal as the same as contract value (`monetaryValue` / fallback).
 
 After changing GHL pipeline stage IDs, update `PIPELINE_STAGES` and `CLOSED_WON_STAGE_ID` in `api/data.js`.
 

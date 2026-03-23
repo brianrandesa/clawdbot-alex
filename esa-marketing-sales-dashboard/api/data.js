@@ -2,6 +2,7 @@ const https = require('https');
 const { fetchSheetsRevenueInRange, SPREADSHEET_ID_DEFAULT } = require('./sheetsRevenue');
 
 const GHL_KEY = (process.env.GHL_API_KEY || '').trim();
+const GHL_LOCATION_ID = (process.env.GHL_LOCATION_ID || '').trim();
 const GHL_BASE = 'https://rest.gohighlevel.com/v1';
 const PIPELINE_ID = 'LlthtHqW8V4PA9AWN8g7';
 
@@ -83,6 +84,41 @@ const PIPELINE_STAGES = [
 
 const CLOSED_WON_STAGE_ID = '47a0b7ad-a4e5-42cf-9bc8-44c6981a6254';
 
+/** Optional GHL opportunity custom field ID (Settings → Custom fields → copy ID) for $ cash collected on the deal. */
+const GHL_OPP_CASH_CUSTOM_FIELD_ID = (process.env.GHL_OPP_CASH_CUSTOM_FIELD_ID || '').trim();
+
+/**
+ * Read numeric cash collected from opportunity custom fields (GHL v1 shape varies).
+ */
+function getCashCollectedFromOpp(o) {
+  if (!GHL_OPP_CASH_CUSTOM_FIELD_ID) return 0;
+  const want = GHL_OPP_CASH_CUSTOM_FIELD_ID;
+  const lists = [o.customField, o.customFields].filter(Boolean);
+  for (const list of lists) {
+    if (!Array.isArray(list)) continue;
+    for (const cf of list) {
+      const id =
+        cf.id != null
+          ? String(cf.id)
+          : cf.customFieldId != null
+            ? String(cf.customFieldId)
+            : '';
+      if (id !== want) continue;
+      const raw = cf.value ?? cf.fieldValue ?? cf.answer ?? '';
+      const n = parseFloat(String(raw).replace(/[$,]/g, ''));
+      return Number.isFinite(n) && n >= 0 ? n : 0;
+    }
+  }
+  return 0;
+}
+
+function cashCollectionMode() {
+  if (GHL_OPP_CASH_CUSTOM_FIELD_ID) return 'custom_field';
+  const v = String(process.env.GHL_CASH_MATCHES_CONTRACT || '').toLowerCase();
+  if (v === '1' || v === 'true' || v === 'yes') return 'matches_contract';
+  return 'none';
+}
+
 /** Contacts with these tags + status-booked count as "Booked by Diamond" for SS lead form QA. */
 const TAG_LEAD_FORM_DIAMOND_BOOKED = new Set([
   'appt booked by diamond',
@@ -97,9 +133,38 @@ function httpsGet(url, headers) {
     https.get(opts, (res) => {
       let body = '';
       res.on('data', (chunk) => body += chunk);
-      res.on('end', () => { try { resolve(JSON.parse(body)); } catch (e) { resolve({}); } });
-    }).on('error', () => resolve({}));
+      res.on('end', () => {
+        try {
+          const j = JSON.parse(body);
+          j._httpStatus = res.statusCode;
+          resolve(j);
+        } catch (e) {
+          resolve({
+            _httpStatus: res.statusCode,
+            _nonJsonBody: String(body).slice(0, 240)
+          });
+        }
+      });
+    }).on('error', () => resolve({ _httpStatus: 0 }));
   });
+}
+
+/**
+ * GHL sometimes returns tags as string[]; newer shapes use objects. Normalize so isESAContact keeps working.
+ */
+function ghlTagStrings(contact) {
+  const raw = contact && contact.tags;
+  if (!raw || !Array.isArray(raw)) return [];
+  return raw
+    .map((t) => {
+      if (typeof t === 'string') return t.toLowerCase().trim();
+      if (t && typeof t === 'object') {
+        const s = t.tag || t.name || t.label || t.value || '';
+        return String(s).toLowerCase().trim();
+      }
+      return '';
+    })
+    .filter(Boolean);
 }
 
 function ghlGet(url) { return httpsGet(url, { 'Authorization': 'Bearer ' + GHL_KEY }); }
@@ -127,8 +192,15 @@ function getDateRange(range, startStr, endStr) {
   return { start, end, metaPreset, metaCustom: null, label: range || '30d' };
 }
 
+function ghlLocationQuery() {
+  return GHL_LOCATION_ID ? '&locationId=' + encodeURIComponent(GHL_LOCATION_ID) : '';
+}
+
 async function getUsers() {
-  const data = await ghlGet(GHL_BASE + '/users/');
+  const path = GHL_LOCATION_ID
+    ? '/users/?locationId=' + encodeURIComponent(GHL_LOCATION_ID)
+    : '/users/';
+  const data = await ghlGet(GHL_BASE + path);
   const map = {};
   (data.users || []).forEach(u => { map[u.id] = u.name || (u.firstName + ' ' + u.lastName); });
   map['t5zOyXE5NPIvYXFqzuRb'] = 'Brian Rand';
@@ -137,22 +209,33 @@ async function getUsers() {
 
 async function getAllContacts() {
   const contacts = [];
-  let url = GHL_BASE + '/contacts/?limit=100';
+  let apiError = null;
+  let url = GHL_BASE + '/contacts/?limit=100' + ghlLocationQuery();
   let page = 0;
   while (url && page < 50) {
     const data = await ghlGet(url);
+    if (page === 0) {
+      const st = data._httpStatus || 0;
+      if (st >= 400) {
+        apiError = data.msg || data.message || data.error || ('GHL HTTP ' + st);
+      } else if (data._nonJsonBody) {
+        apiError = 'GHL returned non-JSON (check API key / network)';
+      } else if (!Array.isArray(data.contacts) && (data.msg || data.message)) {
+        apiError = data.msg || data.message;
+      }
+    }
     contacts.push(...(data.contacts || []));
     const next = (data.meta || {}).nextPageUrl || '';
     url = next ? next.replace('http://', 'https://') : null;
     page++;
     await new Promise(r => setTimeout(r, 150));
   }
-  return contacts;
+  return { contacts, apiError };
 }
 
 async function getAllPipelineOpportunities() {
   const all = [];
-  let url = GHL_BASE + '/pipelines/' + PIPELINE_ID + '/opportunities?limit=100';
+  let url = GHL_BASE + '/pipelines/' + PIPELINE_ID + '/opportunities?limit=100' + ghlLocationQuery();
   let page = 0;
   while (url && page < 80) {
     const data = await ghlGet(url);
@@ -199,6 +282,9 @@ function computeClosedWonDealMetrics(allOpps, dateRange, allContacts, userMap) {
   const teamDealRevenue = {};
   const teamDealCount = {};
   const closedWonDeals = [];
+  const bySourceCash = {};
+  let totalCashCollected = 0;
+  const cashMode = cashCollectionMode();
 
   for (const o of allOpps) {
     if (o.pipelineStageId !== CLOSED_WON_STAGE_ID) continue;
@@ -220,12 +306,18 @@ function computeClosedWonDealMetrics(allOpps, dateRange, allContacts, userMap) {
     dealCount++;
     totalRevenue += amount;
 
+    let cashVal = 0;
+    if (cashMode === 'custom_field') cashVal = getCashCollectedFromOpp(o);
+    else if (cashMode === 'matches_contract') cashVal = amount;
+    totalCashCollected += cashVal;
+
     const cid = (o.contact && o.contact.id) ? o.contact.id : null;
     const c = cid ? contactById[cid] : null;
-    const tags = c ? (c.tags || []).map(t => t.toLowerCase().trim()) : [];
+    const tags = c ? ghlTagStrings(c) : [];
     const src = (c && isESAContact(tags)) ? (resolveSource(tags) || 'unknown') : 'unknown';
     bySourceRevenue[src] = (bySourceRevenue[src] || 0) + amount;
     bySourceDealCount[src] = (bySourceDealCount[src] || 0) + 1;
+    bySourceCash[src] = (bySourceCash[src] || 0) + cashVal;
 
     const aid = c ? (c.assignedTo || 'unassigned') : 'unassigned';
     teamDealRevenue[aid] = (teamDealRevenue[aid] || 0) + amount;
@@ -243,6 +335,7 @@ function computeClosedWonDealMetrics(allOpps, dateRange, allContacts, userMap) {
       opportunityId: o.id || '',
       opportunityName: (o.name || '').trim(),
       amount: Math.round(amount * 100) / 100,
+      cashCollected: Math.round(cashVal * 100) / 100,
       usedFallback,
       closedAt: new Date(closedAt).toISOString(),
       contactId: cid || '',
@@ -257,12 +350,32 @@ function computeClosedWonDealMetrics(allOpps, dateRange, allContacts, userMap) {
 
   closedWonDeals.sort((a, b) => b.amount - a.amount || new Date(b.closedAt) - new Date(a.closedAt));
 
+  const topCashBySource = Object.entries(bySourceCash)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([tag, amt]) => ({
+      tag,
+      label:
+        tag === 'unknown'
+          ? 'Untagged / Other'
+          : (SOURCES.find((s) => s.tag === tag) || { label: 'Untagged / Other' }).label,
+      cash: Math.round(amt * 100) / 100
+    }));
+  while (topCashBySource.length < 2) {
+    topCashBySource.push({ tag: '', label: '—', cash: 0 });
+  }
+
   return {
     totalRevenue,
+    totalContractValue: totalRevenue,
+    totalCashCollected: Math.round(totalCashCollected * 100) / 100,
+    cashCollectionMode: cashMode,
+    topCashBySource,
     dealCount,
     dealsUsingFallback,
     bySourceRevenue,
     bySourceDealCount,
+    bySourceCash,
     teamDealRevenue,
     teamDealCount,
     closedWonDeals
@@ -466,7 +579,7 @@ function buildMetrics(allContacts, stageData, userMap, metaData, dateRange, allO
   const rawRows = [];
 
   for (const c of contacts) {
-    const tags = (c.tags || []).map(t => t.toLowerCase().trim());
+    const tags = ghlTagStrings(c);
     if (!isESAContact(tags)) continue;
 
     const statuses = resolveStatuses(tags);
@@ -579,8 +692,12 @@ function buildMetrics(allContacts, stageData, userMap, metaData, dateRange, allO
     closeRate: totals.showed > 0 ? r((totals.closedWon / totals.showed) * 100) : 0,
     cpa: AD_SPEND > 0 && dealMetrics.dealCount > 0 ? r(AD_SPEND / dealMetrics.dealCount) : 0,
     aov: dealMetrics.dealCount > 0 ? r(dealMetrics.totalRevenue / dealMetrics.dealCount) : 0,
-    cashCollectedPct: 0,
-    avgUpfrontCash: 0,
+    cashCollectedPct:
+      dealMetrics.totalContractValue > 0
+        ? r((100 * dealMetrics.totalCashCollected) / dealMetrics.totalContractValue)
+        : 0,
+    avgUpfrontCash:
+      dealMetrics.dealCount > 0 ? r(dealMetrics.totalCashCollected / dealMetrics.dealCount) : 0,
     upfrontRoas: AD_SPEND > 0 && dealMetrics.totalRevenue > 0 ? r(dealMetrics.totalRevenue / AD_SPEND) : 0,
     revenue: totals.revenue,
     pipelineValue: stageData.reduce((sum, s) => sum + s.value, 0),
@@ -609,6 +726,13 @@ function buildMetrics(allContacts, stageData, userMap, metaData, dateRange, allO
       dealCount: dealMetrics.dealCount,
       dealsUsingFallback: dealMetrics.dealsUsingFallback
     },
+    marketingKpiStrip: {
+      totalContractValue: dealMetrics.totalContractValue,
+      totalCashCollected: dealMetrics.totalCashCollected,
+      cashMode: dealMetrics.cashCollectionMode,
+      topCashBySource: dealMetrics.topCashBySource,
+      tcvSource: 'ghl_closed_won'
+    },
     closedWonDeals: dealMetrics.closedWonDeals || [],
     rawData: rawRows,
     fetchedAt: new Date().toISOString()
@@ -632,16 +756,33 @@ module.exports = async (req, res) => {
   const fetchSheet = sheetsMode === 'replace' || sheetsAttrOn;
 
   try {
-    const [allContacts, userMap, metaData, allOpps, sheetSnap] = await Promise.all([
+    const [contactFetch, userMap, metaData, allOpps, sheetSnap] = await Promise.all([
       getAllContacts(),
       getUsers(),
       getMetaAdSpend(dateRange),
       getAllPipelineOpportunities(),
       fetchSheet ? fetchSheetsRevenueInRange(dateRange) : Promise.resolve(null)
     ]);
+    const allContacts = contactFetch.contacts || [];
     const stageData = buildStageDataFromOpps(allOpps);
 
     let metrics = buildMetrics(allContacts, stageData, userMap, metaData, dateRange, allOpps);
+
+    if (contactFetch.apiError) {
+      metrics.ghlContactsApiError = contactFetch.apiError;
+    }
+    if (!allContacts.length) {
+      metrics.ghlDataWarning =
+        contactFetch.apiError ||
+        (GHL_LOCATION_ID
+          ? 'GHL returned no contacts for this location. Verify GHL_API_KEY and GHL_LOCATION_ID match the same sub-account.'
+          : 'GHL returned no contacts. If your key is agency-wide or contacts are under a sub-account, set GHL_LOCATION_ID on Vercel (Location ID from GHL Settings).');
+    } else if (metrics.leads === 0 && metrics.contactsInRange >= 15) {
+      metrics.ghlDataWarning =
+        'GHL returned ' +
+        metrics.contactsInRange +
+        ' contacts added in this date range, but none matched ESA tagging rules (src-*, status-*, or Meta lead-form tags). Check tags on new leads.';
+    }
 
     const sheetId = (process.env.GOOGLE_SHEETS_SPREADSHEET_ID || SPREADSHEET_ID_DEFAULT).trim();
     metrics.sheetRevenue = {
@@ -695,6 +836,13 @@ module.exports = async (req, res) => {
         sheetsNote: sheetSnap.note,
         ghlNote: 'GHL opp revenue replaced by sheet total; by-source $ cleared below.'
       };
+      if (metrics.marketingKpiStrip) {
+        metrics.marketingKpiStrip.totalContractValue = sheetSnap.totalRevenue;
+        metrics.marketingKpiStrip.tcvSource = 'google_sheet';
+        const tcv = metrics.marketingKpiStrip.totalContractValue;
+        metrics.cashCollectedPct =
+          tcv > 0 ? r((100 * metrics.marketingKpiStrip.totalCashCollected) / tcv) : 0;
+      }
       metrics.bySource = metrics.bySource.map((s) => ({ ...s, revenue: 0 }));
       metrics.team = metrics.team.map((t) => ({ ...t, revenue: 0 }));
       metrics.sourceSystems = metrics.sourceSystems.concat(['google_sheets']);

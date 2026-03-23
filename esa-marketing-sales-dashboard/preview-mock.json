@@ -1,0 +1,126 @@
+{
+  "contractVersion": "esa.metrics.v1",
+  "sourceSystems": ["ghl", "meta"],
+  "dateRange": "30d",
+  "adSpend": 7840,
+  "adSource": "Meta API (live)",
+  "metaImpressions": 236883,
+  "metaClicks": 0,
+  "metaCampaigns": [],
+  "metaLeads": 213,
+  "leadFormMarketing": {
+    "canonicalGhlMetaLeadFormTag": "new lead - meta - lead form (sam)",
+    "total": 81,
+    "booked": 28,
+    "bookedByDiamond": 3,
+    "unbooked": 53,
+    "selfBookTagged": 0,
+    "bookRatePct": 34.6,
+    "diamondShareOfBookedPct": 10.7,
+    "metaSSLeadFormResults": 81,
+    "metaSSLeadFormSpend": 2582,
+    "metaSSLeadFormImpressions": 0,
+    "metaSSLeadFormClicks": 0
+  },
+  "leads": 237,
+  "bookedCalls": 57,
+  "leadBookPct": 24.1,
+  "liveCalls": 23,
+  "cpl": 33.08,
+  "costPerBooking": 137.54,
+  "costPerLive": 340.87,
+  "showRate": 40.4,
+  "offerRate": 95.7,
+  "closeRate": 8.7,
+  "cpa": 3920,
+  "aov": 5000,
+  "cashCollectedPct": 0,
+  "avgUpfrontCash": 0,
+  "upfrontRoas": 1.28,
+  "revenue": 10000,
+  "pipelineValue": 0,
+  "totalContacts": 1200,
+  "contactsInRange": 237,
+  "bySource": [
+    { "tag": "src-fb-lead-form-ss", "label": "FB Lead Form", "leads": 180, "booked": 45, "showed": 18, "offered": 17, "closed": 2, "revenue": 10000 }
+  ],
+  "byStage": [
+    { "stage": "New Lead", "count": 10, "value": 0 },
+    { "stage": "Booked", "count": 5, "value": 0 },
+    { "stage": "Showed", "count": 3, "value": 0 },
+    { "stage": "Offer Made / FU Needed", "count": 2, "value": 0 },
+    { "stage": "Contract Sent", "count": 1, "value": 0 },
+    { "stage": "Closed Won", "count": 2, "value": 10000 },
+    { "stage": "Closed Lost", "count": 1, "value": 0 },
+    { "stage": "No-Show", "count": 0, "value": 0 },
+    { "stage": "Nurture", "count": 0, "value": 0 }
+  ],
+  "team": [
+    { "id": "x", "name": "Rep A", "callsSet": 20, "shows": 10, "offers": 8, "closes": 2, "revenue": 10000 }
+  ],
+  "statusCounts": {
+    "newLead": 237,
+    "booked": 57,
+    "showed": 23,
+    "offered": 22,
+    "contractSent": 12,
+    "closedWon": 2,
+    "closedWonDeals": 2,
+    "closedLost": 19,
+    "noShow": 2,
+    "nurture": 0
+  },
+  "revenueModel": {
+    "source": "ghl_opportunities",
+    "pipelineId": "x",
+    "closedWonStageId": "x",
+    "attribution": "mock",
+    "dealCount": 2,
+    "dealsUsingFallback": 0
+  },
+  "marketingKpiStrip": {
+    "totalContractValue": 10000,
+    "totalCashCollected": 2500,
+    "cashMode": "custom_field",
+    "topCashBySource": [
+      { "tag": "src-fb-lead-form-ss", "label": "FB Lead Form", "cash": 2000 },
+      { "tag": "src-vsl", "label": "VSL Funnel", "cash": 500 }
+    ],
+    "tcvSource": "ghl_closed_won"
+  },
+  "closedWonDeals": [
+    {
+      "opportunityId": "1",
+      "opportunityName": "Mock deal A",
+      "amount": 5000,
+      "cashCollected": 2000,
+      "usedFallback": false,
+      "closedAt": "2026-03-20T12:00:00.000Z",
+      "contactId": "c1",
+      "contactName": "Jane Q",
+      "email": "j@example.com",
+      "sourceTag": "src-fb-lead-form-ss",
+      "sourceLabel": "FB Lead Form",
+      "assignedTo": "Brian",
+      "tagsPreview": "src-fb-lead-form-ss, status-booked"
+    },
+    {
+      "opportunityId": "2",
+      "opportunityName": "Mock deal B",
+      "amount": 5000,
+      "cashCollected": 500,
+      "usedFallback": false,
+      "closedAt": "2026-03-18T12:00:00.000Z",
+      "contactId": "c2",
+      "contactName": "John D",
+      "email": "d@example.com",
+      "sourceTag": "src-vsl",
+      "sourceLabel": "VSL Funnel",
+      "assignedTo": "Brian",
+      "tagsPreview": "src-vsl"
+    }
+  ],
+  "rawData": [],
+  "fetchedAt": "2026-03-23T12:00:00.000Z",
+  "sheetRevenue": { "mode": "off", "spreadsheetId": "", "attributionFromSheet": false, "enabled": false, "hint": null }
+}

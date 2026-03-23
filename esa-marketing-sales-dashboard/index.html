@@ -4,14 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- If this meta is missing in View Source on Vercel, production is not this build. -->
-  <meta name="esa-dashboard-build" content="clawdbot-984b9fd-submissions-import">
+  <meta name="esa-dashboard-build" content="green-update-banner-20260323">
   <title>ESA Sales Command Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260322-ghl-wins">
+  <link rel="stylesheet" href="styles.css?v=20260323-green-update-banner">
 </head>
 <body>
+
+  <div id="site-update-banner" class="site-update-banner" role="status" aria-live="polite">
+    <div class="site-update-banner-inner">
+      <p class="site-update-banner-text">
+        <strong>We updated this dashboard.</strong>
+        You now have <strong>18</strong> main KPI cards (including TCV, cash collected, and top lead sources next to ROAS).
+        Check the footer for the build label so you know you are on the latest version. Hard refresh (Cmd+Shift+R) if anything looks off.
+      </p>
+      <button type="button" class="site-update-banner-dismiss" id="site-update-banner-dismiss">Dismiss</button>
+    </div>
+  </div>
 
   <header class="topbar">
     <div class="topbar-left">
@@ -53,6 +64,8 @@
     <!-- === DASHBOARD TAB === -->
     <div id="tab-dashboard">
 
+      <div id="dashboard-ghl-banner" class="kv-banner" style="display:none" role="status" aria-live="polite"></div>
+
       <section class="marketing-kpi-block">
         <div class="marketing-kpi-head">
           <h2 class="marketing-kpi-title">FB Lead Form (SS) · Marketing QA</h2>
@@ -61,8 +74,8 @@
         <section class="kpi-row kpi-row-marketing" id="kpi-lead-forms"></section>
       </section>
 
-      <section class="kpi-row" id="kpi-top"></section>
-      <section class="kpi-row" id="kpi-bottom"></section>
+      <!-- 18 KPI cards filled by main.js: rows A+B+C (6+6+6). IDs kpi-top/kpi-bottom removed to avoid stale partial HTML. -->
+      <section class="kpi-row kpi-grid-18" id="kpi-main-18" data-kpi-slots="18"></section>
 
       <section class="panel benchmark-panel">
         <div class="panel-head">
@@ -118,6 +131,7 @@
             <thead>
               <tr>
                 <th>Paid</th>
+                <th>Cash</th>
                 <th>Contact</th>
                 <th>Email</th>
                 <th>Source</th>
@@ -543,8 +557,9 @@
 
   <footer class="site-footer">
     <p>GHL + Meta Ads API. Data refreshes on load and caches for 2 minutes.</p>
+    <p id="ui-build-fingerprint" class="ui-build-fingerprint" aria-live="polite"></p>
   </footer>
 
-  <script src="main.js?v=20260322-ghl-wins"></script>
+  <script src="main.js?v=20260323-green-update-banner"></script>
 </body>
 </html>
