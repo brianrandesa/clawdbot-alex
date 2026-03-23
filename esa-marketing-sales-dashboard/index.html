@@ -13,37 +13,7 @@
 </head>
 <body>
 
-  <div id="auth-gate" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg,#0b1120);">
-    <div style="text-align:center;max-width:360px;padding:40px;">
-      <p style="font-size:14px;color:#64748b;margin-bottom:8px;">Event Sales Agency</p>
-      <h1 style="color:#f1f5f9;font-size:24px;font-weight:800;margin-bottom:24px;">Sales Command Center</h1>
-      <input id="auth-pw" type="password" placeholder="Enter password" autofocus
-        style="width:100%;padding:12px 16px;border-radius:8px;border:1px solid #334155;background:#1e293b;color:#f1f5f9;font-size:16px;margin-bottom:12px;outline:none;">
-      <button id="auth-btn" type="button"
-        style="width:100%;padding:12px;border-radius:8px;border:none;background:#3b82f6;color:#fff;font-size:15px;font-weight:700;cursor:pointer;">
-        Enter
-      </button>
-      <p id="auth-err" style="color:#ef4444;font-size:13px;margin-top:10px;display:none;">Wrong password</p>
-    </div>
-  </div>
-  <script>
-  (function(){
-    var HASH = '1635c8525afbae58c37bede3c9440844e9143727cc7c160bed665ec378d8a262';
-    function sha256(s){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('')})}
-    if(sessionStorage.getItem('esa-auth')==='1'){document.getElementById('auth-gate').style.display='none';var r=document.getElementById('app-root');if(r)r.style.display=''}
-    function tryAuth(){
-      var pw=document.getElementById('auth-pw').value;
-      sha256(pw).then(function(h){
-        if(h===HASH){sessionStorage.setItem('esa-auth','1');document.getElementById('auth-gate').style.display='none';var ar=document.getElementById('app-root');if(ar)ar.style.display=''}
-        else{document.getElementById('auth-err').style.display=''}
-      });
-    }
-    document.getElementById('auth-btn').onclick=tryAuth;
-    document.getElementById('auth-pw').onkeydown=function(e){if(e.key==='Enter')tryAuth()};
-  })();
-  </script>
-
-  <div id="app-root" style="display:none">
+  <div id="app-root">
   <header class="topbar">
     <div class="topbar-left">
       <p class="eyebrow">Event Sales Agency</p>

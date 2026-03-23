@@ -290,6 +290,7 @@
 
   // ---- SS Lead Form · Sam Sauter (top row) ----
   function renderLeadFormKPIs(data) {
+    console.log('[ESA] renderLeadFormKPIs called, kpi-lead-forms exists:', !!el('kpi-lead-forms'));
     var lf = data.leadFormMarketing || {};
     var total = lf.total || 0;
     var booked = lf.booked || 0;
@@ -318,12 +319,15 @@
       { label: 'Cash Collected', value: money(fb.cash), sub: fb.tcv > 0 ? pct(Math.round(fb.cash / fb.tcv * 10000) / 100) + ' collected' : '—', marketing: true }
     ];
     var wrap = el('kpi-lead-forms');
+    console.log('[ESA] SS wrap:', wrap, 'cards:', cards.length);
     if (!wrap) return;
     wrap.innerHTML = cards.map(kpiHTML).join('');
+    console.log('[ESA] SS innerHTML set, children:', wrap.children.length);
   }
 
   // ---- VSL Funnel (row below SS) ----
   function renderVslKPIs(data) {
+    console.log('[ESA] renderVslKPIs called');
     var deals = data.closedWonDeals || [];
     var vsl = sumDealsBySource(deals, 'src-vsl');
     var vslSrc = getBySource(data, 'src-vsl');
