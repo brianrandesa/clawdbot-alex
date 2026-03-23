@@ -135,6 +135,33 @@ async function fetchAllOpps() {
   return all;
 }
 
+// v2 search strips numeric custom fields. Enrich Closed Won opps with detail fetch.
+async function enrichClosedWonWithDetail(opps) {
+  var out = [];
+  for (var i = 0; i < opps.length; i++) {
+    var o = opps[i];
+    if (o.pipelineStageId === CLOSED_WON_STAGE && o.id) {
+      var detail = await v2Get('/opportunities/' + encodeURIComponent(o.id));
+      if (detail._httpStatus === 200 && detail.opportunity) {
+        // Merge detail custom fields over search results
+        var merged = Object.assign({}, o, { customFields: detail.opportunity.customFields || o.customFields });
+        // Also carry over contact from detail if search didn't have it
+        if (detail.opportunity.contact && !o.contact) {
+          merged.contact = detail.opportunity.contact;
+        }
+        out.push(merged);
+      } else {
+        out.push(o);
+      }
+      // Small delay to avoid rate limits
+      await new Promise(function(r) { setTimeout(r, 120); });
+    } else {
+      out.push(o);
+    }
+  }
+  return out;
+}
+
 function rangeBounds(q) {
   var now = Date.now();
   var r = (q.range || '30d').toLowerCase();
@@ -164,7 +191,9 @@ module.exports = async function handler(req, res) {
 
   var q = req.query || {};
   var bounds = rangeBounds(q);
-  var allOpps = await fetchAllOpps();
+  var rawOpps = await fetchAllOpps();
+  // Enrich Closed Won opps with v2 detail to get numeric custom fields (search strips them)
+  var allOpps = await enrichClosedWonWithDetail(rawOpps);
 
   // Separate won and lost for close rate calculation
   var wonInRange = [];
