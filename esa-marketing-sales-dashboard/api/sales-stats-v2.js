@@ -15,6 +15,7 @@ var PIPELINES = [
 ];
 var ALL_WON_STAGES = PIPELINES.map(function(p) { return p.wonStage; });
 var ALL_LOST_STAGES = PIPELINES.map(function(p) { return p.lostStage; });
+var ALL_REFUNDED_STAGES = ['81dca2b1-f729-47ba-8a14-a8d3f873c9e5'];
 
 // Opportunity custom field IDs
 const CF = {
@@ -154,7 +155,7 @@ async function enrichClosedWonWithDetail(opps) {
   var out = [];
   for (var i = 0; i < opps.length; i++) {
     var o = opps[i];
-    if (ALL_WON_STAGES.indexOf(o.pipelineStageId) !== -1 && o.id) {
+    if ((ALL_WON_STAGES.indexOf(o.pipelineStageId) !== -1 || ALL_REFUNDED_STAGES.indexOf(o.pipelineStageId) !== -1) && o.id) {
       var detail = await v2Get('/opportunities/' + encodeURIComponent(o.id));
       if (detail._httpStatus === 200 && detail.opportunity) {
         // Merge detail custom fields over search results
@@ -222,10 +223,11 @@ module.exports = async function handler(req, res) {
   // Enrich Closed Won opps with v2 detail to get numeric custom fields (search strips them)
   var allOpps = await enrichClosedWonWithDetail(rawOpps);
 
-  // Separate won and lost for close rate calculation
+  // Separate won, lost, and refunded for metrics
   var wonInRange = [];
   var lostInRange = [];
-  var allTerminal = []; // won + lost for close rate denominators
+  var refundedInRange = [];
+  var allTerminal = [];
 
   // Historical pipeline ID -- use close date from Deal Notes for range filtering instead of lastStatusChangeAt
   var HISTORICAL_PIPELINE = 'I22qa1FMKo20yxY3Vcws';
@@ -252,6 +254,9 @@ module.exports = async function handler(req, res) {
 
     if (ALL_WON_STAGES.indexOf(stageId) !== -1 && inRange) {
       wonInRange.push(o);
+      allTerminal.push(o);
+    } else if (ALL_REFUNDED_STAGES.indexOf(stageId) !== -1 && inRange) {
+      refundedInRange.push(o);
       allTerminal.push(o);
     } else if (ALL_LOST_STAGES.indexOf(stageId) !== -1 && inRange) {
       lostInRange.push(o);
@@ -430,9 +435,39 @@ module.exports = async function handler(req, res) {
     byCloser: byCloser,
     bySetter: bySetter,
     byMonth: byMonth,
+    refunds: (function() {
+      var totalRefundTCV = 0, totalRefundCashBack = 0;
+      var refundDeals = [];
+      for (var ri = 0; ri < refundedInRange.length; ri++) {
+        var ro = refundedInRange[ri];
+        var rtcv = parseFloat(ro.monetaryValue) || 0;
+        var rcash = cfNum(ro, CF.cash);
+        var rback = rtcv - rcash; // amount refunded
+        if (rback < 0) rback = 0;
+        totalRefundTCV += rtcv;
+        totalRefundCashBack += rback;
+        var rcontact = ro.contact || {};
+        if (!rcontact.name && ro.relations && ro.relations.length) rcontact = { name: ro.relations[0].fullName || ro.relations[0].contactName || '' };
+        refundDeals.push({
+          name: rcontact.name || ro.name || '--',
+          tcv: round2(rtcv),
+          refundAmount: round2(rback),
+          netCash: round2(rcash),
+          notes: cfStr(ro, CF.dealNotes),
+          oppId: ro.id
+        });
+      }
+      return {
+        count: refundedInRange.length,
+        totalTCV: round2(totalRefundTCV),
+        totalRefundedBack: round2(totalRefundCashBack),
+        deals: refundDeals
+      };
+    })(),
     totalOppsInPipeline: allOpps.length,
     wonInRange: wonInRange.length,
     lostInRange: lostInRange.length,
+    refundedInRange: refundedInRange.length,
     fetchedAt: new Date().toISOString()
   };
 
