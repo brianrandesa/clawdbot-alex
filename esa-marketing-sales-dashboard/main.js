@@ -61,11 +61,14 @@
       el('tab-salesboard-v2').style.display = tab === 'salesboard-v2' ? '' : 'none';
       var metaTab = el('tab-meta-ads');
       if (metaTab) metaTab.style.display = tab === 'meta-ads' ? '' : 'none';
+      var opsTab = el('tab-operations');
+      if (opsTab) opsTab.style.display = tab === 'operations' ? '' : 'none';
       el('tab-sales').style.display = tab === 'sales' ? '' : 'none';
       if (tab === 'sales') initLogDealForm();
       if (tab === 'submissions' || tab === 'salesboard') refreshSalesTabs();
       if (tab === 'salesboard-v2') renderSalesBoardV2();
       if (tab === 'meta-ads') renderMetaAdsTab();
+      if (tab === 'operations') renderOperationsTab();
       if (tab === 'snapshot' && currentData) renderSnapshot(currentData);
       try {
         if (tab === 'dashboard') {
@@ -2043,6 +2046,118 @@
     });
     var dEl = el('meta-deals-table');
     if (dEl) dEl.innerHTML = breakdownTable(['Close Date', 'Client', 'Source', 'TCV', 'Cash', 'Status'], dealRows, 'No Meta-attributed deals');
+  }
+
+  // ---- OPERATIONS TAB ----
+  var opsCache = null;
+
+  function renderOperationsTab() {
+    fetch('/api/operations')
+      .then(function (res) {
+        return res.text().then(function (text) {
+          var data;
+          try {
+            data = text ? JSON.parse(text) : {};
+          } catch (e) {
+            throw new Error('operations non-JSON (HTTP ' + res.status + '). ' + (text || '').slice(0, 120));
+          }
+          if (!res.ok) throw new Error((data && data.error) || 'HTTP ' + res.status);
+          return data;
+        });
+      })
+      .then(function (data) {
+        opsCache = data;
+        paintOperationsTab(data);
+      })
+      .catch(function (err) {
+        opsCache = null;
+        var kpis = el('ops-ar-kpis');
+        if (kpis) kpis.innerHTML = '<div class="kpi"><div class="kpi-label">Error</div><div class="kpi-value">--</div><div class="kpi-sub">' + esc(err.message || String(err)) + '</div></div>';
+      });
+  }
+
+  function paintOperationsTab(data) {
+    if (!data) return;
+
+    function breakdownTable(headers, rows, emptyMsg) {
+      if (!rows || rows.length === 0) {
+        return '<table><thead><tr>' +
+          headers.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') +
+          '</tr></thead><tbody><tr><td colspan="' + headers.length + '">' + (emptyMsg || 'No data') + '</td></tr></tbody></table>';
+      }
+      return '<table><thead><tr>' +
+        headers.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') +
+        '</tr></thead><tbody>' +
+        rows.map(function (r) {
+          return '<tr>' + r.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>';
+        }).join('') +
+        '</tbody></table>';
+    }
+
+    // -- A/R KPI cards --
+    var ar = data.accountsReceivable || [];
+    var totalOwed = 0;
+    var oldestBalance = 0;
+    for (var ki = 0; ki < ar.length; ki++) {
+      totalOwed += ar[ki].owed || 0;
+      if (ar[ki].daysSinceClose > oldestBalance) oldestBalance = ar[ki].daysSinceClose;
+    }
+    var clientsWithBalance = ar.length;
+    var avgBalance = clientsWithBalance > 0 ? totalOwed / clientsWithBalance : 0;
+
+    var kpisEl = el('ops-ar-kpis');
+    if (kpisEl) {
+      kpisEl.innerHTML = [
+        { label: 'Total Owed', value: money(totalOwed), sub: 'Outstanding A/R' },
+        { label: 'Clients with Balance', value: String(clientsWithBalance), sub: 'Open receivables' },
+        { label: 'Avg Balance', value: money(avgBalance), sub: 'Per client' },
+        { label: 'Oldest Balance', value: oldestBalance + ' days', sub: 'Days since close' }
+      ].map(function (c) { return kpiHTML(c); }).join('');
+    }
+
+    // -- Accounts Receivable table --
+    var arRows = ar.map(function (r) {
+      return [
+        '<strong>' + esc(r.name) + '</strong>',
+        esc(r.email),
+        esc(r.product),
+        money(r.tcv),
+        money(r.cashCollected),
+        '<strong>' + money(r.owed) + '</strong>',
+        r.nextPaymentDate ? '<strong>' + esc(r.nextPaymentDate) + '</strong>' : '--',
+        String(r.daysSinceClose),
+        esc(r.closer)
+      ];
+    });
+    var arEl = el('ops-ar-table');
+    if (arEl) arEl.innerHTML = breakdownTable(['Client', 'Email', 'Product', 'TCV', 'Cash', 'Owed', 'Next Payment', 'Days Since Close', 'Closer'], arRows, 'No outstanding balances');
+
+    // -- Follow-Up Queue table --
+    var fu = data.followUpQueue || [];
+    var fuRows = fu.map(function (r) {
+      return [
+        '<strong>' + esc(r.name) + '</strong>',
+        esc(r.stageName),
+        money(r.monetaryValue),
+        '<strong>' + String(r.daysInStage) + '</strong>',
+        esc(r.assignedTo)
+      ];
+    });
+    var fuEl = el('ops-fu-table');
+    if (fuEl) fuEl.innerHTML = breakdownTable(['Client', 'Stage', 'Value', 'Days in Stage', 'Assigned To'], fuRows, 'No deals in follow-up stages');
+
+    // -- Pipeline Velocity table --
+    var vel = data.pipelineVelocity || [];
+    var velRows = vel.map(function (r) {
+      return [
+        '<strong>' + esc(r.stageName) + '</strong>',
+        r.avgDays != null ? String(r.avgDays) : '--',
+        r.medianDays != null ? String(r.medianDays) : '--',
+        String(r.count)
+      ];
+    });
+    var velEl = el('ops-velocity-table');
+    if (velEl) velEl.innerHTML = breakdownTable(['Stage', 'Avg Days', 'Median Days', 'Deals Measured'], velRows, 'No velocity data');
   }
 
   load();

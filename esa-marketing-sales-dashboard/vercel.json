@@ -38,6 +38,9 @@
     },
     "api/meta-ads-report.js": {
       "maxDuration": 60
+    },
+    "api/operations.js": {
+      "maxDuration": 60
     }
   }
 }
