@@ -184,7 +184,7 @@ function rangeBounds(q) {
     var e = q.end ? new Date(String(q.end) + 'T23:59:59').getTime() : now;
     return { start: s, end: e, label: q.start + ' to ' + (q.end || 'now') };
   }
-  if (r === 'all') return { start: 0, end: now, label: 'all' };
+  if (r === 'all') return { start: 0, end: now + 365 * 86400000, label: 'all' };
   var days = { '7d': 7, '30d': 30, '90d': 90 }[r] || 30;
   return { start: now - days * 86400000, end: now, label: r };
 }
