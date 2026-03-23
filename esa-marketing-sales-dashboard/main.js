@@ -862,6 +862,7 @@
   function refreshSalesTabs() {
     fetchSubmissionsData();
     fetchSalesStatsData();
+    renderSalesBoardV2();
   }
 
   function renderSubmissionsView() {
