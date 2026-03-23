@@ -191,9 +191,12 @@ function rangeBounds(q) {
 
 function round2(n) { return Math.round(n * 100) / 100; }
 
+// In-memory cache: keyed by range string, 2-minute TTL
+var _cache = {};
+var CACHE_TTL_MS = 120000;
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 'no-store');
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     return res.status(204).end();
@@ -205,6 +208,16 @@ module.exports = async function handler(req, res) {
 
   var q = req.query || {};
   var bounds = rangeBounds(q);
+
+  // Serve from cache if fresh
+  var cacheKey = bounds.label + '|' + (q.start || '') + '|' + (q.end || '');
+  var cached = _cache[cacheKey];
+  if (cached && (Date.now() - cached.ts) < CACHE_TTL_MS) {
+    res.setHeader('Cache-Control', 'public, max-age=120');
+    res.setHeader('X-Cache', 'HIT');
+    return res.status(200).json(cached.data);
+  }
+  res.setHeader('X-Cache', 'MISS');
   var rawOpps = await fetchAllOpps();
   // Enrich Closed Won opps with v2 detail to get numeric custom fields (search strips them)
   var allOpps = await enrichClosedWonWithDetail(rawOpps);
@@ -397,7 +410,7 @@ module.exports = async function handler(req, res) {
 
   closedWonDeals.sort(function (a, b) { return (b.closeDate || '').localeCompare(a.closeDate || ''); });
 
-  return res.status(200).json({
+  var result = {
     dateRange: bounds.label,
     totalTCV: round2(totalTCV),
     totalCash: round2(totalCash),
@@ -419,6 +432,12 @@ module.exports = async function handler(req, res) {
     byMonth: byMonth,
     totalOppsInPipeline: allOpps.length,
     wonInRange: wonInRange.length,
-    lostInRange: lostInRange.length
-  });
+    lostInRange: lostInRange.length,
+    fetchedAt: new Date().toISOString()
+  };
+
+  // Cache for 2 minutes
+  _cache[cacheKey] = { ts: Date.now(), data: result };
+  res.setHeader('Cache-Control', 'public, max-age=120');
+  return res.status(200).json(result);
 };
