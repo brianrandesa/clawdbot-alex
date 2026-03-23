@@ -355,6 +355,53 @@
     }).join('');
   }
 
+  /** Marketing dashboard: list each GHL Closed Won opp in the revenue date window (e.g. your two $5k wins) with inferred source from tags. */
+  function renderClosedWonGhlTable(data) {
+    var tbody = el('closed-won-ghl-tbody');
+    var panel = el('closed-won-ghl-panel');
+    if (!tbody || !panel) return;
+    var rows = data.closedWonDeals || [];
+    if (!rows.length) {
+      tbody.innerHTML =
+        '<tr><td colspan="8">No <strong>Closed Won</strong> opportunities in this range in GHL. Try <strong>All Time</strong> or widen custom dates. Opps must have <code>monetaryValue</code> or <code>GHL_DEAL_VALUE_FALLBACK</code> set on Vercel.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows
+      .map(function (r) {
+        var srcHtml =
+          '<strong>' + esc(r.sourceLabel) + '</strong>' +
+          (r.sourceTag && r.sourceTag !== 'unknown'
+            ? ' <span class="mono">' + esc(r.sourceTag) + '</span>'
+            : '');
+        var amt = money(r.amount);
+        if (r.usedFallback) amt += ' *';
+        var big = r.amount >= 4500 ? ' closed-won-big' : '';
+        var opp = (r.opportunityName || '').trim() || r.opportunityId || '—';
+        return (
+          '<tr class="' +
+          big.trim() +
+          '"><td>' +
+          amt +
+          '</td><td>' +
+          esc(r.contactName) +
+          '</td><td>' +
+          esc(r.email) +
+          '</td><td>' +
+          srcHtml +
+          '</td><td>' +
+          esc(r.assignedTo) +
+          '</td><td>' +
+          esc(r.closedAt ? String(r.closedAt).slice(0, 10) : '—') +
+          '</td><td>' +
+          esc(opp) +
+          '</td><td class="muted tags-snippet">' +
+          esc(r.tagsPreview || '—') +
+          '</td></tr>'
+        );
+      })
+      .join('');
+  }
+
   var SHEET_ATTR_TABLE_MAX = 12;
 
   function renderSheetAttributionTable(title, rows) {
@@ -1276,7 +1323,9 @@
     renderLeadFormKPIs(data);
     currentData = data;
     renderKPIs(data); renderBenchmarkTable(data); renderFunnel(data);
-    renderSourceTable(data); renderCampaigns(data); renderSheetAttribution(data); renderTeamTable(data);
+    renderSourceTable(data);
+    renderClosedWonGhlTable(data);
+    renderCampaigns(data); renderSheetAttribution(data); renderTeamTable(data);
     renderStageBars(data); renderActions(data); renderRawData(data);
     try {
       renderSnapshot(data);

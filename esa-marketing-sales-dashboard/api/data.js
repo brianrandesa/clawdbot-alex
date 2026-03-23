@@ -182,10 +182,11 @@ function buildStageDataFromOpps(opps) {
  * Revenue + ROAS from GHL opportunities: Closed Won, closed in date range (lastStatusChangeAt).
  * monetaryValue on the opp is the source of truth. Optional GHL_DEAL_VALUE_FALLBACK if value not set.
  */
-function computeClosedWonDealMetrics(allOpps, dateRange, allContacts) {
+function computeClosedWonDealMetrics(allOpps, dateRange, allContacts, userMap) {
   const startMs = dateRange.start.getTime();
   const endMs = dateRange.end ? dateRange.end.getTime() : Date.now();
   const fallback = parseFloat(process.env.GHL_DEAL_VALUE_FALLBACK || '0') || 0;
+  const umap = userMap || {};
 
   const contactById = {};
   (allContacts || []).forEach(c => { if (c.id) contactById[c.id] = c; });
@@ -197,6 +198,7 @@ function computeClosedWonDealMetrics(allOpps, dateRange, allContacts) {
   const bySourceDealCount = {};
   const teamDealRevenue = {};
   const teamDealCount = {};
+  const closedWonDeals = [];
 
   for (const o of allOpps) {
     if (o.pipelineStageId !== CLOSED_WON_STAGE_ID) continue;
@@ -204,9 +206,11 @@ function computeClosedWonDealMetrics(allOpps, dateRange, allContacts) {
     if (closedAt < startMs || closedAt > endMs) continue;
 
     let amount = parseFloat(o.monetaryValue);
+    let usedFallback = false;
     if (!amount || amount <= 0) {
       if (fallback > 0) {
         amount = fallback;
+        usedFallback = true;
         dealsUsingFallback++;
       } else {
         continue;
@@ -226,7 +230,32 @@ function computeClosedWonDealMetrics(allOpps, dateRange, allContacts) {
     const aid = c ? (c.assignedTo || 'unassigned') : 'unassigned';
     teamDealRevenue[aid] = (teamDealRevenue[aid] || 0) + amount;
     teamDealCount[aid] = (teamDealCount[aid] || 0) + 1;
+
+    const srcLabel =
+      src === 'unknown'
+        ? 'Untagged / Other'
+        : (SOURCES.find(s => s.tag === src) || { label: 'Untagged / Other' }).label;
+    const contactName = c
+      ? (c.contactName || `${c.firstName || ''} ${c.lastName || ''}`.trim()) || '—'
+      : '—';
+
+    closedWonDeals.push({
+      opportunityId: o.id || '',
+      opportunityName: (o.name || '').trim(),
+      amount: Math.round(amount * 100) / 100,
+      usedFallback,
+      closedAt: new Date(closedAt).toISOString(),
+      contactId: cid || '',
+      contactName,
+      email: (c && c.email) || '',
+      sourceTag: src,
+      sourceLabel: srcLabel,
+      assignedTo: umap[aid] || aid,
+      tagsPreview: tags.slice(0, 25).join(', ')
+    });
   }
+
+  closedWonDeals.sort((a, b) => b.amount - a.amount || new Date(b.closedAt) - new Date(a.closedAt));
 
   return {
     totalRevenue,
@@ -235,7 +264,8 @@ function computeClosedWonDealMetrics(allOpps, dateRange, allContacts) {
     bySourceRevenue,
     bySourceDealCount,
     teamDealRevenue,
-    teamDealCount
+    teamDealCount,
+    closedWonDeals
   };
 }
 
@@ -417,7 +447,7 @@ function resolveStatuses(tags) {
 }
 
 function buildMetrics(allContacts, stageData, userMap, metaData, dateRange, allOpps) {
-  const dealMetrics = computeClosedWonDealMetrics(allOpps || [], dateRange, allContacts);
+  const dealMetrics = computeClosedWonDealMetrics(allOpps || [], dateRange, allContacts, userMap);
 
   const startMs = dateRange.start.getTime();
   const endMs = dateRange.end ? dateRange.end.getTime() : Date.now();
@@ -579,6 +609,7 @@ function buildMetrics(allContacts, stageData, userMap, metaData, dateRange, allO
       dealCount: dealMetrics.dealCount,
       dealsUsingFallback: dealMetrics.dealsUsingFallback
     },
+    closedWonDeals: dealMetrics.closedWonDeals || [],
     rawData: rawRows,
     fetchedAt: new Date().toISOString()
   };

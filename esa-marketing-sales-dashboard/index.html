@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260322-attrib">
+  <link rel="stylesheet" href="styles.css?v=20260322-ghl-wins">
 </head>
 <body>
 
@@ -106,6 +106,30 @@
             </table>
           </div>
         </article>
+      </section>
+
+      <section class="panel" id="closed-won-ghl-panel">
+        <div class="panel-head">
+          <h2>Wins driving revenue (GHL)</h2>
+          <p>Each row is a <strong>Closed Won</strong> opportunity (Brian &amp; Diamond pipeline) whose <strong>last status change</strong> is inside the header date range. That is the same set that feeds the revenue total (unless <code>SHEETS_REVENUE_MODE=replace</code>, in which case KPI $ may come from the sheet but this list still shows GHL). <strong>Source</strong> is inferred from contact tags, same logic as Lead Source breakdown. * = amount used <code>GHL_DEAL_VALUE_FALLBACK</code> because opp value was blank.</p>
+        </div>
+        <div class="table-wrap closed-won-ghl-wrap">
+          <table class="closed-won-ghl-table">
+            <thead>
+              <tr>
+                <th>Paid</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Source</th>
+                <th>Rep</th>
+                <th>Closed</th>
+                <th>Opportunity</th>
+                <th>Tags (snippet)</th>
+              </tr>
+            </thead>
+            <tbody id="closed-won-ghl-tbody"></tbody>
+          </table>
+        </div>
       </section>
 
       <section class="panel" id="campaigns-panel" style="display:none">
@@ -521,6 +545,6 @@
     <p>GHL + Meta Ads API. Data refreshes on load and caches for 2 minutes.</p>
   </footer>
 
-  <script src="main.js?v=20260322-attrib"></script>
+  <script src="main.js?v=20260322-ghl-wins"></script>
 </body>
 </html>

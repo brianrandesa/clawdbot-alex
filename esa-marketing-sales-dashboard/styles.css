@@ -558,6 +558,19 @@ td.val-bad { color: var(--red); font-weight: 600; }
   overflow-x: auto;
 }
 
+.closed-won-ghl-wrap {
+  overflow-x: auto;
+}
+.closed-won-ghl-table tr.closed-won-big {
+  background: rgba(34, 214, 138, 0.08);
+}
+.closed-won-ghl-table .tags-snippet {
+  font-size: 0.78rem;
+  max-width: 22rem;
+  white-space: normal;
+  word-break: break-word;
+}
+
 .submissions-meta {
   font-size: 0.8rem;
   color: var(--muted);
