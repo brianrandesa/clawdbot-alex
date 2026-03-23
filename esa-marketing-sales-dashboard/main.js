@@ -54,21 +54,13 @@
       btn.classList.add('active');
       var tab = btn.getAttribute('data-tab');
       el('tab-dashboard').style.display = tab === 'dashboard' ? '' : 'none';
-      el('tab-rawdata').style.display = tab === 'rawdata' ? '' : 'none';
-      el('tab-snapshot').style.display = tab === 'snapshot' ? '' : 'none';
-      el('tab-submissions').style.display = tab === 'submissions' ? '' : 'none';
-      el('tab-salesboard').style.display = tab === 'salesboard' ? '' : 'none';
-      el('tab-salesboard-v2').style.display = tab === 'salesboard-v2' ? '' : 'none';
-      var metaTab = el('tab-meta-ads');
-      if (metaTab) metaTab.style.display = tab === 'meta-ads' ? '' : 'none';
-      var opsTab = el('tab-operations');
-      if (opsTab) opsTab.style.display = tab === 'operations' ? '' : 'none';
-      el('tab-sales').style.display = tab === 'sales' ? '' : 'none';
+      var tabIds = ['rawdata','snapshot','submissions','salesboard','salesboard-v2','meta-ads','ar','follow-up','sales'];
+      tabIds.forEach(function(t) { var e = el('tab-' + t); if (e) e.style.display = tab === t ? '' : 'none'; });
       if (tab === 'sales') initLogDealForm();
       if (tab === 'submissions' || tab === 'salesboard') refreshSalesTabs();
       if (tab === 'salesboard-v2') renderSalesBoardV2();
       if (tab === 'meta-ads') renderMetaAdsTab();
-      if (tab === 'operations') renderOperationsTab();
+      if (tab === 'ar' || tab === 'follow-up') renderOperationsTab();
       if (tab === 'snapshot' && currentData) renderSnapshot(currentData);
       try {
         if (tab === 'dashboard') {

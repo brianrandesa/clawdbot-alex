@@ -231,8 +231,7 @@ module.exports = async function handler(req, res) {
     var o = allOpps[i];
     var stageId = o.pipelineStageId || '';
     var isWon = WON_STAGES.indexOf(stageId) !== -1;
-    var isRefunded = REFUNDED_STAGES.indexOf(stageId) !== -1;
-    if (!isWon && !isRefunded) continue;
+    if (!isWon) continue; // A/R only for won deals, not refunds
 
     var tcv = parseFloat(o.monetaryValue) || 0;
     var cash = cfNum(o, CF.cash);

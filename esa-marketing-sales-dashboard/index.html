@@ -44,7 +44,8 @@
     <button class="tab active" data-tab="dashboard">Dashboard</button>
     <button class="tab" data-tab="salesboard-v2">Sales Board</button>
     <button class="tab" data-tab="meta-ads">Meta Ads</button>
-    <button class="tab" data-tab="operations">Operations</button>
+    <button class="tab" data-tab="ar">A/R</button>
+    <button class="tab" data-tab="follow-up">Follow-Up Queue</button>
   </nav>
 
   <main>
@@ -522,35 +523,36 @@
     </div>
 
     <!-- === OPERATIONS TAB === -->
-    <div id="tab-operations" style="display:none">
-      <h2 style="margin-bottom:.5rem">Operations <span style="font-size:.7em;color:var(--muted)">(A/R, Follow-Ups, Velocity)</span></h2>
+    <!-- === A/R TAB === -->
+    <div id="tab-ar" style="display:none">
+      <h2 style="margin-bottom:.5rem">Accounts Receivable</h2>
 
-      <!-- A/R KPI cards -->
       <section class="kpi-row" id="ops-ar-kpis" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:1rem;gap:.5rem"></section>
 
-      <!-- Accounts Receivable -->
-      <section class="panel" id="ops-ar-section" style="margin-bottom:1rem">
+      <section class="panel" style="margin-bottom:1rem">
         <div class="panel-head">
-          <h3>Accounts Receivable</h3>
-          <p>All won and refunded deals with outstanding balances. Sorted by amount owed (largest first).</p>
+          <p>Closed Won deals with outstanding balances. Sorted by amount owed (largest first).</p>
         </div>
         <div id="ops-ar-table" style="overflow-x:auto"></div>
       </section>
+    </div>
 
-      <!-- Follow-Up Queue -->
-      <section class="panel" id="ops-fu-section" style="margin-bottom:1rem">
+    <!-- === FOLLOW-UP QUEUE TAB === -->
+    <div id="tab-follow-up" style="display:none">
+      <h2 style="margin-bottom:.5rem">Follow-Up Queue</h2>
+
+      <section class="panel" style="margin-bottom:1rem">
         <div class="panel-head">
-          <h3>Follow-Up Queue</h3>
+          <h3>Deals Needing Action</h3>
           <p>Deals in "Offer Made / FU Needed" or "Contract Sent" stages. Sorted by days in stage (most stale first).</p>
         </div>
         <div id="ops-fu-table" style="overflow-x:auto"></div>
       </section>
 
-      <!-- Pipeline Velocity -->
-      <section class="panel" id="ops-velocity-section" style="margin-bottom:1rem">
+      <section class="panel" style="margin-bottom:1rem">
         <div class="panel-head">
           <h3>Pipeline Velocity</h3>
-          <p>Average and median days deals spend in each stage (Brian &amp; Diamond pipeline). Only measures deals that have moved past each stage.</p>
+          <p>Average and median days deals spend in each stage (Brian &amp; Diamond pipeline).</p>
         </div>
         <div id="ops-velocity-table" style="overflow-x:auto"></div>
       </section>
