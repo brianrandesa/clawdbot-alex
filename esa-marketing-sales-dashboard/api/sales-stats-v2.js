@@ -265,14 +265,18 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  // Build closed won deals array + aggregates
+  // Build deals array — includes BOTH won and refunded (TCV = all sales ever made)
   var totalTCV = 0, totalCash = 0;
   var byProduct = {}, bySource = {}, bySetter = {}, byCloser = {}, byMonth = {};
   var totalSetterComm = 0, totalCloserComm = 0;
   var closedWonDeals = [];
 
-  for (var w = 0; w < wonInRange.length; w++) {
-    var opp = wonInRange[w];
+  // Combine won + refunded for total aggregation
+  var allDealsForTotals = wonInRange.concat(refundedInRange);
+
+  for (var w = 0; w < allDealsForTotals.length; w++) {
+    var opp = allDealsForTotals[w];
+    var isRefunded = ALL_REFUNDED_STAGES.indexOf(opp.pipelineStageId) !== -1;
     var tcv = parseFloat(opp.monetaryValue) || 0;
     var cash = cfNum(opp, CF.cash);
     var owed = round2(tcv - cash);
@@ -299,7 +303,7 @@ module.exports = async function handler(req, res) {
     } else {
       closeDate = (opp.lastStatusChangeAt || opp.updatedAt || '').slice(0, 10);
     }
-    var paymentStatus = cash >= tcv ? 'Paid in Full' : cash > 0 ? 'Payment Plan' : 'Outstanding';
+    var paymentStatus = isRefunded ? 'Refunded' : cash >= tcv ? 'Paid in Full' : cash > 0 ? 'Payment Plan' : 'Outstanding';
     var ym = closeDate.slice(0, 7);
 
     totalTCV += tcv;
