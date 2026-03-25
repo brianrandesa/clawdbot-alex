@@ -1751,24 +1751,20 @@
 
     // -- 18 KPI cards in one grid (3 rows of 6) --
     el('sb2-kpis').innerHTML = [
-      { label: 'Total TCV', value: money(totalTcv), sub: 'All deals (won + refunded)' },
+      { label: 'Total TCV', value: money(totalTcv), sub: 'Closed won deals' },
       { label: 'Total Cash Collected', value: money(totalCash), sub: 'Actual payments received' },
       { label: 'Total Owed', value: money(totalOwed), sub: 'Remaining balance' },
-      { label: 'Deal Count', value: String(dealCount), sub: 'Won + refunded deals' },
+      { label: 'Deal Count', value: String(dealCount), sub: 'Closed won deals' },
       { label: 'AOV', value: money(aov), sub: 'Avg order value' },
-      { label: 'Collection Rate', value: pct(collectionRate), sub: 'Cash / TCV' },
-      { label: 'Win Rate', value: pct(winRate), sub: 'Won / (won + lost + refund)' },
+      { label: 'Collection Rate', value: pct(collectionRate), sub: 'Cash Collected / TCV' },
+      { label: 'Win Rate', value: pct(winRate), sub: 'Won / (won + lost)' },
       { label: 'Payment Plans', value: String(ppCount), sub: pct(ppPct) + ' of deals' },
       { label: 'Avg Lead > Close', value: ltc.avgDays != null ? ltc.avgDays + 'd' : '--', sub: ltc.count ? 'Median: ' + ltc.medianDays + 'd (' + ltc.count + ' deals)' : 'No date data' },
       { label: 'Avg Call > Close', value: ctc.avgDays != null ? ctc.avgDays + 'd' : '--', sub: ctc.count ? 'Median: ' + ctc.medianDays + 'd (' + ctc.count + ' deals)' : 'No date data' },
-      { label: 'Refunds', value: String(refCount), sub: money(refBack) + ' returned' },
-      { label: 'Net Revenue', value: money(netRevenue), sub: 'TCV minus refund TCV' },
-      { label: 'Setter Commission', value: money(totalSetterComm), sub: 'Total setter comm' },
-      { label: 'Closer Commission', value: money(totalCloserComm), sub: 'Total closer comm' },
+      { label: 'Setter Commission', value: money(totalSetterComm), sub: 'Based on cash collected' },
+      { label: 'Closer Commission', value: money(totalCloserComm), sub: 'Based on cash collected' },
       { label: 'Total Commission', value: money(totalComm), sub: 'Setter + Closer' },
-      { label: 'Avg Comm / Deal', value: money(avgCommPerDeal), sub: 'Per closed deal' },
-      { label: 'Refund TCV', value: money(refTCV), sub: refCount + ' deal' + (refCount !== 1 ? 's' : '') + ' refunded' },
-      { label: 'Refund Cash Back', value: money(refBack), sub: 'Total returned to clients' }
+      { label: 'Avg Comm / Deal', value: money(avgCommPerDeal), sub: 'Per closed deal' }
     ].map(function (c) { return kpiHTML(c); }).join('');
 
     // Hide separate commission row
@@ -1798,7 +1794,7 @@
       var x = bySource[k];
       return ['<strong>' + esc(k) + '</strong>', String(x.deals || x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
     });
-    el('sb2-source-table').innerHTML = breakdownTable(['Source', 'Deals', 'TCV', 'Cash', 'Owed'], sourceRows, 'No source data in range');
+    el('sb2-source-table').innerHTML = breakdownTable(['Source', 'Deals', 'TCV', 'Cash Collected', 'Owed'], sourceRows, 'No source data in range');
 
     // -- By Product --
     var byProduct = data.byProduct || {};
@@ -1807,25 +1803,26 @@
       var x = byProduct[k];
       return ['<strong>' + esc(k) + '</strong>', String(x.deals || x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
     });
-    el('sb2-product-table').innerHTML = breakdownTable(['Product', 'Deals', 'TCV', 'Cash', 'Owed'], productRows, 'No product data in range');
+    el('sb2-product-table').innerHTML = breakdownTable(['Product', 'Deals', 'TCV', 'Cash Collected', 'Owed'], productRows, 'No product data in range');
 
     // -- By Closer --
     var byCloser = data.byCloser || {};
     var closerKeys = Object.keys(byCloser).sort();
     var closerRows = closerKeys.map(function (k) {
       var x = byCloser[k];
-      return ['<strong>' + esc(k) + '</strong>', String(x.deals || x.sets || x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.commission || x.comm || 0)];
+      var winRate = (x.won && (x.won + (x.lost || 0))) ? Math.round(x.won / (x.won + (x.lost || 0)) * 100) : 0;
+      return ['<strong>' + esc(k) + '</strong>', String(x.deals || 0), money(x.tcv || 0), money(x.cash || 0), money(x.commission || x.comm || 0), pct(winRate)];
     });
-    el('sb2-closer-table').innerHTML = breakdownTable(['Closer', 'Deals', 'TCV', 'Cash', 'Commission'], closerRows, 'No closer data in range');
+    el('sb2-closer-table').innerHTML = breakdownTable(['Closer', 'Deals', 'TCV', 'Cash Collected', 'Commission', 'Win Rate'], closerRows, 'No closer data in range');
 
     // -- By Setter --
     var bySetter = data.bySetter || {};
     var setterKeys = Object.keys(bySetter).sort();
     var setterRows = setterKeys.map(function (k) {
       var x = bySetter[k];
-      return ['<strong>' + esc(k) + '</strong>', String(x.deals || x.sets || x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.commission || x.comm || 0)];
+      return ['<strong>' + esc(k) + '</strong>', String(x.sets || x.deals || 0), money(x.cash || 0), money(x.commission || x.comm || 0)];
     });
-    el('sb2-setter-table').innerHTML = breakdownTable(['Setter', 'Deals', 'TCV', 'Cash', 'Commission'], setterRows, 'No setter data in range');
+    el('sb2-setter-table').innerHTML = breakdownTable(['Setter', 'Sets', 'Cash Collected', 'Commission'], setterRows, 'No setter data in range');
 
     // -- By Month --
     var byMonth = data.byMonth || {};
@@ -1834,7 +1831,7 @@
       var x = byMonth[k];
       return ['<strong>' + esc(k) + '</strong>', String(x.deals || x.count || 0), money(x.tcv || 0), money(x.cash || 0), money(x.owed || 0)];
     });
-    el('sb2-month-table').innerHTML = breakdownTable(['Month', 'Deals', 'TCV', 'Cash', 'Owed'], monthRows, 'No monthly data in range');
+    el('sb2-month-table').innerHTML = breakdownTable(['Month', 'Deals', 'TCV', 'Cash Collected', 'Owed'], monthRows, 'No monthly data in range');
 
     // -- Refund table --
     var refDeals = ref.deals || [];

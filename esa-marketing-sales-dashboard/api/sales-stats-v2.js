@@ -274,14 +274,15 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  // Build deals array — includes BOTH won and refunded (TCV = all sales ever made)
+  // Build deals array — WINS ONLY for main totals, refunds tracked separately
   var totalTCV = 0, totalCash = 0;
   var byProduct = {}, bySource = {}, bySetter = {}, byCloser = {}, byMonth = {};
   var totalSetterComm = 0, totalCloserComm = 0;
   var closedWonDeals = [];
+  var refundedDeals = [];
 
-  // Combine won + refunded for total aggregation
-  var allDealsForTotals = wonInRange.concat(refundedInRange);
+  // Only won deals for main aggregation
+  var allDealsForTotals = wonInRange;
 
   for (var w = 0; w < allDealsForTotals.length; w++) {
     var opp = allDealsForTotals[w];
@@ -367,16 +368,18 @@ module.exports = async function handler(req, res) {
     bySource[sl].owed += owed;
 
     // By Closer
-    if (!byCloser[closer]) byCloser[closer] = { deals: 0, tcv: 0, commission: 0, won: 0, lost: 0 };
+    if (!byCloser[closer]) byCloser[closer] = { deals: 0, tcv: 0, cash: 0, commission: 0, won: 0, lost: 0 };
     byCloser[closer].deals++;
     byCloser[closer].won++;
     byCloser[closer].tcv += tcv;
+    byCloser[closer].cash += cash;
     byCloser[closer].commission += closerAmt;
 
     // By Setter
-    if (!bySetter[setter]) bySetter[setter] = { sets: 0, converted: 0, commission: 0 };
+    if (!bySetter[setter]) bySetter[setter] = { sets: 0, converted: 0, cash: 0, commission: 0 };
     bySetter[setter].sets++;
     bySetter[setter].converted++;
+    bySetter[setter].cash += cash;
     bySetter[setter].commission += setterAmt;
 
     // By Month
