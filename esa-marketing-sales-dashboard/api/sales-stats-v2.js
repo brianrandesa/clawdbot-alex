@@ -295,8 +295,8 @@ module.exports = async function handler(req, res) {
     var closer = cfStr(opp, CF.closer) || 'Unknown';
     var setterPct = cfNum(opp, CF.setterCommPct);
     var closerPct = cfNum(opp, CF.closerCommPct);
-    var setterAmt = round2(tcv * setterPct / 100);
-    var closerAmt = round2(tcv * closerPct / 100);
+    var setterAmt = round2(cash * setterPct / 100);
+    var closerAmt = round2(cash * closerPct / 100);
     var src = resolveSource(opp);
     var contact = opp.contact || {};
     // v2 search puts contact info in relations
@@ -304,9 +304,12 @@ module.exports = async function handler(req, res) {
       var rel = opp.relations[0];
       contact = { id: rel.recordId, name: rel.fullName || rel.contactName || '', email: rel.email || '', phone: rel.phone || '', tags: rel.tags || [] };
     }
-    // Use effective close date (parsed from notes for historical, lastStatusChangeAt for active)
+    // Use effective close date: dateFirstPay > notes close date > lastStatusChangeAt
+    var dateFirstPay = cfStr(opp, CF.dateFirstPay);
     var closeDate;
-    if (opp.pipelineId === HISTORICAL_PIPELINE) {
+    if (dateFirstPay) {
+      closeDate = dateFirstPay.slice(0, 10);
+    } else if (opp.pipelineId === HISTORICAL_PIPELINE) {
       var nd = cfStr(opp, CF.dealNotes).match(/Close date:\s*(\d{4}-\d{2}-\d{2})/);
       closeDate = nd ? nd[1] : (opp.lastStatusChangeAt || opp.updatedAt || '').slice(0, 10);
     } else {
@@ -324,6 +327,8 @@ module.exports = async function handler(req, res) {
       name: contact.name || opp.name || '--',
       email: contact.email || '',
       phone: contact.phone || '',
+      createdDate: (opp.createdAt || '').slice(0, 10),
+      dateFirstPay: dateFirstPay ? dateFirstPay.slice(0, 10) : '',
       closeDate: closeDate,
       product: product,
       tcv: round2(tcv),

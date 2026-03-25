@@ -399,6 +399,24 @@ function getDateRange(range, startStr, endStr) {
   end = now;
   switch (range) {
     case '7d':  start = new Date(now - 7 * 86400000);  metaPreset = 'last_7d'; break;
+    case 'this-week': {
+      const d = new Date(now); d.setDate(d.getDate() - d.getDay());
+      d.setHours(0,0,0,0); start = d; metaPreset = null;
+      metaCustom = { since: d.toISOString().slice(0,10), until: now.toISOString().slice(0,10) };
+      return { start, end, metaPreset, metaCustom, label: 'this-week' };
+    }
+    case 'this-month': {
+      const d = new Date(now.getFullYear(), now.getMonth(), 1);
+      start = d; metaPreset = null;
+      metaCustom = { since: d.toISOString().slice(0,10), until: now.toISOString().slice(0,10) };
+      return { start, end, metaPreset, metaCustom, label: 'this-month' };
+    }
+    case 'this-year': {
+      const d = new Date(now.getFullYear(), 0, 1);
+      start = d; metaPreset = null;
+      metaCustom = { since: d.toISOString().slice(0,10), until: now.toISOString().slice(0,10) };
+      return { start, end, metaPreset, metaCustom, label: 'this-year' };
+    }
     case '90d': start = new Date(now - 90 * 86400000); metaPreset = 'last_90d'; break;
     case 'all': start = new Date('2020-01-01');         metaPreset = 'maximum'; break;
     default:    start = new Date(now - 30 * 86400000);  metaPreset = 'last_30d'; break;
@@ -611,7 +629,10 @@ function computeClosedWonDealMetrics(allOpps, dateRange, allContacts, userMap) {
 
   for (const o of allOpps) {
     if (o.pipelineStageId !== CLOSED_WON_STAGE_ID) continue;
-    const closedAt = new Date(o.lastStatusChangeAt || o.updatedAt || 0).getTime();
+    // Use dateFirstPay custom field if available, otherwise fall back to lastStatusChangeAt
+    const dateFirstPayField = (o.customFields || []).find(f => f.id === 'gnrAHfUyb2By3kYJlArc' || f.key === 'dateFirstPay');
+    const dateFirstPay = dateFirstPayField && dateFirstPayField.value ? new Date(dateFirstPayField.value).getTime() : 0;
+    const closedAt = dateFirstPay > 0 ? dateFirstPay : new Date(o.lastStatusChangeAt || o.updatedAt || 0).getTime();
     if (closedAt < startMs || closedAt > endMs) continue;
 
     let amount = parseFloat(o.monetaryValue);
@@ -642,7 +663,10 @@ function computeClosedWonDealMetrics(allOpps, dateRange, allContacts, userMap) {
     bySourceDealCount[src] = (bySourceDealCount[src] || 0) + 1;
     bySourceCash[src] = (bySourceCash[src] || 0) + cashVal;
 
-    const aid = c ? (c.assignedTo || 'unassigned') : 'unassigned';
+    // Use closer custom field from opportunity if available, otherwise fall back to contact assignedTo
+    const closerField = (o.customFields || []).find(f => f.id === 'kzM90BE4nZTqPiFUaq8U' || f.key === 'closer');
+    const closerName = (closerField && closerField.value) ? String(closerField.value).trim() : '';
+    const aid = closerName || (c ? (c.assignedTo || 'unassigned') : 'unassigned');
     teamDealRevenue[aid] = (teamDealRevenue[aid] || 0) + amount;
     teamDealCount[aid] = (teamDealCount[aid] || 0) + 1;
 

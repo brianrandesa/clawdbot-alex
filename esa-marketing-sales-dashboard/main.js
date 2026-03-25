@@ -1752,7 +1752,7 @@
     // -- 18 KPI cards in one grid (3 rows of 6) --
     el('sb2-kpis').innerHTML = [
       { label: 'Total TCV', value: money(totalTcv), sub: 'All deals (won + refunded)' },
-      { label: 'Total Cash', value: money(totalCash), sub: 'Cash collected' },
+      { label: 'Total Cash Collected', value: money(totalCash), sub: 'Actual payments received' },
       { label: 'Total Owed', value: money(totalOwed), sub: 'Remaining balance' },
       { label: 'Deal Count', value: String(dealCount), sub: 'Won + refunded deals' },
       { label: 'AOV', value: money(aov), sub: 'Avg order value' },
@@ -1852,9 +1852,11 @@
 
     // -- Deals table --
     var deals = data.closedWonDeals || data.deals || [];
-    var dealHeaders = ['Close Date', 'Client', 'Product', 'TCV', 'Cash', 'Owed', 'Status', 'Source', 'Setter', 'Closer', 'Setter Comm', 'Closer Comm', 'Fathom', 'Notes'];
+    var dealHeaders = ['Created', '1st Payment', 'Close Date', 'Client', 'Product', 'TCV', 'Cash Collected', 'Owed', 'Status', 'Source', 'Setter', 'Closer', 'Setter Comm', 'Closer Comm', 'Fathom', 'Notes'];
     var dealRows = deals.map(function (d) {
       return [
+        esc(d.createdDate || ''),
+        esc(d.dateFirstPay || ''),
         esc(d.closeDate || ''),
         esc(d.name || d.client || ''),
         esc(d.product || ''),
