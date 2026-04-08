@@ -1,4 +1,13 @@
-import { AbsoluteFill, spring, useCurrentFrame, useVideoConfig, Sequence } from 'remotion';
+import {
+  AbsoluteFill,
+  Img,
+  OffthreadVideo,
+  spring,
+  useCurrentFrame,
+  useVideoConfig,
+  Sequence,
+  staticFile,
+} from 'remotion';
 import { BRAND, SPRING } from '../../brand';
 
 /* ── Testimonial Card ── */
@@ -20,6 +29,8 @@ const TestimonialCard: React.FC<{
   return (
     <div
       style={{
+        position: 'relative',
+        zIndex: 1,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -152,52 +163,111 @@ export const VideoAd3SocialProof: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: BRAND.dark }}>
+      {/* Background video layer — persistent */}
+      <OffthreadVideo
+        src={staticFile('assets/video-accountant.mp4')}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          opacity: 0.3,
+        }}
+        muted
+      />
+      {/* Dark overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: `linear-gradient(180deg, ${BRAND.dark}cc 0%, ${BRAND.dark}88 50%, ${BRAND.dark}cc 100%)`,
+        }}
+      />
+
       {/* ── Section 1: Header (0-60f) ── */}
       <Sequence from={0} durationInFrames={60}>
-        <AbsoluteFill
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '0 60px',
-          }}
-        >
+        <AbsoluteFill style={{ position: 'relative', zIndex: 1 }}>
+          {/* Group photo fade-in */}
           {(() => {
-            const eyeIn = spring({ fps, frame: frame - 5, config: SPRING.smooth });
-            const headIn = spring({ fps, frame: frame - 15, config: SPRING.snappy });
+            const photoIn = spring({ fps, frame: frame - 20, config: SPRING.smooth });
             return (
-              <>
-                <div
-                  style={{
-                    fontFamily: BRAND.fontAccent,
-                    fontSize: 44,
-                    color: BRAND.rose,
-                    opacity: eyeIn,
-                    marginBottom: 20,
-                  }}
-                >
-                  Don't take our word for it.
-                </div>
-                <div
-                  style={{
-                    fontFamily: BRAND.fontHeading,
-                    fontWeight: 900,
-                    fontSize: 76,
-                    color: BRAND.white,
-                    textAlign: 'center',
-                    lineHeight: 1.1,
-                    opacity: headIn,
-                    transform: `translateY(${(1 - headIn) * 30}px)`,
-                  }}
-                >
-                  REAL PEOPLE.
-                  <br />
-                  <span style={{ color: BRAND.teal }}>REAL RESULTS.</span>
-                </div>
-              </>
+              <Img
+                src={staticFile('assets/group-photo.jpg')}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  opacity: photoIn * 0.2,
+                }}
+              />
             );
           })()}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: `${BRAND.dark}bb`,
+            }}
+          />
+          <div
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              padding: '0 60px',
+            }}
+          >
+            {(() => {
+              const eyeIn = spring({ fps, frame: frame - 5, config: SPRING.smooth });
+              const headIn = spring({ fps, frame: frame - 15, config: SPRING.snappy });
+              return (
+                <>
+                  <div
+                    style={{
+                      fontFamily: BRAND.fontAccent,
+                      fontSize: 44,
+                      color: BRAND.rose,
+                      opacity: eyeIn,
+                      marginBottom: 20,
+                    }}
+                  >
+                    Don't take our word for it.
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: BRAND.fontHeading,
+                      fontWeight: 900,
+                      fontSize: 76,
+                      color: BRAND.white,
+                      textAlign: 'center',
+                      lineHeight: 1.1,
+                      opacity: headIn,
+                      transform: `translateY(${(1 - headIn) * 30}px)`,
+                    }}
+                  >
+                    REAL PEOPLE.
+                    <br />
+                    <span style={{ color: BRAND.teal }}>REAL RESULTS.</span>
+                  </div>
+                </>
+              );
+            })()}
+          </div>
         </AbsoluteFill>
       </Sequence>
 
@@ -231,6 +301,8 @@ export const VideoAd3SocialProof: React.FC = () => {
       <Sequence from={420} durationInFrames={120}>
         <AbsoluteFill
           style={{
+            position: 'relative',
+            zIndex: 1,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -306,93 +378,121 @@ export const VideoAd3SocialProof: React.FC = () => {
 
       {/* ── Section 5: Final CTA (540-600f) ── */}
       <Sequence from={540} durationInFrames={60}>
-        <AbsoluteFill
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '0 60px',
-          }}
-        >
-          {(() => {
-            const f = frame - 540;
-            const titleIn = spring({ fps, frame: f - 3, config: SPRING.snappy });
-            const lineIn = spring({ fps, frame: f - 10, config: SPRING.smooth });
-            const infoIn = spring({ fps, frame: f - 15, config: SPRING.smooth });
-            const pillIn = spring({ fps, frame: f - 22, config: SPRING.bouncy });
-            const urlIn = spring({ fps, frame: f - 30, config: SPRING.smooth });
-            return (
-              <>
-                <div
-                  style={{
-                    fontFamily: BRAND.fontHeading,
-                    fontWeight: 900,
-                    fontSize: 80,
-                    color: BRAND.white,
-                    textAlign: 'center',
-                    lineHeight: 1.05,
-                    opacity: titleIn,
-                    transform: `scale(${titleIn})`,
-                    marginBottom: 8,
-                  }}
-                >
-                  KICKASS
-                  <br />
-                  CASHFLOW LIVE
-                </div>
-                <div
-                  style={{
-                    height: 5,
-                    width: 220,
-                    backgroundColor: BRAND.teal,
-                    borderRadius: 3,
-                    opacity: lineIn,
-                    transform: `scaleX(${lineIn})`,
-                    marginBottom: 24,
-                  }}
-                />
-                <div
-                  style={{
-                    fontFamily: BRAND.fontBody,
-                    fontSize: 34,
-                    color: BRAND.offWhite,
-                    textAlign: 'center',
-                    opacity: infoIn,
-                    marginBottom: 28,
-                  }}
-                >
-                  {BRAND.eventDate} · {BRAND.eventVenue}
-                </div>
-                <div
-                  style={{
-                    backgroundColor: BRAND.rose,
-                    borderRadius: 50,
-                    padding: '18px 44px',
-                    fontFamily: BRAND.fontBody,
-                    fontWeight: 700,
-                    fontSize: 32,
-                    color: BRAND.dark,
-                    transform: `scale(${pillIn})`,
-                    opacity: pillIn,
-                    marginBottom: 18,
-                  }}
-                >
-                  Grab a seat · From {BRAND.ticketGA}
-                </div>
-                <div
-                  style={{
-                    fontFamily: BRAND.fontBody,
-                    fontSize: 28,
-                    color: BRAND.offWhite,
-                    opacity: urlIn,
-                  }}
-                >
-                  {BRAND.website}
-                </div>
-              </>
-            );
-          })()}
+        <AbsoluteFill style={{ position: 'relative', zIndex: 1 }}>
+          {/* Networking photo bg */}
+          <Img
+            src={staticFile('assets/networking.jpg')}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              opacity: 0.25,
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: `${BRAND.dark}bb`,
+            }}
+          />
+          <div
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              padding: '0 60px',
+            }}
+          >
+            {(() => {
+              const f = frame - 540;
+              const titleIn = spring({ fps, frame: f - 3, config: SPRING.snappy });
+              const lineIn = spring({ fps, frame: f - 10, config: SPRING.smooth });
+              const infoIn = spring({ fps, frame: f - 15, config: SPRING.smooth });
+              const pillIn = spring({ fps, frame: f - 22, config: SPRING.bouncy });
+              const urlIn = spring({ fps, frame: f - 30, config: SPRING.smooth });
+              return (
+                <>
+                  <div
+                    style={{
+                      fontFamily: BRAND.fontHeading,
+                      fontWeight: 900,
+                      fontSize: 80,
+                      color: BRAND.white,
+                      textAlign: 'center',
+                      lineHeight: 1.05,
+                      opacity: titleIn,
+                      transform: `scale(${titleIn})`,
+                      marginBottom: 8,
+                    }}
+                  >
+                    KICKASS
+                    <br />
+                    CASHFLOW LIVE
+                  </div>
+                  <div
+                    style={{
+                      height: 5,
+                      width: 220,
+                      backgroundColor: BRAND.teal,
+                      borderRadius: 3,
+                      opacity: lineIn,
+                      transform: `scaleX(${lineIn})`,
+                      marginBottom: 24,
+                    }}
+                  />
+                  <div
+                    style={{
+                      fontFamily: BRAND.fontBody,
+                      fontSize: 34,
+                      color: BRAND.offWhite,
+                      textAlign: 'center',
+                      opacity: infoIn,
+                      marginBottom: 28,
+                    }}
+                  >
+                    {BRAND.eventDate} · {BRAND.eventVenue}
+                  </div>
+                  <div
+                    style={{
+                      backgroundColor: BRAND.rose,
+                      borderRadius: 50,
+                      padding: '18px 44px',
+                      fontFamily: BRAND.fontBody,
+                      fontWeight: 700,
+                      fontSize: 32,
+                      color: BRAND.dark,
+                      transform: `scale(${pillIn})`,
+                      opacity: pillIn,
+                      marginBottom: 18,
+                    }}
+                  >
+                    Grab a seat · From {BRAND.ticketGA}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: BRAND.fontBody,
+                      fontSize: 28,
+                      color: BRAND.offWhite,
+                      opacity: urlIn,
+                    }}
+                  >
+                    {BRAND.website}
+                  </div>
+                </>
+              );
+            })()}
+          </div>
         </AbsoluteFill>
       </Sequence>
     </AbsoluteFill>

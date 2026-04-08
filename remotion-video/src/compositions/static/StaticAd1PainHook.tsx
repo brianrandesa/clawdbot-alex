@@ -1,4 +1,4 @@
-import { AbsoluteFill, spring, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Img, spring, useCurrentFrame, useVideoConfig, staticFile } from 'remotion';
 import { BRAND, SPRING } from '../../brand';
 
 export const StaticAd1PainHook: React.FC = () => {
@@ -13,6 +13,31 @@ export const StaticAd1PainHook: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: BRAND.dark }}>
+      {/* Background photo */}
+      <Img
+        src={staticFile('assets/anna-stage.jpg')}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          opacity: 0.35,
+        }}
+      />
+      {/* Dark overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: `linear-gradient(180deg, ${BRAND.dark}cc 0%, ${BRAND.dark}99 50%, ${BRAND.dark}dd 100%)`,
+        }}
+      />
+
       {/* Teal corner accent bars — top-left */}
       <div
         style={{
@@ -22,6 +47,7 @@ export const StaticAd1PainHook: React.FC = () => {
           width: 6,
           height: '45%',
           backgroundColor: BRAND.teal,
+          zIndex: 2,
         }}
       />
       <div
@@ -32,12 +58,15 @@ export const StaticAd1PainHook: React.FC = () => {
           width: '35%',
           height: 6,
           backgroundColor: BRAND.teal,
+          zIndex: 2,
         }}
       />
 
       {/* Content */}
       <div
         style={{
+          position: 'relative',
+          zIndex: 1,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -128,6 +157,7 @@ export const StaticAd1PainHook: React.FC = () => {
           padding: '0 48px',
           opacity: stripIn,
           transform: `translateY(${(1 - stripIn) * 72}px)`,
+          zIndex: 2,
         }}
       >
         <span

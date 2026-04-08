@@ -1,14 +1,21 @@
-import { AbsoluteFill, spring, interpolate, useCurrentFrame, useVideoConfig, Sequence } from 'remotion';
+import {
+  AbsoluteFill,
+  OffthreadVideo,
+  spring,
+  interpolate,
+  useCurrentFrame,
+  useVideoConfig,
+  Sequence,
+  staticFile,
+} from 'remotion';
 import { BRAND, SPRING } from '../../brand';
 
-/* ── helpers ── */
-const WordByWord: React.FC<{
+/* ── Word-by-word slam ── */
+const WordSlam: React.FC<{
   text: string;
   startFrame: number;
-  color?: string;
-  tealWord?: string;
   fontSize?: number;
-}> = ({ text, startFrame, color = BRAND.white, tealWord, fontSize = 72 }) => {
+}> = ({ text, startFrame, fontSize = 72 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const words = text.split(' ');
@@ -29,12 +36,11 @@ const WordByWord: React.FC<{
     >
       {words.map((word, i) => {
         const wordIn = spring({ fps, frame: frame - startFrame - i * 3, config: SPRING.snappy });
-        const isTeal = tealWord && word.toUpperCase().includes(tealWord.toUpperCase());
         return (
           <span
             key={i}
             style={{
-              color: isTeal ? BRAND.teal : color,
+              color: BRAND.white,
               opacity: wordIn,
               transform: `translateY(${(1 - wordIn) * 30}px)`,
               display: 'inline-block',
@@ -48,7 +54,7 @@ const WordByWord: React.FC<{
   );
 };
 
-/* ── pain items ── */
+/* ── Pain items ── */
 const painItems = [
   { emoji: '\uD83D\uDE30', text: 'Lying awake at 2am about payroll' },
   { emoji: '\uD83D\uDCCA', text: 'Accountant says profitable — bank says broke' },
@@ -62,10 +68,38 @@ export const VideoAd1PainHook: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: BRAND.dark }}>
+      {/* Background video layer */}
+      <OffthreadVideo
+        src={staticFile('assets/video-bank-lie.mp4')}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          opacity: 0.4,
+        }}
+        muted
+      />
+      {/* Dark overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: `linear-gradient(180deg, ${BRAND.dark}cc 0%, ${BRAND.dark}88 50%, ${BRAND.dark}cc 100%)`,
+        }}
+      />
+
       {/* ── Section 1: STOP hook (0-60f) ── */}
       <Sequence from={0} durationInFrames={60}>
         <AbsoluteFill
           style={{
+            position: 'relative',
+            zIndex: 1,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -89,7 +123,7 @@ export const VideoAd1PainHook: React.FC = () => {
               </div>
             );
           })()}
-          <WordByWord
+          <WordSlam
             text="STOP SCROLLING IF YOUR BUSINESS IS PROFITABLE BUT YOU'RE STILL BROKE."
             startFrame={8}
             fontSize={72}
@@ -119,6 +153,8 @@ export const VideoAd1PainHook: React.FC = () => {
       <Sequence from={60} durationInFrames={120}>
         <AbsoluteFill
           style={{
+            position: 'relative',
+            zIndex: 1,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -180,6 +216,8 @@ export const VideoAd1PainHook: React.FC = () => {
       <Sequence from={180} durationInFrames={120}>
         <AbsoluteFill
           style={{
+            position: 'relative',
+            zIndex: 1,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -205,7 +243,8 @@ export const VideoAd1PainHook: React.FC = () => {
                     marginBottom: 40,
                   }}
                 >
-                  There's a <span style={{ color: BRAND.teal }}>REASON</span> for that.
+                  There's a <span style={{ color: BRAND.teal }}>REASON</span> for
+                  that.
                 </div>
                 <div
                   style={{
@@ -233,6 +272,8 @@ export const VideoAd1PainHook: React.FC = () => {
       <Sequence from={300} durationInFrames={150}>
         <AbsoluteFill
           style={{
+            position: 'relative',
+            zIndex: 1,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',

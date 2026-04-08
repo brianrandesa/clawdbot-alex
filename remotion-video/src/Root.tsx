@@ -1,3 +1,17 @@
+// ── Asset setup ──
+// mkdir -p public/assets
+// cp "Peformance_7_edit.jpg"                    public/assets/anna-stage.jpg
+// cp "Peformance_7_edit-7.jpg"                  public/assets/anna-coaching.jpg
+// cp "Peformance_7_edit-9.jpg"                  public/assets/anna-1on1.jpg
+// cp "Peformance_7_edit-12.jpg"                 public/assets/attendees-working.jpg
+// cp "Peformance_7_edit-15.jpg"                 public/assets/group-photo.jpg
+// cp "KickAssCashFlow_Event_-_Edited-7.jpg"     public/assets/networking.jpg
+// cp "KickAssCashFlow_Event_-_Edited-64.jpg"    public/assets/book-cover.jpg
+// cp "SA- 1 -The Bank Account Lie-.mp4"         public/assets/video-bank-lie.mp4
+// cp "SA- 2 -The Accountant Translator.mp4"     public/assets/video-accountant.mp4
+// cp "SA- 4 -The Profit Illusion.mp4"           public/assets/video-illusion.mp4
+// cp "SA- 5 -The Exausted Hero.mp4"             public/assets/video-hero.mp4
+//
 // ── Render commands ──
 // npx remotion render src/index.ts StaticAd1PainHook   out/static-pain-hook.mp4
 // npx remotion render src/index.ts StaticAd2Authority   out/static-authority.mp4
@@ -6,7 +20,7 @@
 // npx remotion render src/index.ts VideoAd2OriginStory  out/video-origin-story.mp4
 // npx remotion render src/index.ts VideoAd3SocialProof  out/video-social-proof.mp4
 //
-// Stills (thumbnails):
+// ── Stills (thumbnails) ──
 // npx remotion still src/index.ts StaticAd1PainHook  out/thumb-pain-hook.png  --frame=90
 // npx remotion still src/index.ts StaticAd2Authority  out/thumb-authority.png  --frame=90
 // npx remotion still src/index.ts StaticAd3Urgency    out/thumb-urgency.png    --frame=90

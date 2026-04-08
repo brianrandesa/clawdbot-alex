@@ -1,7 +1,5 @@
-import { AbsoluteFill, spring, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Img, spring, useCurrentFrame, useVideoConfig, staticFile } from 'remotion';
 import { BRAND, SPRING } from '../../brand';
-
-const USE_HEADSHOT = false;
 
 const stats = [
   { value: '$2B+', label: 'Revenue Under Management' },
@@ -16,66 +14,44 @@ export const StaticAd2Authority: React.FC = () => {
   const panelIn = spring({ fps, frame: frame - 5, config: SPRING.smooth });
   const eyebrowIn = spring({ fps, frame: frame - 15, config: SPRING.smooth });
   const nameIn = spring({ fps, frame: frame - 25, config: SPRING.snappy });
-  const cardIn = spring({ fps, frame: frame - 90, config: SPRING.bouncy });
+  const bookIn = spring({ fps, frame: frame - 80, config: SPRING.smooth });
+  const cardIn = spring({ fps, frame: frame - 95, config: SPRING.bouncy });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: BRAND.dark, display: 'flex', flexDirection: 'row' }}>
-      {/* Left panel — teal */}
+    <AbsoluteFill style={{ backgroundColor: BRAND.navy, display: 'flex', flexDirection: 'row' }}>
+      {/* Left panel — photo */}
       <div
         style={{
           width: '42%',
           height: '100%',
-          backgroundColor: BRAND.teal,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
+          position: 'relative',
+          overflow: 'hidden',
           opacity: panelIn,
           transform: `translateX(${(1 - panelIn) * -60}px)`,
         }}
       >
-        {/* Monogram circle / headshot slot */}
+        <Img
+          src={staticFile('assets/anna-coaching.jpg')}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+        {/* Dark overlay on photo */}
         <div
           style={{
-            width: 180,
-            height: 180,
-            borderRadius: 90,
-            backgroundColor: BRAND.dark,
-            border: `5px solid ${BRAND.rose}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden',
-            marginBottom: 20,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: `linear-gradient(180deg, ${BRAND.dark}44 0%, ${BRAND.dark}88 100%)`,
           }}
-        >
-          {USE_HEADSHOT ? (
-            <img
-              src="/anna-headshot.jpg"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          ) : (
-            <span
-              style={{
-                fontFamily: BRAND.fontHeading,
-                fontWeight: 900,
-                fontSize: 64,
-                color: BRAND.rose,
-              }}
-            >
-              AS
-            </span>
-          )}
-        </div>
-        <span
-          style={{
-            fontFamily: BRAND.fontAccent,
-            fontSize: 36,
-            color: BRAND.offWhite,
-          }}
-        >
-          Anna Samios
-        </span>
+        />
       </div>
 
       {/* Right panel */}
@@ -85,7 +61,7 @@ export const StaticAd2Authority: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          padding: '60px 56px',
+          padding: '50px 48px',
         }}
       >
         {/* Eyebrow */}
@@ -113,7 +89,7 @@ export const StaticAd2Authority: React.FC = () => {
             lineHeight: 1.1,
             opacity: nameIn,
             transform: `translateY(${(1 - nameIn) * 30}px)`,
-            marginBottom: 40,
+            marginBottom: 36,
           }}
         >
           ANNA
@@ -123,7 +99,7 @@ export const StaticAd2Authority: React.FC = () => {
 
         {/* Stats */}
         {stats.map((stat, i) => {
-          const statIn = spring({ fps, frame: frame - 45 - i * 12, config: SPRING.snappy });
+          const statIn = spring({ fps, frame: frame - 42 - i * 12, config: SPRING.snappy });
           return (
             <div
               key={i}
@@ -131,7 +107,7 @@ export const StaticAd2Authority: React.FC = () => {
                 display: 'flex',
                 alignItems: 'baseline',
                 gap: 16,
-                marginBottom: 22,
+                marginBottom: 20,
                 opacity: statIn,
                 transform: `translateX(${(1 - statIn) * 60}px)`,
               }}
@@ -149,7 +125,7 @@ export const StaticAd2Authority: React.FC = () => {
               <span
                 style={{
                   fontFamily: BRAND.fontBody,
-                  fontSize: 28,
+                  fontSize: 26,
                   color: BRAND.offWhite,
                 }}
               >
@@ -159,13 +135,47 @@ export const StaticAd2Authority: React.FC = () => {
           );
         })}
 
+        {/* Book thumbnail + label */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 18,
+            marginTop: 16,
+            marginBottom: 24,
+            opacity: bookIn,
+            transform: `translateY(${(1 - bookIn) * 20}px)`,
+          }}
+        >
+          <Img
+            src={staticFile('assets/book-cover.jpg')}
+            style={{
+              height: 120,
+              borderRadius: 8,
+              boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
+            }}
+          />
+          <span
+            style={{
+              fontFamily: BRAND.fontBody,
+              fontWeight: 700,
+              fontSize: 24,
+              color: BRAND.rose,
+              lineHeight: 1.4,
+            }}
+          >
+            Amazon #1
+            <br />
+            Bestseller
+          </span>
+        </div>
+
         {/* Bottom event card */}
         <div
           style={{
-            marginTop: 32,
             backgroundColor: BRAND.rose,
             borderRadius: 20,
-            padding: '22px 32px',
+            padding: '20px 28px',
             transform: `scale(${cardIn})`,
             opacity: cardIn,
           }}
@@ -174,9 +184,9 @@ export const StaticAd2Authority: React.FC = () => {
             style={{
               fontFamily: BRAND.fontHeading,
               fontWeight: 900,
-              fontSize: 26,
+              fontSize: 24,
               color: BRAND.dark,
-              marginBottom: 6,
+              marginBottom: 4,
             }}
           >
             {BRAND.eventName}
@@ -184,7 +194,7 @@ export const StaticAd2Authority: React.FC = () => {
           <div
             style={{
               fontFamily: BRAND.fontBody,
-              fontSize: 22,
+              fontSize: 20,
               color: BRAND.dark,
               lineHeight: 1.5,
             }}

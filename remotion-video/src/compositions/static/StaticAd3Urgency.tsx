@@ -1,4 +1,4 @@
-import { AbsoluteFill, spring, interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Img, spring, interpolate, useCurrentFrame, useVideoConfig, staticFile } from 'remotion';
 import { BRAND, SPRING } from '../../brand';
 
 const details = [
@@ -19,6 +19,31 @@ export const StaticAd3Urgency: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: BRAND.dark, overflow: 'hidden' }}>
+      {/* Background photo */}
+      <Img
+        src={staticFile('assets/attendees-working.jpg')}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          opacity: 0.3,
+        }}
+      />
+      {/* Dark overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: `linear-gradient(180deg, ${BRAND.dark}cc 0%, ${BRAND.dark}aa 50%, ${BRAND.dark}dd 100%)`,
+        }}
+      />
+
       {/* Rose glow bottom-right */}
       <div
         style={{
@@ -61,6 +86,8 @@ export const StaticAd3Urgency: React.FC = () => {
       {/* Content */}
       <div
         style={{
+          position: 'relative',
+          zIndex: 1,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
